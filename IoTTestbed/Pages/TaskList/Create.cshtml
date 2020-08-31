@@ -3,6 +3,7 @@
 @{
 
 
+
 }
 <br />
 <h1 class="text-info">
@@ -49,7 +50,7 @@
                                 <td class="text-center">@Html.DisplayFor(m => sensor_item.RasIp)</td>
                                 <td class="text-center">@Html.DisplayFor(m => sensor_item.Rime)</td>
                                 <td class="text-center">@Html.DisplayFor(m => sensor_item.Availability)</td>
-                                <td class="text-center">@Html.DisplayFor(m => sensor_item.Availability)</td>
+
 
 
                                 @if (sensor_item.Status.Equals("active"))
@@ -78,8 +79,17 @@
 
 
                                 }
+
+                                @*<td>
+                                        <button asp-page-handler="Delete" asp-route-id="@sensor_item.Id" onclick="return confirm('Are you sure you want to delete?')" class="btn btn-danger btn-sm">Delete</button>
+                                    </td>*@
+
                             </tr>
+
+
                         }
+
+
                     </tbody>
                 </table>
             }
@@ -99,15 +109,67 @@
 </div>
 
 
-<br /><br />
+<br />
+<br />
+<form enctype="multipart/form-data" method="post" >
+    <div class="input-group">
 
-<div class="input-group mb-3">
-    <div class="custom-file">
-        <input type="file" class="custom-file-input" id="inputGroupFile02">
-        <label class="custom-file-label" for="inputGroupFile02">Choose file</label>
-    </div>
-    <div class="input-group-append">
-        <span class="input-group-text" id="">Upload</span>
-    </div>
-</div>
+        <div class="custom-file">
+            <input asp-for="FileUpload.FormFile" type="file" class="custom-file-input" id="inputGroupFile04">
+            <label asp-for="FileUpload.FormFile" class="custom-file-label" for="inputGroupFile04">Choose file</label>
+            <span asp-validation-for="FileUpload.FormFile"></span>
+        </div>
+        <div class="input-group-append">
+            <input asp-page-handler="Upload" class="btn btn-success" type="submit" value="Upload" />
+        </div>
 
+    </div>
+</form>
+
+
+
+@*<form enctype="multipart/form-data" method="post">
+    <dl>
+        <dt>
+            <label asp-for="FileUpload.FormFile"></label>
+        </dt>
+        <dd>
+            <input asp-for="FileUpload.FormFile" type="file" />
+            <span asp-validation-for="FileUpload.FormFile"></span>
+        </dd>
+    </dl>
+    <input asp-page-handler="Upload" class="btn" type="submit" value="Upload" />
+</form>*@
+
+@section scripts{
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+            document.querySelector('.custom-file-input').addEventListener('change', function (e) {
+                var fileName = document.getElementById("inputGroupFile04").value;
+
+                //console.log(fileName.substring(fileName.lastIndexOf("\\") + 1));
+                var nextSibling = e.target.nextElementSibling
+
+                nextSibling.innerText = fileName.substring(fileName.lastIndexOf('\\') + 1)
+                //nextSibling.innerText = fileName;
+            })
+
+        </script>
+
+
+    @*<script>
+            "use strict";
+
+            function AJAXSubmit(oFormElement) {
+                var oReq = new XMLHttpRequest();
+                oReq.onload = function (e) {
+                    oFormElement.elements.namedItem("result").value =
+                        'Result: ' + this.status + ' ' + this.statusText;
+                };
+                oReq.open("post", oFormElement.action);
+                oReq.send(new FormData(oFormElement));
+            }
+        </script>*@
+
+
+}
