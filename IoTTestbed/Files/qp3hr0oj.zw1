@@ -1,0 +1,1 @@
+sed -ie 's/\(ifdef O_\)SYNC/\1DIRECT/' serialdump.c

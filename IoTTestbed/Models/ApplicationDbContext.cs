@@ -16,6 +16,25 @@ namespace IoTTestbed.Models
 
         }
         public DbSet<Sensor> Sensor { get; set; }
+        public DbSet<Experiment> Experiment { get; set; }
+
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<SensorExperiment>()
+                .HasKey(t => new { t.SensorId, t.ExperimentId });
+
+            modelBuilder.Entity<SensorExperiment>()
+                .HasOne(pt => pt.Sensor)
+                .WithMany(p => p.SensorExperiment)
+                .HasForeignKey(pt => pt.ExperimentId);
+
+            modelBuilder.Entity<SensorExperiment>()
+                .HasOne(pt => pt.Experiment)
+                .WithMany(t => t.SensorExperiment)
+                .HasForeignKey(pt => pt.ExperimentId);
+        }
+
 
 
     }

@@ -3,14 +3,16 @@ using IoTTestbed.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace IoTTestbed.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200901132425_AddSensorExperiment")]
+    partial class AddSensorExperiment
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -20,7 +22,7 @@ namespace IoTTestbed.Migrations
 
             modelBuilder.Entity("IoTTestbed.Models.Experiment", b =>
                 {
-                    b.Property<int>("ExperimentId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -32,14 +34,14 @@ namespace IoTTestbed.Migrations
                     b.Property<string>("Info")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("ExperimentId");
+                    b.HasKey("Id");
 
                     b.ToTable("Experiment");
                 });
 
             modelBuilder.Entity("IoTTestbed.Models.Sensor", b =>
                 {
-                    b.Property<int>("SensorId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -57,7 +59,7 @@ namespace IoTTestbed.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("SensorId");
+                    b.HasKey("Id");
 
                     b.ToTable("Sensor");
                 });

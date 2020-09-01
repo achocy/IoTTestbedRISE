@@ -18,39 +18,39 @@
     Select <strong class="text-success">available</strong> sensor(s) then upload the file.
 
 </h3>
-<br />
-<div class="container">
-    <div class="row">
-        <div class="span5">
+<form enctype="multipart/form-data" method="post">
+    <div class="container p-0 m-0">
+        <div class="row">
+            <div class="col-12  p-1 mt-1">
 
-            @if (Model.AvailableSensors.Count() > 0)
-            {
-                <table class="table table-striped table-condensed">
-                    <thead>
-                        <tr>
-                            <th>
+                @if (Model.AvailableSensors.Count() > 0)
+                {
+                    <table class="table table-striped border">
+                        <thead>
+                            <tr>
+                                <th>
 
-                                <label asp-for="Sensors.FirstOrDefault().Id"></label>
+                                    <label class="text-center" asp-for="Sensors.FirstOrDefault().SensorId"></label>
 
-                            </th>
-                            <th> <label class="text-center" asp-for="Sensors.FirstOrDefault().RasIp"></label></th>
-                            <th> <label class="text-center" asp-for="Sensors.FirstOrDefault().Rime"></label></th>
-                            <th> <label class="text-center" asp-for="Sensors.FirstOrDefault().Availability"></label></th>
-                            <th> <label class="text-center" asp-for="Sensors.FirstOrDefault().Status"></label></th>
-                        </tr>
-                    </thead>
-                    <tbody>
+                                </th>
+                                <th> <label class="text-center ml-auto" asp-for="Sensors.FirstOrDefault().RasIp"></label></th>
+                                <th> <label class="text-center" asp-for="Sensors.FirstOrDefault().Rime"></label></th>
+                                <th> <label class="" asp-for="Sensors.FirstOrDefault().Availability"></label></th>
+                                <th> <label class="text-center" asp-for="Sensors.FirstOrDefault().Status"></label></th>
+                                <th> Select</th>
+                            </tr>
+                        </thead>
+                        <tbody>
 
-                        @foreach (var sensor_item in Model.Sensors)
-                        {
+                            @foreach (var sensor_item in Model.Sensors)
+                            {
 
                             <tr>
 
-                                <td class="text-center">@Html.DisplayFor(m => sensor_item.Id)</td>
-                                <td class="text-center">@Html.DisplayFor(m => sensor_item.RasIp)</td>
-                                <td class="text-center">@Html.DisplayFor(m => sensor_item.Rime)</td>
-                                <td class="text-center">@Html.DisplayFor(m => sensor_item.Availability)</td>
-
+                                <td>@Html.DisplayFor(m => sensor_item.SensorId)</td>
+                                <td class="">@Html.DisplayFor(m => sensor_item.RasIp)</td>
+                                <td class="">@Html.DisplayFor(m => sensor_item.Rime)</td>
+                                <td class="">@Html.DisplayFor(m => sensor_item.Availability)</td>
 
 
                                 @if (sensor_item.Status.Equals("active"))
@@ -70,6 +70,18 @@
                                     </td>
                                 }
 
+
+                                else if (sensor_item.Status.Equals("unavailable"))
+                                {
+
+
+                                    <td>
+                                        <span class="badge badge-danger">Unavailable</span>
+                                    </td>
+
+
+                                }
+
                                 else
                                 {
 
@@ -81,37 +93,56 @@
                                 }
 
                                 @*<td>
-                                        <button asp-page-handler="Delete" asp-route-id="@sensor_item.Id" onclick="return confirm('Are you sure you want to delete?')" class="btn btn-danger btn-sm">Delete</button>
-                                    </td>*@
+            <button asp-page-handler="Delete" asp-route-id="@sensor_item.Id" onclick="return confirm('Are you sure you want to delete?')" class="btn btn-danger btn-sm">Delete</button>
+        </td>*@
+
+
+                                @if (sensor_item.Status.Equals("available"))
+                                {
+
+                                    @*<td> <input type="checkbox" name="sensor" value=""> </td>*@
+                                    <td asp-route-id="@sensor_item.SensorId" class="">@Html.CheckBoxFor(m => sensor_item.Availability)</td>
+
+
+
+                                }
+                                else
+                                {
+                                    <td> <input type="checkbox" name="sensor" value="" disabled> </td>
+
+                                }
+
+
+
 
                             </tr>
 
 
-                        }
+                            }
 
 
-                    </tbody>
-                </table>
-            }
+                        </tbody>
+                    </table>
+                }
 
-            else
-            {
-
-
-                <p>There are no sensors available</p>
+                else
+                {
 
 
-            }
+                    <p>There are no sensors available</p>
 
 
+                }
+
+
+            </div>
         </div>
     </div>
-</div>
 
 
-<br />
-<br />
-<form enctype="multipart/form-data" method="post" >
+    <br />
+    <br />
+
     <div class="input-group">
 
         <div class="custom-file">
@@ -129,32 +160,32 @@
 
 
 @*<form enctype="multipart/form-data" method="post">
-    <dl>
-        <dt>
-            <label asp-for="FileUpload.FormFile"></label>
-        </dt>
-        <dd>
-            <input asp-for="FileUpload.FormFile" type="file" />
-            <span asp-validation-for="FileUpload.FormFile"></span>
-        </dd>
-    </dl>
-    <input asp-page-handler="Upload" class="btn" type="submit" value="Upload" />
-</form>*@
+        <dl>
+            <dt>
+                <label asp-for="FileUpload.FormFile"></label>
+            </dt>
+            <dd>
+                <input asp-for="FileUpload.FormFile" type="file" />
+                <span asp-validation-for="FileUpload.FormFile"></span>
+            </dd>
+        </dl>
+        <input asp-page-handler="Upload" class="btn" type="submit" value="Upload" />
+    </form>*@
 
 @section scripts{
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     <script>
-            document.querySelector('.custom-file-input').addEventListener('change', function (e) {
-                var fileName = document.getElementById("inputGroupFile04").value;
+        document.querySelector('.custom-file-input').addEventListener('change', function (e) {
+            var fileName = document.getElementById("inputGroupFile04").value;
 
-                //console.log(fileName.substring(fileName.lastIndexOf("\\") + 1));
-                var nextSibling = e.target.nextElementSibling
+            //console.log(fileName.substring(fileName.lastIndexOf("\\") + 1));
+            var nextSibling = e.target.nextElementSibling
 
-                nextSibling.innerText = fileName.substring(fileName.lastIndexOf('\\') + 1)
-                //nextSibling.innerText = fileName;
-            })
+            nextSibling.innerText = fileName.substring(fileName.lastIndexOf('\\') + 1)
+            //nextSibling.innerText = fileName;
+        })
 
-        </script>
+    </script>
 
 
     @*<script>

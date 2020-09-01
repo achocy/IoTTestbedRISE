@@ -15,6 +15,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging.Abstractions;
 using IoTTestbed.utilities;
 using Microsoft.Extensions.Configuration;
+using Renci.SshNet;
+using Microsoft.Extensions.Logging;
+
 namespace IoTTestbed.Pages.TaskList
 {
     public class CreateModel : PageModel
@@ -23,9 +26,13 @@ namespace IoTTestbed.Pages.TaskList
         public BufferedSingleFileUploadPhysical FileUpload { get; set; }
         private readonly long _fileSizeLimit;
         private readonly string[] _permittedExtensions = { ".txt" };
-        private readonly string _targetFilePath= @"C:\Users\Andreas\source\repos\IoTTestbed\IoTTestbed\Files\";
+        private readonly string _targetFilePath = @"C:\Users\Andreas\source\repos\IoTTestbed\IoTTestbed\Files\";
         public string Result { get; private set; }
-
+       
+        List<string> sensorsList = new List<string>();
+        
+        
+        private readonly ILogger<SftpService> logger = new Logger<SftpService>(new NullLoggerFactory());
 
 
         private readonly ApplicationDbContext _db;
@@ -33,7 +40,7 @@ namespace IoTTestbed.Pages.TaskList
         public CreateModel(ApplicationDbContext db)
 
         {
-
+        
             _db = db;
 
         }
@@ -42,6 +49,12 @@ namespace IoTTestbed.Pages.TaskList
         public IEnumerable<Sensor> AvailableSensors { get; set; }
 
         private string testFile;
+
+
+
+
+
+
         public async Task OnGet()
         {
 
@@ -70,7 +83,7 @@ namespace IoTTestbed.Pages.TaskList
                     FileUpload.FormFile, ModelState, _permittedExtensions,
                     _fileSizeLimit);
 
-       
+
             Debug.Print("Comes in here");
 
             // For the file name of the uploaded file stored
@@ -79,7 +92,7 @@ namespace IoTTestbed.Pages.TaskList
             var trustedFileNameForFileStorage = Path.GetRandomFileName();
 
             Debug.Print(trustedFileNameForFileStorage);
-            
+
             var filePath = Path.Combine(
                 _targetFilePath, trustedFileNameForFileStorage);
 
@@ -102,6 +115,27 @@ namespace IoTTestbed.Pages.TaskList
                 // instead:
                 await FileUpload.FormFile.CopyToAsync(fileStream);
             }
+
+            var config = new SftpConfig
+            {
+                Host = "192.168.137.28",
+                Port = 22,
+                UserName = "pi",
+                Password = "1234"
+            };
+
+            // can be retrieved from appsettings.json
+            //using var client = new SftpClient(config.Host, config.Port, config.UserName, config.Password);
+
+            //client.UploadFile(_targetFilePath + trustedFileNameForFileStorage.ToString(), "/home/pi/software/");
+
+
+
+            var sftp = new SftpService(logger, config);
+
+            sftp.UploadFile(_targetFilePath + trustedFileNameForFileStorage, "/home/pi/software/" + FileUpload.FormFile.FileName);
+
+
 
             return RedirectToPage("Index");
         }
