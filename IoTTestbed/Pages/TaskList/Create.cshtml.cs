@@ -28,10 +28,10 @@ namespace IoTTestbed.Pages.TaskList
         private readonly string[] _permittedExtensions = { ".txt" };
         private readonly string _targetFilePath = @"C:\Users\Andreas\source\repos\IoTTestbed\IoTTestbed\Files\";
         public string Result { get; private set; }
-       
+
         List<string> sensorsList = new List<string>();
-        
-        
+
+
         private readonly ILogger<SftpService> logger = new Logger<SftpService>(new NullLoggerFactory());
 
 
@@ -40,7 +40,7 @@ namespace IoTTestbed.Pages.TaskList
         public CreateModel(ApplicationDbContext db)
 
         {
-        
+
             _db = db;
 
         }
@@ -48,12 +48,13 @@ namespace IoTTestbed.Pages.TaskList
         public IEnumerable<Sensor> Sensors { get; set; }
         public IEnumerable<Sensor> AvailableSensors { get; set; }
 
+        [BindProperty]
+        public IEnumerable<string> SelectedSensors { get; set; }
+
         private string testFile;
 
-
-
-
-
+        [BindProperty]
+        public Experiment Experiment { get; set; }
 
         public async Task OnGet()
         {
@@ -64,7 +65,6 @@ namespace IoTTestbed.Pages.TaskList
 
 
         }
-
 
 
 
@@ -133,8 +133,23 @@ namespace IoTTestbed.Pages.TaskList
 
             var sftp = new SftpService(logger, config);
 
-            sftp.UploadFile(_targetFilePath + trustedFileNameForFileStorage, "/home/pi/software/" + FileUpload.FormFile.FileName);
+            //  sftp.UploadFile(_targetFilePath + trustedFileNameForFileStorage, "/home/pi/software/" + FileUpload.FormFile.FileName);
 
+
+
+            //Debug.Print("Here1");
+            //Debug.Print(SelectedSensors.ToString());
+
+            
+
+            await _db.Experiment.AddAsync(Experiment);
+            await _db.SaveChangesAsync();
+
+            // return RedirectToPage("Index");
+
+
+            //else
+            //  return Page();
 
 
             return RedirectToPage("Index");

@@ -9,8 +9,10 @@ namespace IoTTestbed.Models
     public class Sensor
     {
         [Key]
+        [Display(Name = "ID")]
         public int SensorId { get; set; }
 
+        [Display(Name = "PI IP Address")]
         public string RasIp { get; set; }
         public Boolean Availability { get; set; }
 
@@ -25,8 +27,10 @@ namespace IoTTestbed.Models
     public class Experiment
     {
         [Key]
+        [Display(Name = "ID")]
         public int ExperimentId { get; set; }
         [Required]
+        [Display(Name = "Name")]
         public string ExperimentName { get; set; }
         public string Info { get; set; }
 

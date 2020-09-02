@@ -8,7 +8,7 @@
 <br />
 <h1 class="text-info">
 
-    Create a new Task
+    Create a new Experiment
 
 </h1>
 <hr />
@@ -25,6 +25,7 @@
 
                 @if (Model.AvailableSensors.Count() > 0)
                 {
+
                     <table class="table table-striped border">
                         <thead>
                             <tr>
@@ -100,15 +101,13 @@
                                 @if (sensor_item.Status.Equals("available"))
                                 {
 
-                                    @*<td> <input type="checkbox" name="sensor" value=""> </td>*@
-                                    <td asp-route-id="@sensor_item.SensorId" class="">@Html.CheckBoxFor(m => sensor_item.Availability)</td>
-
+                                    <td> <input type="checkbox" name="SelectedSensors" value="@sensor_item.RasIp" > </td>
 
 
                                 }
                                 else
                                 {
-                                    <td> <input type="checkbox" name="sensor" value="" disabled> </td>
+                                    <td> <input type="checkbox" name="SelectedSensors" value="@sensor_item.RasIp" disabled> </td>
 
                                 }
 
@@ -143,6 +142,35 @@
     <br />
     <br />
 
+    <div class="container" style="">
+
+        <div class="text-danger" asp-validation-summary="ModelOnly"></div>
+
+        <div class="form-group row">
+            <div class="col-3">
+                <label asp-for="Experiment.ExperimentName"></label>
+            </div>
+            <div class="col-6">
+                <input asp-for="Experiment.ExperimentName" class="form-control" />
+            </div>
+
+            <span asp-validation-for="Experiment.ExperimentName" class="text-danger"></span>
+
+        </div>
+
+
+        <div class="form-group row">
+            <div class="col-3">
+                <label asp-for="Experiment.Info"></label>
+            </div>
+            <div class="col-6">
+                <input asp-for="Experiment.Info" class="form-control" />
+            </div>
+            <span asp-validation-for="Experiment.Info" class="text-danger"></span>
+        </div>
+    </div>
+
+
     <div class="input-group">
 
         <div class="custom-file">
@@ -151,56 +179,59 @@
             <span asp-validation-for="FileUpload.FormFile"></span>
         </div>
         <div class="input-group-append">
-            <input asp-page-handler="Upload" class="btn btn-success" type="submit" value="Upload" />
+            <input asp-page-handler="Upload" class="btn btn-success form-control" type="submit" value="Upload"  />
         </div>
 
     </div>
+
+
+
+
 </form>
 
 
+    @*<form enctype="multipart/form-data" method="post">
+            <dl>
+                <dt>
+                    <label asp-for="FileUpload.FormFile"></label>
+                </dt>
+                <dd>
+                    <input asp-for="FileUpload.FormFile" type="file" />
+                    <span asp-validation-for="FileUpload.FormFile"></span>
+                </dd>
+            </dl>
+            <input asp-page-handler="Upload" class="btn" type="submit" value="Upload" />
+        </form>*@
 
-@*<form enctype="multipart/form-data" method="post">
-        <dl>
-            <dt>
-                <label asp-for="FileUpload.FormFile"></label>
-            </dt>
-            <dd>
-                <input asp-for="FileUpload.FormFile" type="file" />
-                <span asp-validation-for="FileUpload.FormFile"></span>
-            </dd>
-        </dl>
-        <input asp-page-handler="Upload" class="btn" type="submit" value="Upload" />
-    </form>*@
+    @section scripts{
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+        <script>
+            document.querySelector('.custom-file-input').addEventListener('change', function (e) {
+                var fileName = document.getElementById("inputGroupFile04").value;
 
-@section scripts{
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    <script>
-        document.querySelector('.custom-file-input').addEventListener('change', function (e) {
-            var fileName = document.getElementById("inputGroupFile04").value;
+                //console.log(fileName.substring(fileName.lastIndexOf("\\") + 1));
+                var nextSibling = e.target.nextElementSibling
 
-            //console.log(fileName.substring(fileName.lastIndexOf("\\") + 1));
-            var nextSibling = e.target.nextElementSibling
+                nextSibling.innerText = fileName.substring(fileName.lastIndexOf('\\') + 1)
+                //nextSibling.innerText = fileName;
+            })
 
-            nextSibling.innerText = fileName.substring(fileName.lastIndexOf('\\') + 1)
-            //nextSibling.innerText = fileName;
-        })
-
-    </script>
-
-
-    @*<script>
-            "use strict";
-
-            function AJAXSubmit(oFormElement) {
-                var oReq = new XMLHttpRequest();
-                oReq.onload = function (e) {
-                    oFormElement.elements.namedItem("result").value =
-                        'Result: ' + this.status + ' ' + this.statusText;
-                };
-                oReq.open("post", oFormElement.action);
-                oReq.send(new FormData(oFormElement));
-            }
-        </script>*@
+        </script>
 
 
-}
+        @*<script>
+                "use strict";
+
+                function AJAXSubmit(oFormElement) {
+                    var oReq = new XMLHttpRequest();
+                    oReq.onload = function (e) {
+                        oFormElement.elements.namedItem("result").value =
+                            'Result: ' + this.status + ' ' + this.statusText;
+                    };
+                    oReq.open("post", oFormElement.action);
+                    oReq.send(new FormData(oFormElement));
+                }
+            </script>*@
+
+
+    }

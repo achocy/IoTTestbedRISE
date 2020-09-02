@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using IoTTestbed.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 
 namespace IoTTestbed.Pages.TaskList
 {
@@ -21,13 +22,13 @@ namespace IoTTestbed.Pages.TaskList
 
         }
 
-        //public IEnumerable<Experiment> Experiments { get; set; }
+        public IEnumerable<Experiment> Experiments { get; set; }
 
 
         public async Task OnGet()
         {
 
-            //Tasks = await _db.Taske.ToListAsync();
+            Experiments = await _db.Experiment.ToListAsync();
 
             //AvailableSensors = await _db.Sensor.Where(o => o.Status == "Available").ToListAsync();
 
