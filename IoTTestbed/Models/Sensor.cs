@@ -45,7 +45,6 @@ namespace IoTTestbed.Models
 
         public int SensorId { get; set; }
         public Sensor Sensor { get; set; }
-
         public int ExperimentId { get; set; }
         public Experiment Experiment { get; set; }
 

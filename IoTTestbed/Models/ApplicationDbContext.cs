@@ -17,7 +17,7 @@ namespace IoTTestbed.Models
         }
         public DbSet<Sensor> Sensor { get; set; }
         public DbSet<Experiment> Experiment { get; set; }
-
+        public DbSet<SensorExperiment> SensorExperiment { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -27,7 +27,7 @@ namespace IoTTestbed.Models
             modelBuilder.Entity<SensorExperiment>()
                 .HasOne(pt => pt.Sensor)
                 .WithMany(p => p.SensorExperiment)
-                .HasForeignKey(pt => pt.ExperimentId);
+                .HasForeignKey(pt => pt.SensorId);
 
             modelBuilder.Entity<SensorExperiment>()
                 .HasOne(pt => pt.Experiment)

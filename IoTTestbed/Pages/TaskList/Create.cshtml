@@ -101,13 +101,13 @@
                                 @if (sensor_item.Status.Equals("available"))
                                 {
 
-                                    <td> <input type="checkbox" name="SelectedSensors" value="@sensor_item.RasIp" > </td>
+                                    <td> <input type="checkbox" name="SelectedSensors" value="@sensor_item.SensorId" > </td>
 
 
                                 }
                                 else
                                 {
-                                    <td> <input type="checkbox" name="SelectedSensors" value="@sensor_item.RasIp" disabled> </td>
+                                    <td> <input type="checkbox" name="SelectedSensors" value="@sensor_item.SensorId" disabled> </td>
 
                                 }
 

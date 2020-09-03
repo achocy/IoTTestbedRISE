@@ -49,13 +49,13 @@ namespace IoTTestbed.Pages.TaskList
         public IEnumerable<Sensor> AvailableSensors { get; set; }
 
         [BindProperty]
-        public IEnumerable<string> SelectedSensors { get; set; }
+        public IEnumerable<int> SelectedSensors { get; set; }
 
         private string testFile;
 
         [BindProperty]
         public Experiment Experiment { get; set; }
-
+        public SensorExperiment SensorExperiment { get; set; }
         public async Task OnGet()
         {
 
@@ -65,9 +65,6 @@ namespace IoTTestbed.Pages.TaskList
 
 
         }
-
-
-
 
         public async Task<IActionResult> OnPostUploadAsync()
         {
@@ -129,33 +126,46 @@ namespace IoTTestbed.Pages.TaskList
 
             //client.UploadFile(_targetFilePath + trustedFileNameForFileStorage.ToString(), "/home/pi/software/");
 
-
-
             var sftp = new SftpService(logger, config);
 
             //  sftp.UploadFile(_targetFilePath + trustedFileNameForFileStorage, "/home/pi/software/" + FileUpload.FormFile.FileName);
 
-
-
             //Debug.Print("Here1");
             //Debug.Print(SelectedSensors.ToString());
-
-            
 
             await _db.Experiment.AddAsync(Experiment);
             await _db.SaveChangesAsync();
 
-            // return RedirectToPage("Index");
 
+
+
+
+            foreach (int SensorIds in SelectedSensors)
+            {
+                SensorExperiment se = new SensorExperiment() { SensorId = SensorIds, ExperimentId = Experiment.ExperimentId };
+                Debug.Print(se.SensorId.ToString());
+
+                await _db.SensorExperiment.AddAsync(se);
+               
+                
+
+                var result = _db.Sensor.SingleOrDefault(b => b.SensorId == SensorIds);
+
+                if (result != null)
+                {
+                    result.Status = "active";
+
+                }
+            }
+            await _db.SaveChangesAsync();
+            // return RedirectToPage("Index");
 
             //else
             //  return Page();
-
-
-            return RedirectToPage("Index");
+           
+            return RedirectToPage("Create");
         }
     }
-
 
 
     public class BufferedSingleFileUploadPhysical
