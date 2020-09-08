@@ -6,11 +6,15 @@
     <title>@ViewData["Title"] - IoTTestbed</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/StyleSheet.css" />
+    <link src="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
 </head>
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
+
                 <a class="navbar-brand" asp-area="" asp-page="/Index">IoTTestbed</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
@@ -56,3 +60,6 @@
     @RenderSection("Scripts", required: false)
 </body>
 </html>
+@section Styles {
+    <link href="@Url.Content("~/css/.css")" rel="stylesheet" type="text/css" />
+}

@@ -5,6 +5,8 @@
 
 
 }
+
+
 <br />
 <h1 class="text-info">
 
@@ -13,135 +15,7 @@
 </h1>
 <hr />
 
-<h3 class="text-dark">
-
-    Select <strong class="text-success">available</strong> sensor(s) then upload the file.
-
-</h3>
-<form enctype="multipart/form-data" method="post">
-    <div class="container p-0 m-0">
-        <div class="row">
-            <div class="col-12  p-1 mt-1">
-
-                @if (Model.AvailableSensors.Count() > 0)
-                {
-
-                    <table class="table table-striped border">
-                        <thead>
-                            <tr>
-                                <th>
-
-                                    <label class="text-center" asp-for="Sensors.FirstOrDefault().SensorId"></label>
-
-                                </th>
-                                <th> <label class="text-center ml-auto" asp-for="Sensors.FirstOrDefault().RasIp"></label></th>
-                                <th> <label class="text-center" asp-for="Sensors.FirstOrDefault().Rime"></label></th>
-                                <th> <label class="" asp-for="Sensors.FirstOrDefault().Availability"></label></th>
-                                <th> <label class="text-center" asp-for="Sensors.FirstOrDefault().Status"></label></th>
-                                <th> Select</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-
-                            @foreach (var sensor_item in Model.Sensors)
-                            {
-
-                            <tr>
-
-                                <td>@Html.DisplayFor(m => sensor_item.SensorId)</td>
-                                <td class="">@Html.DisplayFor(m => sensor_item.RasIp)</td>
-                                <td class="">@Html.DisplayFor(m => sensor_item.Rime)</td>
-                                <td class="">@Html.DisplayFor(m => sensor_item.Availability)</td>
-
-
-                                @if (sensor_item.Status.Equals("active"))
-                                {
-
-                                    <td>
-                                        <span class="badge badge-warning">Active</span>
-                                    </td>
-                                }
-
-
-                                else if (sensor_item.Status.Equals("pending"))
-                                {
-
-                                    <td>
-                                        <span class="badge badge-info">Pending</span>
-                                    </td>
-                                }
-
-
-                                else if (sensor_item.Status.Equals("unavailable"))
-                                {
-
-
-                                    <td>
-                                        <span class="badge badge-danger">Unavailable</span>
-                                    </td>
-
-
-                                }
-
-                                else
-                                {
-
-                                    <td>
-                                        <span class="badge badge-success">Available</span>
-                                    </td>
-
-
-                                }
-
-                                @*<td>
-            <button asp-page-handler="Delete" asp-route-id="@sensor_item.Id" onclick="return confirm('Are you sure you want to delete?')" class="btn btn-danger btn-sm">Delete</button>
-        </td>*@
-
-
-                                @if (sensor_item.Status.Equals("available"))
-                                {
-
-                                    <td> <input type="checkbox" name="SelectedSensors" value="@sensor_item.SensorId" > </td>
-
-
-                                }
-                                else
-                                {
-                                    <td> <input type="checkbox" name="SelectedSensors" value="@sensor_item.SensorId" disabled> </td>
-
-                                }
-
-
-
-
-                            </tr>
-
-
-                            }
-
-
-                        </tbody>
-                    </table>
-                }
-
-                else
-                {
-
-
-                    <p>There are no sensors available</p>
-
-
-                }
-
-
-            </div>
-        </div>
-    </div>
-
-
-    <br />
-    <br />
-
+<form method="post">
     <div class="container" style="">
 
         <div class="text-danger" asp-validation-summary="ModelOnly"></div>
@@ -171,67 +45,164 @@
     </div>
 
 
-    <div class="input-group">
+    <h3 class="text-dark">
 
-        <div class="custom-file">
-            <input asp-for="FileUpload.FormFile" type="file" class="custom-file-input" id="inputGroupFile04">
-            <label asp-for="FileUpload.FormFile" class="custom-file-label" for="inputGroupFile04">Choose file</label>
-            <span asp-validation-for="FileUpload.FormFile"></span>
-        </div>
-        <div class="input-group-append">
-            <input asp-page-handler="Upload" class="btn btn-success form-control" type="submit" value="Upload"  />
-        </div>
+        Select <strong class="text-success">available</strong> sensor(s) then upload the file.
 
+    </h3>
+
+    <br />
+
+
+
+    <div class="container p-0 m-0">
+        <div class="row">
+            <div class="col-12  p-1 mt-1">
+
+                @if (Model.AvailableSensors.Count() > 0)
+                {
+
+                    <table class="table table-striped border">
+                        <thead>
+                            <tr>
+                                <th>
+
+                                    <label class="text-center" asp-for="Sensors.FirstOrDefault().SensorId"></label>
+
+                                </th>
+                                <th> <label class="text-center ml-auto" asp-for="Sensors.FirstOrDefault().RasIp"></label></th>
+                                <th> <label class="text-center" asp-for="Sensors.FirstOrDefault().Rime"></label></th>
+                                <th> <label class="" asp-for="Sensors.FirstOrDefault().Availability"></label></th>
+                                <th> <label class="text-center" asp-for="Sensors.FirstOrDefault().Status"></label></th>
+                                <th> Select</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @foreach (var sensor_item in Model.Sensors)
+                            {
+
+                                <tr>
+
+                                    <td>@Html.DisplayFor(m => sensor_item.SensorId)</td>
+                                    <td class="">@Html.DisplayFor(m => sensor_item.RasIp)</td>
+                                    <td class="">@Html.DisplayFor(m => sensor_item.Rime)</td>
+                                    <td class="">@Html.DisplayFor(m => sensor_item.Availability)</td>
+
+
+                                    @if (sensor_item.Status.Equals("active"))
+                                    {
+
+                                        <td>
+                                            <span class="badge badge-warning">Active</span>
+                                        </td>
+                                    }
+
+
+                                    else if (sensor_item.Status.Equals("pending"))
+                                    {
+
+                                        <td>
+                                            <span class="badge badge-info">Pending</span>
+                                        </td>
+                                    }
+
+
+                                    else if (sensor_item.Status.Equals("unavailable"))
+                                    {
+
+
+                                        <td>
+                                            <span class="badge badge-danger">Unavailable</span>
+                                        </td>
+
+
+                                    }
+
+                                    else
+                                    {
+
+                                        <td>
+                                            <span class="badge badge-success">Available</span>
+                                        </td>
+
+
+                                    }
+
+                                    @*<td>
+                                            <button asp-page-handler="Delete" asp-route-id="@sensor_item.Id" onclick="return confirm('Are you sure you want to delete?')" class="btn btn-danger btn-sm">Delete</button>
+                                        </td>*@
+
+
+                                    @if (sensor_item.Status.Equals("available"))
+                                    {
+
+                                        <td> <input type="checkbox" name="SelectedSensors" value="@sensor_item.SensorId"> </td>
+
+
+                                    }
+                                    else
+                                    {
+                                        <td> <input type="checkbox" name="SelectedSensors" value="@sensor_item.SensorId" disabled> </td>
+
+                                    }
+
+
+
+
+                                </tr>
+
+
+                            }
+
+
+                        </tbody>
+                    </table>
+                }
+
+                else
+                {
+
+
+                    <p>There are no sensors available</p>
+
+
+                }
+
+
+            </div>
+        </div>
     </div>
+
+
+    <br />
+    <br />
+
+
+
+
+
+
+    <div class="row">
+
+        <div class="col-3">
+            <button asp-page-handler="Continue" class="btn btn-primary form-control" type="submit">Continue</button>
+        </div>
+
+        <br />
+    </div>
+
+
+
+    <br />
 
 
 
 
 </form>
 
+@section scripts{
 
-    @*<form enctype="multipart/form-data" method="post">
-            <dl>
-                <dt>
-                    <label asp-for="FileUpload.FormFile"></label>
-                </dt>
-                <dd>
-                    <input asp-for="FileUpload.FormFile" type="file" />
-                    <span asp-validation-for="FileUpload.FormFile"></span>
-                </dd>
-            </dl>
-            <input asp-page-handler="Upload" class="btn" type="submit" value="Upload" />
-        </form>*@
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 
-    @section scripts{
-        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-        <script>
-            document.querySelector('.custom-file-input').addEventListener('change', function (e) {
-                var fileName = document.getElementById("inputGroupFile04").value;
-
-                //console.log(fileName.substring(fileName.lastIndexOf("\\") + 1));
-                var nextSibling = e.target.nextElementSibling
-
-                nextSibling.innerText = fileName.substring(fileName.lastIndexOf('\\') + 1)
-                //nextSibling.innerText = fileName;
-            })
-
-        </script>
-
-
-        @*<script>
-                "use strict";
-
-                function AJAXSubmit(oFormElement) {
-                    var oReq = new XMLHttpRequest();
-                    oReq.onload = function (e) {
-                        oFormElement.elements.namedItem("result").value =
-                            'Result: ' + this.status + ' ' + this.statusText;
-                    };
-                    oReq.open("post", oFormElement.action);
-                    oReq.send(new FormData(oFormElement));
-                }
-            </script>*@
-
-
-    }
+}

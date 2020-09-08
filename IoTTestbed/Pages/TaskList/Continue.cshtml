@@ -1,0 +1,111 @@
+﻿@page
+@model IoTTestbed.Pages.TaskList.ExistingModel
+@{
+}
+
+
+
+
+<h1 class="text-info">Select a project then upload file</h1>
+<hr />
+<br />
+<div class="table-wrapper-scroll-y my-custom-scrollbar">
+    <form method="post">
+
+        @if (Model.ContikiExamples.Count() > 0)
+        {
+
+            <table class="table table-bordered table-striped mb-0">
+                <tr class="table-secondary">
+
+
+                    <th scope="col">
+                        <label>Project Name</label>
+                    </th>
+
+                    <th scope="col">
+                        <label>Actions</label>
+                    </th>
+
+                </tr>
+                @foreach (var item in Model.ContikiExamples)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(m => item)
+
+                        </td>
+                        <td>
+                            <div class="input-group">
+
+                                <div class="custom-file">
+                                    <input asp-for="FileUpload.FormFile" type="file" class="custom-file-input" id="inputGroupFile04">
+                                    <label asp-for="FileUpload.FormFile" class="custom-file-label" for="inputGroupFile04">Choose .c file</label>
+                                    <span asp-validation-for="FileUpload.FormFile"></span>
+                                </div>
+                                <div class="input-group-append">
+                                    <input asp-page-handler="UploadC" class="btn btn-primary form-control" type="submit" value="Upload" />
+                                </div>
+
+                            </div>
+                            <br />
+
+                            <div class="input-group">
+
+                                <div class="custom-file">
+                                    <input asp-for="FileUpload.FormFile" type="file" class="custom-file-input" id="inputGroupFile04">
+                                    <label asp-for="FileUpload.FormFile" class="custom-file-label" for="inputGroupFile04">Choose Makefile (optional)</label>
+                                    <span asp-validation-for="FileUpload.FormFile"></span>
+                                </div>
+                                <div class="input-group-append">
+                                    <input asp-page-handler="UploadM" class="btn btn-warning form-control" type="submit" value="Upload" />
+                                </div>
+
+                            </div>
+
+                            @*<button asp-page-handler="UploadM"  class="btn btn-primary btn">Upload .c file</button>*@
+                            @*<button asp-page-handler="UploadM" class="btn btn-warning btn">Upload Makefile</button> <p>(Optional)</p*@
+
+                        </td>
+
+
+                    </tr>
+
+                }
+            </table>
+
+
+        }
+        else
+        {
+
+            <p>No books available</p>
+
+        }
+    </form>
+    <br />
+</div>
+<br />
+<div class="col-3">
+    <button asp-page-handler="CreateNew" class="btn btn-danger btn">Create new Project</button>
+</div>
+
+
+
+<br />
+<br />
+
+
+@section scripts{
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        document.querySelector('.custom-file-input').addEventListener('change', function (e) {
+            var fileName = document.getElementById("inputGroupFile04").value;
+            //console.log(fileName.substring(fileName.lastIndexOf("\\") + 1));
+            var nextSibling = e.target.nextElementSibling
+            nextSibling.innerText = fileName.substring(fileName.lastIndexOf('\\') + 1)
+            //nextSibling.innerText = fileName;
+        })
+
+    </script>
+}

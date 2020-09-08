@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using Microsoft.Extensions.Logging;
 using Renci.SshNet;
 using Renci.SshNet.Sftp;
@@ -13,6 +15,8 @@ namespace IoTTestbed.SFTPService
         void UploadFile(string localFilePath, string remoteFilePath);
         void DownloadFile(string remoteFilePath, string localFilePath);
         void DeleteFile(string remoteFilePath);
+
+         
     }
 
     public class SftpService : ISftpService
@@ -44,6 +48,8 @@ namespace IoTTestbed.SFTPService
                 client.Disconnect();
             }
         }
+
+
 
         public void UploadFile(string localFilePath, string remoteFilePath)
         {
@@ -85,6 +91,58 @@ namespace IoTTestbed.SFTPService
             }
         }
 
+
+
+        public void CreateDirectory(string remoteFilePath)
+        {
+
+            using var client = new SftpClient(_config.Host, _config.Port == 0 ? 22 : _config.Port, _config.UserName, _config.Password);
+
+            try
+            {
+                client.Connect();
+                if (!client.Exists(remoteFilePath))
+                {
+                    client.CreateDirectory(remoteFilePath);
+                }
+                _logger.LogInformation($"Directory [{remoteFilePath}] created.");
+            }
+            catch (Exception exception)
+            {
+                _logger.LogError(exception, $"Failed in creating directory [{remoteFilePath}]");
+            }
+            finally
+            {
+                client.Disconnect();
+            }
+        }
+
+
+
+        public List<SftpFile> GetDirectories(string remoteFilePath)
+        {
+
+            using var client = new SftpClient(_config.Host, _config.Port == 0 ? 22 : _config.Port, _config.UserName, _config.Password);
+
+
+            client.Connect();
+
+
+
+         
+
+                return client
+                .ListDirectory(remoteFilePath).ToList();
+
+            //_logger.LogInformation($"Directory [{remoteFilePath}] created.");
+
+            //client.Disconnect();
+
+
+
+
+        }
+
         public void DeleteFile(string remoteFilePath)
         {
             using var client = new SftpClient(_config.Host, _config.Port == 0 ? 22 : _config.Port, _config.UserName, _config.Password);
@@ -92,6 +150,7 @@ namespace IoTTestbed.SFTPService
             {
                 client.Connect();
                 client.DeleteFile(remoteFilePath);
+
                 _logger.LogInformation($"File [{remoteFilePath}] deleted.");
             }
             catch (Exception exception)

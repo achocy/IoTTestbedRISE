@@ -28,21 +28,12 @@ namespace IoTTestbed.Pages.TaskList
         private readonly string[] _permittedExtensions = { ".txt" };
         private readonly string _targetFilePath = @"C:\Users\Andreas\source\repos\IoTTestbed\IoTTestbed\Files\";
         public string Result { get; private set; }
-
         List<string> sensorsList = new List<string>();
-
-
         private readonly ILogger<SftpService> logger = new Logger<SftpService>(new NullLoggerFactory());
-
-
         private readonly ApplicationDbContext _db;
-
         public CreateModel(ApplicationDbContext db)
-
         {
-
             _db = db;
-
         }
 
         public IEnumerable<Sensor> Sensors { get; set; }
@@ -50,134 +41,49 @@ namespace IoTTestbed.Pages.TaskList
 
         [BindProperty]
         public IEnumerable<int> SelectedSensors { get; set; }
+        public List<string> ContikiExamples = new List<string>();
 
-        private string testFile;
+
+
+        private string testFile = "now";
 
         [BindProperty]
         public Experiment Experiment { get; set; }
         public SensorExperiment SensorExperiment { get; set; }
-        public async Task OnGet()
+        public async Task OnGetAsync()
         {
-
             Sensors = await _db.Sensor.ToListAsync();
-
             AvailableSensors = await _db.Sensor.Where(o => o.Status == "Available").ToListAsync();
-
-
         }
 
-        public async Task<IActionResult> OnPostUploadAsync()
+
+        public async Task<IActionResult> OnPostContinue()
         {
-            //if (!ModelState.IsValid)
-            //{
-            //    Result = "Please correct the form.";
-
-            //    return Page();
-            //}
-
-            var formFileContent =
-                await FileHelpers.ProcessFormFile<BufferedSingleFileUploadPhysical>(
-                    FileUpload.FormFile, ModelState, _permittedExtensions,
-                    _fileSizeLimit);
-
-
-            Debug.Print("Comes in here");
-
-            // For the file name of the uploaded file stored
-            // server-side, use Path.GetRandomFileName to generate a safe
-            // random file name.
-            var trustedFileNameForFileStorage = Path.GetRandomFileName();
-
-            Debug.Print(trustedFileNameForFileStorage);
-
-            var filePath = Path.Combine(
-                _targetFilePath, trustedFileNameForFileStorage);
-
-
-
-            // **WARNING!**
-            // In the following example, the file is saved without
-            // scanning the file's contents. In most production
-            // scenarios, an anti-virus/anti-malware scanner API
-            // is used on the file before making the file available
-            // for download or for use by other systems. 
-            // For more information, see the topic that accompanies 
-            // this sample.
-
-            using (var fileStream = System.IO.File.Create(filePath))
-            {
-                // await fileStream.WriteAsync(formFileContent);
-
-                // To work directly with a FormFile, use the following
-                // instead:
-                await FileUpload.FormFile.CopyToAsync(fileStream);
-            }
-
-            var config = new SftpConfig
-            {
-                Host = "192.168.137.28",
-                Port = 22,
-                UserName = "pi",
-                Password = "1234"
-            };
-
-            // can be retrieved from appsettings.json
-            //using var client = new SftpClient(config.Host, config.Port, config.UserName, config.Password);
-
-            //client.UploadFile(_targetFilePath + trustedFileNameForFileStorage.ToString(), "/home/pi/software/");
-
-            var sftp = new SftpService(logger, config);
-
-            //  sftp.UploadFile(_targetFilePath + trustedFileNameForFileStorage, "/home/pi/software/" + FileUpload.FormFile.FileName);
-
-            //Debug.Print("Here1");
-            //Debug.Print(SelectedSensors.ToString());
-
             await _db.Experiment.AddAsync(Experiment);
             await _db.SaveChangesAsync();
-
-
-
-
 
             foreach (int SensorIds in SelectedSensors)
             {
                 SensorExperiment se = new SensorExperiment() { SensorId = SensorIds, ExperimentId = Experiment.ExperimentId };
                 Debug.Print(se.SensorId.ToString());
-
                 await _db.SensorExperiment.AddAsync(se);
-               
-                
-
                 var result = _db.Sensor.SingleOrDefault(b => b.SensorId == SensorIds);
 
                 if (result != null)
                 {
                     result.Status = "active";
-
                 }
             }
+
             await _db.SaveChangesAsync();
-            // return RedirectToPage("Index");
 
-            //else
-            //  return Page();
-           
-            return RedirectToPage("Create");
+            return RedirectToPage("Continue");
         }
+
+
+
+
+
     }
-
-
-    public class BufferedSingleFileUploadPhysical
-    {
-        [Required]
-        [Display(Name = "File")]
-        public IFormFile FormFile { get; set; }
-
-        [Display(Name = "Note")]
-        [StringLength(50, MinimumLength = 0)]
-        public string Note { get; set; }
-    }
-
 
 }
