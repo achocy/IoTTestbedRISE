@@ -1,15 +1,66 @@
 ﻿@page
-@model IoTTestbed.Pages.TaskList.ExistingModel
+@model IoTTestbed.Pages.TaskList.ContinueModel
 @{
 }
 
 
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form method="post">
+                <div class="modal-body">
+
+                    <label for="NewProject">Project Name</label>
+                    <input type="text" class="form-control" placeholder="Enter name" name="NewProject">
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button asp-page-handler="CreateNew" type="submit" class="btn btn-primary">Create Project</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
 
 
 <h1 class="text-info">Select a project then upload file</h1>
 <hr />
 <br />
+
+
+<form method="get">
+    <div class="form-group row">
+        <label for="inputFilter" class="col-sm-1 col-form-label"></label>
+
+        <div class="col-sm-7">
+            <input type="text" class="form-control" id="inputFilter" placeholder="" name="FilterSearch">
+        </div>
+
+
+        <div class="col-sm-3">
+            <input class="btn btn-secondary form-control" type="submit" class="" placeholder="" value="Search">
+        </div>
+        <div class="col-sm-1">
+
+        </div>
+
+    </div>
+</form>
+<br />
 <div class="table-wrapper-scroll-y my-custom-scrollbar">
+
+
+
     <form method="post">
 
         @if (Model.ContikiExamples.Count() > 0)
@@ -79,17 +130,20 @@
         else
         {
 
-            <p>No books available</p>
+            <p>No matched results</p>
 
         }
     </form>
     <br />
 </div>
 <br />
-<div class="col-3">
-    <button asp-page-handler="CreateNew" class="btn btn-danger btn">Create new Project</button>
-</div>
 
+<div class="col-3">
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+        Create new Project
+    </button>
+
+</div>
 
 
 <br />

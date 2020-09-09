@@ -29,7 +29,7 @@ using Microsoft.Extensions.Logging;
 
 namespace IoTTestbed.Pages.TaskList
 {
-    public class ExistingModel : PageModel
+    public class ContinueModel : PageModel
     {
 
         [BindProperty]
@@ -44,27 +44,33 @@ namespace IoTTestbed.Pages.TaskList
         public IEnumerable<SensorExperiment> SensorExperiments;
 
         //public IEnumerable<int> _SelectedSensors { get; set; }
+        public List<string> ContikiExamplesSearch = new List<string>();
         public List<string> ContikiExamples = new List<string>();
+
+        //[BindProperty]
+        //public string FilterSearch { get; set; }
+
         private string testFile;
 
+
+      
         [BindProperty]
-        public Experiment Experiment { get; set; }
+        public string NewProject { get; set; }
 
 
-
-        public ExistingModel(ApplicationDbContext db)
+        public ContinueModel(ApplicationDbContext db)
         {
             _db = db;
 
         }
 
-        public async Task OnGet()
+        public async Task OnGet(string FilterSearch)
         {
 
 
             SensorExperiments = await _db.SensorExperiment.Where(o => o.ExperimentId == 57).ToListAsync();
 
-         
+
 
             //Debug.Print("Reachable code");
             var config = new SftpConfig
@@ -83,6 +89,21 @@ namespace IoTTestbed.Pages.TaskList
             ContikiExamples.Remove(".");
             ContikiExamples.Remove("..");
             ContikiExamples.Sort();
+
+
+            if (!String.IsNullOrEmpty(FilterSearch))
+            {
+
+
+                ContikiExamples = ContikiExamples.Where(s => s.Contains(FilterSearch)).ToList();
+
+
+
+            }
+
+
+
+
 
         }
 
@@ -118,6 +139,18 @@ namespace IoTTestbed.Pages.TaskList
                 await FileUpload.FormFile.CopyToAsync(fileStream);
             }
 
+
+
+
+
+            return RedirectToPage();
+        }
+
+
+
+        public async Task<IActionResult> OnPostCreateNew()
+        {
+
             var config = new SftpConfig
             {
                 Host = "192.168.137.220",
@@ -128,11 +161,12 @@ namespace IoTTestbed.Pages.TaskList
 
             var sftp = new SftpService(logger, config);
 
-            sftp.CreateDirectory("/home/pi/testdirectory");
 
+            sftp.CreateDirectory("/home/pi/contiki/examples/" + NewProject.ToLower());
 
-
+            
             return RedirectToPage("Continue");
+
         }
 
 

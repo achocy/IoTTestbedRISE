@@ -77,7 +77,7 @@ namespace IoTTestbed.Pages.TaskList
 
             await _db.SaveChangesAsync();
 
-            return RedirectToPage("Continue");
+            return RedirectToPage("Selection", new { Experiment = Experiment});
         }
 
 
