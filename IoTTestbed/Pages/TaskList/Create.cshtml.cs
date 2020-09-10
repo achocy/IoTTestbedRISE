@@ -36,6 +36,7 @@ namespace IoTTestbed.Pages.TaskList
             _db = db;
         }
 
+
         public IEnumerable<Sensor> Sensors { get; set; }
         public IEnumerable<Sensor> AvailableSensors { get; set; }
 
@@ -71,13 +72,13 @@ namespace IoTTestbed.Pages.TaskList
 
                 if (result != null)
                 {
-                    result.Status = "active";
+                    result.Status = "available"; //change this to active
                 }
             }
 
             await _db.SaveChangesAsync();
 
-            return RedirectToPage("Selection", new { Experiment = Experiment});
+            return RedirectToPage("Selection", new { ExperimentId = Experiment.ExperimentId });
         }
 
 

@@ -1,9 +1,164 @@
 ﻿
-@page "Experiment"
+@page "ExperimentId"
 @model IoTTestbed.Pages.TaskList.SelectionModel
 @{
 }
 
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form method="post">
+                <div class="modal-body">
+
+                    <label for="NewProject">Project Name</label>
+                    <input type="text" class="form-control" placeholder="Enter name" name="NewProject">
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button asp-page-handler="CreateNew" type="submit" class="btn btn-primary">Create Project</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+    <div class="col-12 border p-3 m-3 ">
+
+        <h7 class="text-black-50"> Experiment ID: <strong>@Html.DisplayFor(m=>Model.Experiment.ExperimentId)</strong></h7>
+        <br /> <br />
+        <h7 class="text-black-50"> Experiment name: <strong>@Html.DisplayFor(m => Model.Experiment.ExperimentName)</strong></h7>
+        <br /><br />
+        <ul>
+            <li>Create a new project at Selected Nodes</li>
+            <li>Select the sensors then upload the files (Do not Forget to upload the Makefile). </li>
+            <li>When complete uploading to selected sensors choose Runtime then run the Experiment</li>
+        </ul>
+
+    </div>
+
+
+
+
+<div class="col-12  p-3 mt-3">
+    <form method="post">
+
+        <table class="table table-striped border">
+            <tr class="table-secondary">
+                <th>
+
+                    <label asp-for="SelectedSensors.FirstOrDefault().SensorId"></label>
+
+                </th>
+
+
+
+
+                <th>
+
+                    <label asp-for="SelectedSensors.FirstOrDefault().Risp"></label>
+
+                </th>
+
+                <th>
+
+                    <label asp-for="SelectedSensors.FirstOrDefault().Status"></label>
+
+                </th>
+
+
+                <th>
+
+                    <label>Actions</label>
+
+                </th>
+
+                <th>
+
+                    <label>Select</label>
+
+                </th>
+
+
+
+
+            </tr>
+
+
+
+            @foreach (var item in Model.SelectedSensors)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(m => item.SensorId)
+
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => item.Risp)
+
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(m => item.Status)
+
+                    </td>
+                    <td> <input class="btn-danger btn btn-sm" type="submit" name="Delete" value="Delete"> </td>
+
+                    <td> <input type="checkbox" name="SelectedSensorsIDs" value="@item.SensorId"> </td>
+
+
+
+
+                </tr>
+
+            }
+
+
+
+
+
+
+        </table>
+        <div class="col-4 p-3 mt-3">
+
+            <label for="NewProject">Project Name</label>
+            <input type="text" class="form-control" placeholder="Enter name" name="NewProject">
+            <br />
+             <button asp-page-handler="CreateNew" type="submit" class="btn btn-primary">Create Project</button>
+
+        </div>
+
+        <br />
+        @*<div class="input-group">
+
+            <div class="custom-file">
+                <input asp-for="FileUpload.FormFile" type="file" class="custom-file-input" id="inputGroupFile04">
+                <label asp-for="FileUpload.FormFile" class="custom-file-label" for="inputGroupFile04">Choose file</label>
+                <span asp-validation-for="FileUpload.FormFile"></span>
+            </div>
+            <div class="input-group-append">
+                <input asp-page-handler="UploadC" class="btn btn-primary form-control" type="submit" value="Upload" />
+            </div>
+
+        </div>*@
+        <br />
+
+
+
+    </form>
+
+</div>
 
 
 

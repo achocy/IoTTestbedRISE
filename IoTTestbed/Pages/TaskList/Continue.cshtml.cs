@@ -34,9 +34,9 @@ namespace IoTTestbed.Pages.TaskList
 
         [BindProperty]
         public BufferedSingleFileUploadPhysical FileUpload { get; set; }
-
+ private readonly ApplicationDbContext _db;
         private readonly ILogger<SftpService> logger = new Logger<SftpService>(new NullLoggerFactory());
-        private readonly ApplicationDbContext _db;
+       
         private readonly long _fileSizeLimit;
         private readonly string[] _permittedExtensions = { ".txt" };
         private readonly string _targetFilePath = @"C:\Users\Andreas\source\repos\IoTTestbed\IoTTestbed\Files\";
@@ -53,9 +53,7 @@ namespace IoTTestbed.Pages.TaskList
         private string testFile;
 
 
-      
-        [BindProperty]
-        public string NewProject { get; set; }
+    
 
 
         public ContinueModel(ApplicationDbContext db)
@@ -148,43 +146,21 @@ namespace IoTTestbed.Pages.TaskList
 
 
 
-        public async Task<IActionResult> OnPostCreateNew()
-        {
-
-            var config = new SftpConfig
-            {
-                Host = "192.168.137.220",
-                Port = 22,
-                UserName = "pi",
-                Password = "1234"
-            };
-
-            var sftp = new SftpService(logger, config);
-
-
-            sftp.CreateDirectory("/home/pi/contiki/examples/" + NewProject.ToLower());
-
-            
-            return RedirectToPage("Continue");
-
-        }
-
-
-
+   
 
     }
 
 
-    public class BufferedSingleFileUploadPhysical
-    {
-        [Required]
-        [Display(Name = "File")]
-        public IFormFile FormFile { get; set; }
+    //public class BufferedSingleFileUploadPhysical
+    //{
+    //    [Required]
+    //    [Display(Name = "File")]
+    //    public IFormFile FormFile { get; set; }
 
-        [Display(Name = "Note")]
-        [StringLength(50, MinimumLength = 0)]
-        public string Note { get; set; }
-    }
+    //    [Display(Name = "Note")]
+    //    [StringLength(50, MinimumLength = 0)]
+    //    public string Note { get; set; }
+    //}
 
 
 }
