@@ -51,6 +51,7 @@ namespace IoTTestbed.Pages.TaskList
         public string NewProject { get; set; }
         [BindProperty]
         public IEnumerable<SelectedSensor> SelectedSensors { get; set; }
+        public Sensor sel;
         public Experiment Experiment { get; set; }
 
         [BindProperty]
@@ -60,7 +61,7 @@ namespace IoTTestbed.Pages.TaskList
         {
 
 
-            Experiment =  _db.Experiment.First(o => o.ExperimentId == ExperimentId);
+            Experiment = _db.Experiment.First(o => o.ExperimentId == ExperimentId);
 
 
             Debug.Print(ExperimentId.ToString());
@@ -85,14 +86,16 @@ namespace IoTTestbed.Pages.TaskList
 
 
         }
-        public async Task<IActionResult> OnPostCreateNew()
+        public void OnPostCreateNew()
         {
+
+
             Debug.Print("Reachable code");
             foreach (int SelectedSensorId in SelectedSensorsIDs)
             {
 
-                var SelectedSensor =  _db.Sensor.First(o => o.SensorId == SelectedSensorId);
-
+                var SelectedSensor = _db.Sensor.First(o => o.SensorId == SelectedSensorId);
+                sel = SelectedSensor;
                 var config = new SftpConfig
                 {
                     Host = SelectedSensor.RasIp,
@@ -104,13 +107,63 @@ namespace IoTTestbed.Pages.TaskList
                 var sftp = new SftpService(logger, config);
 
 
-                sftp.CreateDirectory("/home/pi/" + NewProject.ToLower());
-
+                sftp.CreateDirectory("/home/pi/test/" + NewProject);
 
             }
-            return RedirectToRoute("Selection",new { ExperimentId=Experiment.ExperimentId });
+
 
         }
+
+
+
+        public async Task<IActionResult> OnPostUploadAsync()
+        {
+            //if (!ModelState.IsValid)
+            //{
+            //    Result = "Please correct the form.";
+
+            //    return Page();
+            //}
+
+            var formFileContent =
+                await FileHelpers.ProcessFormFile<BufferedSingleFileUploadPhysical>(
+                    FileUpload.FormFile, ModelState, _permittedExtensions,
+                    _fileSizeLimit);
+
+
+            Debug.Print("Comes in here");
+            // For the file name of the uploaded file stored
+            // server-side, use Path.GetRandomFileName to generate a safe
+            // random file name.
+            var trustedFileNameForFileStorage = Path.GetRandomFileName();
+            Debug.Print(trustedFileNameForFileStorage);
+            var filePath = Path.Combine(
+                _targetFilePath, trustedFileNameForFileStorage);
+
+
+            using (var fileStream = System.IO.File.Create(filePath))
+            {
+
+                await FileUpload.FormFile.CopyToAsync(fileStream);
+            }
+
+            var config = new SftpConfig
+            {
+                Host = sel.RasIp,
+                Port = 22,
+                UserName = "pi",
+                Password = "1234"
+            };
+
+            var sftp = new SftpService(logger, config);
+            sftp.UploadFile(_targetFilePath + FileUpload.FormFile.FileName, "/home/pi/" + NewProject);
+
+
+            return RedirectToPage();
+        }
+
+
+
 
     }
 

@@ -108,38 +108,23 @@ namespace IoTTestbed.Pages.TaskList
 
         public async Task<IActionResult> OnPostUploadAsync()
         {
-            //if (!ModelState.IsValid)
-            //{
-            //    Result = "Please correct the form.";
-
-            //    return Page();
-            //}
-
+          
             var formFileContent =
                 await FileHelpers.ProcessFormFile<BufferedSingleFileUploadPhysical>(
                     FileUpload.FormFile, ModelState, _permittedExtensions,
                     _fileSizeLimit);
-
-
             Debug.Print("Comes in here");
-            // For the file name of the uploaded file stored
-            // server-side, use Path.GetRandomFileName to generate a safe
-            // random file name.
+   
             var trustedFileNameForFileStorage = Path.GetRandomFileName();
             Debug.Print(trustedFileNameForFileStorage);
             var filePath = Path.Combine(
                 _targetFilePath, trustedFileNameForFileStorage);
-
 
             using (var fileStream = System.IO.File.Create(filePath))
             {
 
                 await FileUpload.FormFile.CopyToAsync(fileStream);
             }
-
-
-
-
 
             return RedirectToPage();
         }

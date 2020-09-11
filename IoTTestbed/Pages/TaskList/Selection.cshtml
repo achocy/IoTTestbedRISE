@@ -1,5 +1,4 @@
-﻿
-@page "ExperimentId"
+﻿@page "{ExperimentId}"
 @model IoTTestbed.Pages.TaskList.SelectionModel
 @{
 }
@@ -34,31 +33,33 @@
 
 
 
-    <div class="col-12 border p-3 m-3 ">
+<div class="col-12 border p-3 m-3 ">
 
-        <h7 class="text-black-50"> Experiment ID: <strong>@Html.DisplayFor(m=>Model.Experiment.ExperimentId)</strong></h7>
-        <br /> <br />
-        <h7 class="text-black-50"> Experiment name: <strong>@Html.DisplayFor(m => Model.Experiment.ExperimentName)</strong></h7>
-        <br /><br />
-        <ul>
-            <li>Create a new project at Selected Nodes</li>
-            <li>Select the sensors then upload the files (Do not Forget to upload the Makefile). </li>
-            <li>When complete uploading to selected sensors choose Runtime then run the Experiment</li>
-        </ul>
+    <h7 class="text-black-50"> Experiment ID: <strong>@Html.DisplayFor(m => Model.Experiment.ExperimentId)</strong></h7>
+    <br /> <br />
+    <h7 class="text-black-50"> Experiment name: <strong>@Html.DisplayFor(m => Model.Experiment.ExperimentName)</strong></h7>
+    <br /><br />
+    <ul>
+        <li>Create a new project at Selected Nodes</li>
+        <li>Select the sensors then upload the files (Do not Forget to upload the Makefile). </li>
+        <li>When complete uploading to selected sensors choose Runtime then run the Experiment</li>
+        <li> @(ViewContext.RouteData.Values["ExperimentId"])</li>
+    </ul>
 
-    </div>
+</div>
 
 
 
 
 <div class="col-12  p-3 mt-3">
-    <form method="post">
+    <form id="form" method="post" onsubmit="showHidden(); return False;">
 
         <table class="table table-striped border">
             <tr class="table-secondary">
                 <th>
 
                     <label asp-for="SelectedSensors.FirstOrDefault().SensorId"></label>
+
 
                 </th>
 
@@ -78,9 +79,9 @@
                 </th>
 
 
-                <th>
+                <th class="text-left">
 
-                    <label>Actions</label>
+                    <label >Actions</label>
 
                 </th>
 
@@ -90,12 +91,7 @@
 
                 </th>
 
-
-
-
             </tr>
-
-
 
             @foreach (var item in Model.SelectedSensors)
             {
@@ -113,12 +109,12 @@
                         @Html.DisplayFor(m => item.Status)
 
                     </td>
-                    <td> <input class="btn-danger btn btn-sm" type="submit" name="Delete" value="Delete"> </td>
+                    <td> <input class="btn-danger btn " type="submit" name="Delete" value="Delete"> 
+                         <input asp-page="continue" class=" btn btn-secondary" type="submit" name="View" value="View Contents">
+                    
+                    </td>
 
                     <td> <input type="checkbox" name="SelectedSensorsIDs" value="@item.SensorId"> </td>
-
-
-
 
                 </tr>
 
@@ -130,17 +126,25 @@
 
 
         </table>
-        <div class="col-4 p-3 mt-3">
+        <div class="col-6 p-3 mt-3">
 
-            <label for="NewProject">Project Name</label>
+            <label class="font-weight-bold" for="NewProject">Project Name</label>
             <input type="text" class="form-control" placeholder="Enter name" name="NewProject">
             <br />
-             <button asp-page-handler="CreateNew" type="submit" class="btn btn-primary">Create Project</button>
+            @*  <button asp-page-handler="CreateNew" type="submit" class="btn btn-primary">Create Project</button>*@
+
+            <input id="expid" type="hidden" value=@(ViewContext.RouteData.Values["ExperimentId"]) />
+
+            <input type="button" class="btn btn-primary" value="Create Project" onclick="DoAjaxPostAndMore(this)" />
 
         </div>
 
-        <br />
-        @*<div class="input-group">
+    </form>
+    <br />
+
+    <form action="/" method="post">
+
+        <div class="input-group" id="UploadInput" style="display: none;">
 
             <div class="custom-file">
                 <input asp-for="FileUpload.FormFile" type="file" class="custom-file-input" id="inputGroupFile04">
@@ -148,19 +152,69 @@
                 <span asp-validation-for="FileUpload.FormFile"></span>
             </div>
             <div class="input-group-append">
-                <input asp-page-handler="UploadC" class="btn btn-primary form-control" type="submit" value="Upload" />
+                <input asp-page-handler="Upload" class="btn btn-primary form-control" type="submit" value="Upload" />
             </div>
 
-        </div>*@
+        </div>
         <br />
-
-
-
     </form>
+
+
 
 </div>
 
 
+@section Scripts{
 
+    <script>
+
+
+        function showHidden() {
+            UploadInput
+            var div = document.getElementById("UploadInput");
+            if (div.style.display == 'none') {
+                div.style.display = '';
+            }
+            else {
+                div.style.display = 'none';
+            }
+
+
+
+        }
+
+        function DoAjaxPostAndMore(btnClicked) {
+
+            var $form = $(btnClicked).parents('form');
+            var expid = $("input[id=expid]").val();
+
+            console.log('Its working damn!!!!', expid)
+
+            $.ajax({
+                type: "post",
+                url: "/TaskList/Selection/" + expid + "?handler=CreateNew",
+                data: $form.serialize(),
+                error: function (xhr, status, error) {
+                    
+                },
+                success: function (response) {
+                 
+                    showHidden();
+
+                }
+            });
+
+            return false;
+        }
+
+
+    </script>
+
+
+
+
+
+
+}
 
 
