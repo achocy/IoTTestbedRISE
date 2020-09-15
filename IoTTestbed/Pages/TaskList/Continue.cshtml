@@ -153,13 +153,7 @@
 @section scripts{
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     <script>
-        document.querySelector('.custom-file-input').addEventListener('change', function (e) {
-            var fileName = document.getElementById("inputGroupFile04").value;
-            //console.log(fileName.substring(fileName.lastIndexOf("\\") + 1));
-            var nextSibling = e.target.nextElementSibling
-            nextSibling.innerText = fileName.substring(fileName.lastIndexOf('\\') + 1)
-            //nextSibling.innerText = fileName;
-        })
+      
 
     </script>
 }

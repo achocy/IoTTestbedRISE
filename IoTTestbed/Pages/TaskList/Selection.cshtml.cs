@@ -50,6 +50,8 @@ namespace IoTTestbed.Pages.TaskList
         [BindProperty]
         public string NewProject { get; set; }
         [BindProperty]
+        public string NewProject2 { get; set; }
+        [BindProperty]
         public IEnumerable<SelectedSensor> SelectedSensors { get; set; }
         public Sensor sel;
         public Experiment Experiment { get; set; }
@@ -61,7 +63,7 @@ namespace IoTTestbed.Pages.TaskList
         {
 
 
-            Experiment = _db.Experiment.First(o => o.ExperimentId == ExperimentId);
+            Experiment = await _db.Experiment.FirstOrDefaultAsync(o => o.ExperimentId == ExperimentId);
 
 
             Debug.Print(ExperimentId.ToString());
@@ -86,7 +88,7 @@ namespace IoTTestbed.Pages.TaskList
 
 
         }
-        public void OnPostCreateNew()
+        public async Task OnPostCreateNew(int ExperimentId)
         {
 
 
@@ -94,7 +96,7 @@ namespace IoTTestbed.Pages.TaskList
             foreach (int SelectedSensorId in SelectedSensorsIDs)
             {
 
-                var SelectedSensor = _db.Sensor.First(o => o.SensorId == SelectedSensorId);
+                var SelectedSensor = await _db.Sensor.FirstOrDefaultAsync(o => o.SensorId == SelectedSensorId);
                 sel = SelectedSensor;
                 var config = new SftpConfig
                 {
@@ -105,70 +107,67 @@ namespace IoTTestbed.Pages.TaskList
                 };
 
                 var sftp = new SftpService(logger, config);
-
-
                 sftp.CreateDirectory("/home/pi/test/" + NewProject);
+
+                var SelectedSensorDb = await _db.SensorExperiment.FirstOrDefaultAsync(o => o.ExperimentId == ExperimentId && o.SensorId == SelectedSensorId);
+                SelectedSensorDb.ProjectName = NewProject;
+                SelectedSensorDb.IsFileUpload = true;
+
+                _db.SensorExperiment.Update(SelectedSensorDb);
+
+
 
             }
 
-
+            await _db.SaveChangesAsync();
         }
 
 
 
-        public async Task<IActionResult> OnPostUploadAsync()
+        public async Task<IActionResult> OnPostUploadAsync(int ExperimentId)
         {
             //if (!ModelState.IsValid)
             //{
-            //    Result = "Please correct the form.";
+            //    var Result = "Please correct the form.";
 
             //    return Page();
             //}
+            var CurrentSensorsIDs = await _db.SensorExperiment.Where(o => o.ExperimentId == ExperimentId && o.IsFileUpload==true).Select(o => o.SensorId).ToListAsync();
 
-            var formFileContent =
-                await FileHelpers.ProcessFormFile<BufferedSingleFileUploadPhysical>(
-                    FileUpload.FormFile, ModelState, _permittedExtensions,
-                    _fileSizeLimit);
+            var CurrentProjectName = _db.SensorExperiment.FirstOrDefault(o => o.ExperimentId == ExperimentId && o.IsFileUpload == true).ProjectName;
 
 
-            Debug.Print("Comes in here");
-            // For the file name of the uploaded file stored
-            // server-side, use Path.GetRandomFileName to generate a safe
-            // random file name.
-            var trustedFileNameForFileStorage = Path.GetRandomFileName();
-            Debug.Print(trustedFileNameForFileStorage);
-            var filePath = Path.Combine(
-                _targetFilePath, trustedFileNameForFileStorage);
-
-
-            using (var fileStream = System.IO.File.Create(filePath))
+            foreach (int CurrentSensorID in CurrentSensorsIDs)
             {
 
-                await FileUpload.FormFile.CopyToAsync(fileStream);
+                var CurrentSensor = await _db.Sensor.FirstOrDefaultAsync(o => o.SensorId == CurrentSensorID);
+
+                var formFileContent =
+                    await FileHelpers.ProcessFormFile<BufferedSingleFileUploadPhysical>(
+                        FileUpload.FormFile, ModelState, _permittedExtensions,
+                        _fileSizeLimit);
+                var filename = FileUpload.FormFile.FileName;
+                var filePath = Path.Combine(
+                    _targetFilePath, filename);
+                using (var fileStream = System.IO.File.Create(filePath))
+                {
+                    await FileUpload.FormFile.CopyToAsync(fileStream);
+                }
+                var config = new SftpConfig
+                {
+                    Host = CurrentSensor.RasIp,
+                    Port = 22,
+                    UserName = "pi",
+                    Password = "1234"
+                };
+                var sftp = new SftpService(logger, config);
+
+                sftp.UploadFile(_targetFilePath + filename, "/home/pi/test/" + CurrentProjectName + "/" + filename);
             }
-
-            var config = new SftpConfig
-            {
-                Host = sel.RasIp,
-                Port = 22,
-                UserName = "pi",
-                Password = "1234"
-            };
-
-            var sftp = new SftpService(logger, config);
-            sftp.UploadFile(_targetFilePath + FileUpload.FormFile.FileName, "/home/pi/" + NewProject);
-
-
             return RedirectToPage();
         }
 
-
-
-
     }
-
-
-
 
     public class BufferedSingleFileUploadPhysical
     {
@@ -184,7 +183,6 @@ namespace IoTTestbed.Pages.TaskList
 
 }
 
-
 public class SelectedSensor
 {
 
@@ -193,4 +191,3 @@ public class SelectedSensor
     public string Status;
 
 }
-

@@ -81,7 +81,7 @@
 
                 <th class="text-left">
 
-                    <label >Actions</label>
+                    <label>Actions</label>
 
                 </th>
 
@@ -109,9 +109,10 @@
                         @Html.DisplayFor(m => item.Status)
 
                     </td>
-                    <td> <input class="btn-danger btn " type="submit" name="Delete" value="Delete"> 
-                         <input asp-page="continue" class=" btn btn-secondary" type="submit" name="View" value="View Contents">
-                    
+                    <td>
+                        <input class="btn-danger btn " type="submit" name="Delete" value="Delete">
+                        <input asp-page="continue" class=" btn btn-secondary" type="submit" name="View" value="View Contents">
+
                     </td>
 
                     <td> <input type="checkbox" name="SelectedSensorsIDs" value="@item.SensorId"> </td>
@@ -119,10 +120,6 @@
                 </tr>
 
             }
-
-
-
-
 
 
         </table>
@@ -142,10 +139,8 @@
     </form>
     <br />
 
-    <form action="/" method="post">
-
+    <form enctype="multipart/form-data" method="post">
         <div class="input-group" id="UploadInput" style="display: none;">
-
             <div class="custom-file">
                 <input asp-for="FileUpload.FormFile" type="file" class="custom-file-input" id="inputGroupFile04">
                 <label asp-for="FileUpload.FormFile" class="custom-file-label" for="inputGroupFile04">Choose file</label>
@@ -157,64 +152,52 @@
 
         </div>
         <br />
+
+        @Html.AntiForgeryToken()
+
     </form>
-
-
 
 </div>
 
 
 @section Scripts{
-
+  @*  @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}*@
     <script>
-
-
         function showHidden() {
             UploadInput
             var div = document.getElementById("UploadInput");
             if (div.style.display == 'none') {
                 div.style.display = '';
             }
-            else {
-                div.style.display = 'none';
-            }
-
-
+            //else {
+            //    div.style.display = 'none';
+            //}
 
         }
-
         function DoAjaxPostAndMore(btnClicked) {
-
             var $form = $(btnClicked).parents('form');
             var expid = $("input[id=expid]").val();
-
             console.log('Its working damn!!!!', expid)
-
             $.ajax({
                 type: "post",
                 url: "/TaskList/Selection/" + expid + "?handler=CreateNew",
                 data: $form.serialize(),
                 error: function (xhr, status, error) {
-                    
                 },
                 success: function (response) {
-                 
                     showHidden();
-
                 }
             });
-
             return false;
         }
-
-
+        document.querySelector('.custom-file-input').addEventListener('change', function (e) {
+            var fileName = document.getElementById("inputGroupFile04").value;
+            //console.log(fileName.substring(fileName.lastIndexOf("\\") + 1));
+            var nextSibling = e.target.nextElementSibling
+            nextSibling.innerText = fileName.substring(fileName.lastIndexOf('\\') + 1)
+           // nextSibling.innerText = fileName;
+        })
     </script>
-
-
-
-
-
-
 }
 
 

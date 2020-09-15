@@ -42,12 +42,13 @@ namespace IoTTestbed.Models
 
     public class SensorExperiment
     {
-
         public int SensorId { get; set; }
         public Sensor Sensor { get; set; }
         public int ExperimentId { get; set; }
         public Experiment Experiment { get; set; }
+        public string ProjectName { get; set; }
 
+        public Boolean IsFileUpload { get; set; }
 
     }
 
