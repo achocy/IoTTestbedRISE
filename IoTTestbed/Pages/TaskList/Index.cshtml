@@ -33,9 +33,9 @@
                     @*this is the same thing*@
 
                     @*<th>
-            @Html.DisplayNameFor(m=>m.Books.FirstOrDefault().Password)
+                            @Html.DisplayNameFor(m=>m.Books.FirstOrDefault().Password)
 
-        </th>*@
+                        </th>*@
 
                     <th>
 
@@ -51,6 +51,12 @@
 
 
                     <th>
+                        <label asp-for="Experiments.FirstOrDefault().Status"></label>
+
+                    </th>
+
+
+                    <th>
 
                         <label>Actions</label>
 
@@ -61,37 +67,43 @@
                 </tr>
                 @foreach (var item in Model.Experiments)
                 {
-            <tr>
-                <td>
-                    @Html.DisplayFor(m => item.ExperimentId)
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(m => item.ExperimentId)
 
-                </td>
-                <td>
-                    @Html.DisplayFor(m => item.ExperimentName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(m => item.ExperimentName)
 
-                </td>
+                        </td>
 
-                <td>
-                    @Html.DisplayFor(m => item.Info)
+                        <td>
+                            @Html.DisplayFor(m => item.Info)
 
-                </td>
+                        </td>
 
 
+                        <td>
+                            @Html.DisplayFor(m => item.Status)
 
-                <td>
-                    @*  <button asp-page-handler="Delete" asp-route-id="@item.Id" onclick="return confirm('Are you sure you want to delete this book?')" class="btn-danger btn">Delete</button>*@
-
-                    <button asp-page-handler="Delete" asp-route-id="@item.ExperimentId" onclick="return confirm('Are you sure you want to delete?')" class="btn btn-danger ">Delete</button>
-                    
-                    <a asp-route-id="@item.ExperimentId" asp-page="Edit" class="btn-success btn">Edit</a>
-                    
-                    <a asp-route-id="@item.ExperimentId" asp-page="Edit" class="btn-warning btn">Details</a>
+                        </td>
 
 
 
-                </td>
+                        <td>
+                            @*  <button asp-page-handler="Delete" asp-route-id="@item.Id" onclick="return confirm('Are you sure you want to delete this book?')" class="btn-danger btn">Delete</button>*@
 
-            </tr>
+                            <button asp-page-handler="Delete" asp-route-id="@item.ExperimentId" onclick="return confirm('Are you sure you want to delete?')" class="btn btn-danger ">Delete</button>
+
+                            <a asp-route-id="@item.ExperimentId" asp-page="Edit" class="btn-success btn">Edit</a>
+
+                            <a asp-route-id="@item.ExperimentId" asp-page="Edit" class="btn-warning btn">Details</a>
+
+
+
+                        </td>
+
+                    </tr>
 
                 }
             </table>

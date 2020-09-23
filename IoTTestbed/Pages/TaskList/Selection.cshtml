@@ -1,6 +1,15 @@
 ﻿@page "{ExperimentId}"
 @model IoTTestbed.Pages.TaskList.SelectionModel
 @{
+
+    string Disabled = "";
+    if (Model.Ready == false)
+    {
+        Disabled = "disabled";
+    }
+
+
+
 }
 
 
@@ -54,87 +63,98 @@
 <div class="col-12  p-3 mt-3">
     <form id="form" method="post" onsubmit="showHidden(); return False;">
 
-        <table class="table table-striped border">
-            <tr class="table-secondary">
-                <th>
+        @if (Model.SelectedSensors.Count() > 0)
+        {
 
-                    <label asp-for="SelectedSensors.FirstOrDefault().SensorId"></label>
+            <table class="table table-striped border">
+                <tr class="table-secondary">
+                    <th>
 
-
-                </th>
-
-
+                        <label asp-for="SelectedSensors.FirstOrDefault().SensorId"></label>
 
 
-                <th>
-
-                    <label asp-for="SelectedSensors.FirstOrDefault().Risp"></label>
-
-                </th>
-
-                <th>
-
-                    <label asp-for="SelectedSensors.FirstOrDefault().Status"></label>
-
-                </th>
+                    </th>
 
 
-                <th class="text-left">
 
-                    <label>Actions</label>
 
-                </th>
+                    <th>
 
-                <th>
+                        <label asp-for="SelectedSensors.FirstOrDefault().Risp"></label>
 
-                    <label>Select</label>
+                    </th>
 
-                </th>
+                    <th>
 
-            </tr>
+                        <label asp-for="SelectedSensors.FirstOrDefault().Status"></label>
 
-            @foreach (var item in Model.SelectedSensors)
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(m => item.SensorId)
+                    </th>
 
-                    </td>
-                    <td>
-                        @Html.DisplayFor(m => item.Risp)
 
-                    </td>
+                    <th class="text-left">
 
-                    <td>
-                        @Html.DisplayFor(m => item.Status)
+                        <label>Actions</label>
 
-                    </td>
-                    <td>
-                        <input class="btn-danger btn " type="submit" name="Delete" value="Delete">
-                        <input asp-page="continue" class=" btn btn-secondary" type="submit" name="View" value="View Contents">
+                    </th>
 
-                    </td>
+                    <th>
 
-                    <td> <input type="checkbox" name="SelectedSensorsIDs" value="@item.SensorId"> </td>
+                        <label>Select</label>
+
+                    </th>
 
                 </tr>
 
-            }
+                @foreach (var item in Model.SelectedSensors)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(m => item.SensorId)
+
+                        </td>
+                        <td>
+                            @Html.DisplayFor(m => item.Risp)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(m => item.Status)
+                        </td>
+                        <td>
+                            <input class="btn-danger btn " type="submit" name="Delete" value="Delete">
+                            <input asp-page="continue" class=" btn btn-secondary" type="submit" name="View" value="View Contents">
+                        </td>
+                        <td> <input type="checkbox" name="SelectedSensorsIDs" value="@item.SensorId"> </td>
+                    </tr>
+                }
+            </table>
+
+            <div class="container">
+                <div class="row">
+                    <div class=" col-6 p-3 mt-3">
+
+                        <label class="font-weight-bold" for="NewProject">Create new Project </label>
+                        <input type="text" class="form-control" placeholder="Enter name" name="NewProject">
+                        <br />
+                        @*  <button asp-page-handler="CreateNew" type="submit" class="btn btn-primary">Create Project</button>*@
+
+                        <input id="expid" type="hidden" value=@(ViewContext.RouteData.Values["ExperimentId"]) />
+                        <input type="button" class="btn btn-primary" value="Create Project" onclick="DoAjaxPostAndMore(this)" />
+
+                    </div>
 
 
-        </table>
-        <div class="col-6 p-3 mt-3">
+                </div>
+            </div>
+        }
 
-            <label class="font-weight-bold" for="NewProject">Project Name</label>
-            <input type="text" class="form-control" placeholder="Enter name" name="NewProject">
-            <br />
-            @*  <button asp-page-handler="CreateNew" type="submit" class="btn btn-primary">Create Project</button>*@
+        else
+        {
 
-            <input id="expid" type="hidden" value=@(ViewContext.RouteData.Values["ExperimentId"]) />
+            <h2> Your Experiment is ready to run</h2>
 
-            <input type="button" class="btn btn-primary" value="Create Project" onclick="DoAjaxPostAndMore(this)" />
 
-        </div>
+        }
+
 
     </form>
     <br />
@@ -149,7 +169,6 @@
             <div class="input-group-append">
                 <input asp-page-handler="Upload" class="btn btn-primary form-control" type="submit" value="Upload" />
             </div>
-
         </div>
         <br />
 
@@ -157,11 +176,24 @@
 
     </form>
 
+
+
+
+
+    <form method="post">
+
+        <input class="btn btn-success" type="submit" name="runExperiment" value="Run Experiment" @Disabled>
+
+    </form>
+
+
+
+
 </div>
 
 
 @section Scripts{
-  @*  @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}*@
+    @*  @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}*@
     <script>
         function showHidden() {
             UploadInput
@@ -172,12 +204,11 @@
             //else {
             //    div.style.display = 'none';
             //}
-
         }
         function DoAjaxPostAndMore(btnClicked) {
             var $form = $(btnClicked).parents('form');
             var expid = $("input[id=expid]").val();
-            console.log('Its working damn!!!!', expid)
+            //console.log('Its working damn!!!!', expid)
             $.ajax({
                 type: "post",
                 url: "/TaskList/Selection/" + expid + "?handler=CreateNew",
@@ -195,7 +226,7 @@
             //console.log(fileName.substring(fileName.lastIndexOf("\\") + 1));
             var nextSibling = e.target.nextElementSibling
             nextSibling.innerText = fileName.substring(fileName.lastIndexOf('\\') + 1)
-           // nextSibling.innerText = fileName;
+            // nextSibling.innerText = fileName;
         })
     </script>
 }
