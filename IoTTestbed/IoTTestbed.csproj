@@ -12,6 +12,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="MQTTnet" Version="3.0.12" />
     <PackageReference Include="SSH.NET" Version="2016.1.0" />
   </ItemGroup>
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using IoTTestbed.SFTPService;
+
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
@@ -24,6 +25,8 @@ using IoTTestbed.utilities;
 using Microsoft.Extensions.Configuration;
 using Renci.SshNet;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Html;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace IoTTestbed.Pages.TaskList
 {
@@ -59,11 +62,12 @@ namespace IoTTestbed.Pages.TaskList
         [BindProperty]
         public IEnumerable<int> SelectedSensorsIDs { get; set; }
 
-        public Boolean Ready{ get; set; }
+        public Boolean Ready { get; set; }
+
+
 
         public async Task OnGet(int ExperimentId)
         {
-
 
             Experiment = await _db.Experiment.FirstOrDefaultAsync(o => o.ExperimentId == ExperimentId);
 
@@ -170,6 +174,22 @@ namespace IoTTestbed.Pages.TaskList
             return RedirectToPage();
         }
 
+
+        public async Task<IActionResult> OnPostRunExperiment(int ExperimentId)
+        {
+            var CurrentSensorsIDs = await _db.SensorExperiment.Where(o => o.ExperimentId == ExperimentId && o.IsFileUpload == true).Select(o => o.SensorId).ToListAsync();
+
+            await SFTPService.MQTTClient.ConnectAsync(ExperimentId, CurrentSensorsIDs);
+
+
+            return RedirectToPage("/TaskList/Create");
+
+        }
+
+
+
+
+
     }
     public class BufferedSingleFileUploadPhysical
     {
@@ -192,3 +212,4 @@ public class SelectedSensor
     public string Status;
 
 }
+

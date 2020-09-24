@@ -23,16 +23,11 @@ namespace IoTTestbed.Pages.TaskList
         }
 
         public IEnumerable<Experiment> Experiments { get; set; }
-
-
-        public async Task OnGet()
+         public async Task OnGet()
         {
 
             Experiments = await _db.Experiment.ToListAsync();
-
             //AvailableSensors = await _db.Sensor.Where(o => o.Status == "Available").ToListAsync();
-
-
         }
 
 
