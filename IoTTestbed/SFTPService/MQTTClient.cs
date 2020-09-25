@@ -12,7 +12,7 @@ namespace IoTTestbed.SFTPService
     {
 
 
-        public static async Task ConnectAsync(int ExperimentId, List<int> SensorIDs)
+        public static async Task ConnectAsync(int ExperimentId,string CurrentProjectName, List<int> SensorIDs)
         {
             string clientId = Guid.NewGuid().ToString();
             string mqttURI = "10.16.4.94";
@@ -37,9 +37,9 @@ namespace IoTTestbed.SFTPService
             foreach (int uid in SensorIDs)
             {
 
-                var message = new MqttApplicationMessageBuilder()
+             var message = new MqttApplicationMessageBuilder()
             .WithTopic("sensors/" + uid.ToString())
-            .WithPayload(ExperimentId.ToString())
+            .WithPayload("/home/pi/"+ ExperimentId.ToString() + "/" + CurrentProjectName.ToString() + "") /////////////////////////////////////
             .WithExactlyOnceQoS()
             .WithRetainFlag()
             .Build();
