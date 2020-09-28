@@ -50,7 +50,7 @@ namespace IoTTestbed.Models
         public int ExperimentId { get; set; }
         public Experiment Experiment { get; set; }
         public string ProjectName { get; set; }
-
+        public string Filename { get; set; }
         public Boolean IsFileUpload { get; set; }
 
     }

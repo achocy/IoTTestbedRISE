@@ -164,8 +164,12 @@ namespace IoTTestbed.Pages.TaskList
                 };
                 var sftp = new SftpService(logger, config);
                 sftp.UploadFile(_targetFilePath + filename, "/home/pi/contikiFirmwares/experiments/" + ExperimentId + "/" + CurrentProjectName + "/" + filename);
-            }
 
+                var SelectedSensorDb = await _db.SensorExperiment.FirstOrDefaultAsync(o => o.ExperimentId == ExperimentId && o.SensorId == CurrentSensorID);
+                SelectedSensorDb.Filename = filename;
+                _db.SensorExperiment.Update(SelectedSensorDb);
+
+            }
 
             var CurrentExperiment = await _db.Experiment.FirstOrDefaultAsync(o => o.ExperimentId == ExperimentId);
             CurrentExperiment.Status = "ready";
@@ -176,14 +180,16 @@ namespace IoTTestbed.Pages.TaskList
             return RedirectToPage();
         }
 
-
         public async Task<IActionResult> OnPostRunExperiment(int ExperimentId)
         {
             var CurrentSensorsIDs = await _db.SensorExperiment.Where(o => o.ExperimentId == ExperimentId && o.IsFileUpload == true).Select(o => o.SensorId).ToListAsync();
-            var CurrentProjectName = _db.SensorExperiment.FirstOrDefault(o => o.ExperimentId == ExperimentId && o.IsFileUpload == true).ProjectName;
-            await SFTPService.MQTTClient.ConnectAsync(ExperimentId, CurrentProjectName, CurrentSensorsIDs);
 
-
+            foreach (int SensorId in CurrentSensorsIDs)
+            {
+                var CurrentProjectName = _db.SensorExperiment.FirstOrDefault(o => o.ExperimentId == ExperimentId && o.IsFileUpload == true).ProjectName;
+                var CurrentFilename = _db.SensorExperiment.FirstOrDefault(o => o.ExperimentId == ExperimentId && o.IsFileUpload == true).Filename;
+                await SFTPService.MQTTClient.ConnectAsync(ExperimentId, CurrentProjectName, CurrentFilename, SensorId);
+            }
             return RedirectToPage("/TaskList/Create");
 
         }
