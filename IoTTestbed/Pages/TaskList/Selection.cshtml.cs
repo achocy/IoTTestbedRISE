@@ -64,7 +64,8 @@ namespace IoTTestbed.Pages.TaskList
 
         public Boolean Ready { get; set; }
 
-
+        [BindProperty]
+        public double Duration { get; set; }
 
         public async Task OnGet(int ExperimentId)
         {
@@ -182,14 +183,28 @@ namespace IoTTestbed.Pages.TaskList
 
         public async Task<IActionResult> OnPostRunExperiment(int ExperimentId)
         {
+
+           
+
+           
+
+
             var CurrentSensorsIDs = await _db.SensorExperiment.Where(o => o.ExperimentId == ExperimentId && o.IsFileUpload == true).Select(o => o.SensorId).ToListAsync();
 
             foreach (int SensorId in CurrentSensorsIDs)
             {
                 var CurrentProjectName = _db.SensorExperiment.FirstOrDefault(o => o.ExperimentId == ExperimentId && o.IsFileUpload == true).ProjectName;
                 var CurrentFilename = _db.SensorExperiment.FirstOrDefault(o => o.ExperimentId == ExperimentId && o.IsFileUpload == true).Filename;
-                await SFTPService.MQTTClient.ConnectAsync(ExperimentId, CurrentProjectName, CurrentFilename, SensorId);
+                await SFTPService.MQTTClient.ConnectAsync(ExperimentId, CurrentProjectName, CurrentFilename, SensorId,Duration);
             }
+
+            var CurrentExperiment = await _db.Experiment.FirstOrDefaultAsync(o => o.ExperimentId == ExperimentId);
+            CurrentExperiment.Duration = Duration;
+            CurrentExperiment.Status = "Running";
+            _db.Experiment.Update(CurrentExperiment);
+            await _db.SaveChangesAsync();
+
+
             return RedirectToPage("/TaskList/Create");
 
         }

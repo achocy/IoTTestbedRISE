@@ -35,6 +35,8 @@ namespace IoTTestbed.Models
         public string Info { get; set; }
         public string Status { get; set; }
 
+        public double Duration { get; set; }
+
 
 
         public ICollection<SensorExperiment> SensorExperiment { get; set; }

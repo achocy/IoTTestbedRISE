@@ -12,7 +12,7 @@ namespace IoTTestbed.SFTPService
     {
 
 
-        public static async Task ConnectAsync(int ExperimentId,string CurrentProjectName,string CurrentFilename, int SensorId)
+        public static async Task ConnectAsync(int ExperimentId,string CurrentProjectName,string CurrentFilename, int SensorId, double Duration)
         {
             string clientId = Guid.NewGuid().ToString();
             string mqttURI = "10.16.4.94";
@@ -36,9 +36,9 @@ namespace IoTTestbed.SFTPService
 
              var message = new MqttApplicationMessageBuilder()
             .WithTopic("sensors/" + SensorId.ToString())
-            .WithPayload("/home/pi/contikiFirmwares/experiments/" + ExperimentId.ToString() + "/" + CurrentProjectName.ToString() +"/"+CurrentFilename) /////////////////////////////////////
+            .WithPayload("/home/pi/contikiFirmwares/experiments/" + ExperimentId.ToString() + "/" + CurrentProjectName.ToString() +"/"+CurrentFilename + " " + Duration.ToString()) /////////////////////////////////////
             .WithExactlyOnceQoS()
-            .WithRetainFlag()
+           // .WithRetainFlag()
             .Build();
 
                 await client.PublishAsync(message); // Since 3.0.5 with CancellationToken

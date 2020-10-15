@@ -170,15 +170,32 @@
         @Html.AntiForgeryToken()
     </form>
 
-    <form method="post">
-        @if (Model.SelectedSensors.Count() > 0)
-        {
-            <input asp-page-handler="RunExperiment" class="btn btn-success" type="submit" name="runExperiment" value="Run Experiment" disabled />
-        }
-        else
-        {
-            <input asp-page-handler="RunExperiment" class="btn btn-success" type="submit" name="runExperiment" value="Run Experiment"/>
-        }
+    <form method="post" class="form-inline">
+        <div class="form-group">
+            @if (Model.SelectedSensors.Count() > 0)
+            {
+
+                <input type="text" class="form-control" placeholder="Duration" name="Duration" hidden>
+                <br />
+
+
+                <input asp-page-handler="RunExperiment" class="btn btn-success" type="submit" name="runExperiment" value="Run Experiment" hidden />
+            }
+            else
+            {
+                <label for="durationInput">Experiment duration</label>
+                <input type="text" class="form-control mx-sm-3" id="durationInput" aria-describedby="durationInput" name="Duration">
+                <small id="durationInput" class="text-muted">Experiment Duration in minutes</small>
+
+                //    <input type="text" class="form-control" placeholder="Duration" name="Duration">
+
+                <input asp-page-handler="RunExperiment" class="btn btn-success ml-3" type="submit" name="runExperiment" value="Run Experiment" />
+            }
+
+        </div>
+        <br />
+        
+
     </form>
 
 </div>
