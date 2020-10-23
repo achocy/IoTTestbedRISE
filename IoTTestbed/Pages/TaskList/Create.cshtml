@@ -6,9 +6,39 @@
 
 }
 
+<style>
+    input:-webkit-autofill,
+    input:-webkit-autofill:hover,
+    input:-webkit-autofill:focus,
+    input:-webkit-autofill:active {
+        -webkit-box-shadow: 0 0 0 30px black inset !important;
+    }
+
+    input:-webkit-autofill {
+        -webkit-text-fill-color: #adb5bd !important;
+    }
+
+    input[type=text] {
+        width: 100%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        box-sizing: border-box;   
+        background-color: black;
+       
+    }
+
+        input[type=text]:focus {
+            background-color: black;
+            border-color: #0275d8;
+            border-width:thin;
+            }
+
+
+</style>
+
 
 <br />
-<h1 class="text-info">
+<h1 class="text-light">
 
     Create a new Experiment
 
@@ -16,7 +46,7 @@
 <hr />
 
 <form method="post">
-    <div class="container" style="">
+   
 
         <div class="text-danger" asp-validation-summary="ModelOnly"></div>
 
@@ -25,7 +55,7 @@
                 <label asp-for="Experiment.ExperimentName"></label>
             </div>
             <div class="col-6">
-                <input asp-for="Experiment.ExperimentName" class="form-control" />
+                <input asp-for="Experiment.ExperimentName" class="form-control text-light" />
             </div>
 
             <span asp-validation-for="Experiment.ExperimentName" class="text-danger"></span>
@@ -38,31 +68,31 @@
                 <label asp-for="Experiment.Info"></label>
             </div>
             <div class="col-6">
-                <input asp-for="Experiment.Info" class="form-control" />
+                <input asp-for="Experiment.Info" class="form-control text-light" />
             </div>
             <span asp-validation-for="Experiment.Info" class="text-danger"></span>
         </div>
-    </div>
+    
 
 
-    <h3 class="text-dark">
+    <h3 class="text-light">
 
-        Select <strong class="text-success">available</strong> sensor(s) then upload the file.
+        Select <strong class="text-primary">available</strong> sensor(s) then upload the file.
 
     </h3>
 
     <br />
 
+    <br />
 
-
-    <div class="container p-0 m-0">
+    <div class="container p-0 m-0 ">
         <div class="row">
-            <div class="col-12  p-1 mt-1">
+            <div class="col-12  p-1 mt-1  "  >
 
                 @if (Model.AvailableSensors.Count() > 0)
                 {
 
-                    <table class="table table-striped border">
+                    <table class="table table-striped">
                         <thead>
                             <tr>
                                 <th>

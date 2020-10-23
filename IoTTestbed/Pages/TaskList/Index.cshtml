@@ -5,23 +5,20 @@
 }
 
 <br />
-<div class="col-9">
 
-    <h2 class="text-info">Experiments List</h2>
-
+<br />
+<br />
+<div class="col-2">
+    <a asp-page="Create" class="btn btn-primary form-control btn-lg">Create new Experiment</a>
 </div>
-<hr />
-<div class="col-3">
-    <a asp-page="Create" class="btn btn-info form-control">Create new Experiment</a>
-</div>
-
-<div class="col-12 border p-3 mt-3">
+<br /><br />
+<div class="col-12 p-3 mt-3">
     <form method="post">
 
         @if (Model.Experiments.Count() > 0)
         {
 
-            <table class="table table-striped border">
+            <table class="table table-striped ">
                 <tr class="table-secondary">
                     <th>
 
@@ -95,9 +92,7 @@
 
                             <button asp-page-handler="Delete" asp-route-id="@item.ExperimentId" onclick="return confirm('Are you sure you want to delete?')" class="btn btn-danger ">Delete</button>
 
-                            <a asp-route-id="@item.ExperimentId" asp-page="Edit" class="btn-success btn">Edit</a>
-
-                            <a asp-route-id="@item.ExperimentId" asp-page="Edit" class="btn-warning btn">Details</a>
+                            <a asp-route-id="@item.ExperimentId" asp-page="Edit" class="btn-warning btn">View Log file</a>
                             
                             <a asp-route-id="@item.ExperimentId" asp-page="Results" class="btn-info btn">View Results</a>
 
