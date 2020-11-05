@@ -185,19 +185,19 @@ namespace IoTTestbed.Pages.TaskList
         {
 
             var CurrentSensorsIDs = await _db.SensorExperiment.Where(o => o.ExperimentId == ExperimentId && o.IsFileUpload == true).Select(o => o.SensorId).ToListAsync();
-
+            var CurrentExperiment = await _db.Experiment.FirstOrDefaultAsync(o => o.ExperimentId == ExperimentId);
+            CurrentExperiment.Duration = Duration;
+            CurrentExperiment.Status = "pending";
+            _db.Experiment.Update(CurrentExperiment);
+            await _db.SaveChangesAsync();
             foreach (int SensorId in CurrentSensorsIDs)
             {
                 var CurrentProjectName = _db.SensorExperiment.FirstOrDefault(o => o.ExperimentId == ExperimentId && o.IsFileUpload == true).ProjectName;
                 var CurrentFilename = _db.SensorExperiment.FirstOrDefault(o => o.ExperimentId == ExperimentId && o.IsFileUpload == true).Filename;
-          //      await SFTPService.MQTTClient.ConnectAsync(ExperimentId, CurrentProjectName, CurrentFilename, SensorId,Duration);
+                await SFTPService.MQTTClient.ConnectAsync(ExperimentId, Duration);
             }
 
-            var CurrentExperiment = await _db.Experiment.FirstOrDefaultAsync(o => o.ExperimentId == ExperimentId);
-            CurrentExperiment.Duration = Duration;
-            CurrentExperiment.Status = "Running";
-            _db.Experiment.Update(CurrentExperiment);
-            await _db.SaveChangesAsync();
+       
 
 
             return RedirectToPage("/TaskList/Create");
