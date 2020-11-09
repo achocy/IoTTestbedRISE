@@ -36,7 +36,7 @@ namespace IoTTestbed.SFTPService
 
             var message = new MqttApplicationMessageBuilder()
            .WithTopic("experiments/next" )
-           .WithPayload( ExperimentId.ToString() +" "+ Duration.ToString()) /////////////////////////////////////
+           .WithPayload( ExperimentId.ToString()) /////////////////////////////////////
            .WithExactlyOnceQoS()
            // .WithRetainFlag()
            .Build();

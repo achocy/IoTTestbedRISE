@@ -72,7 +72,7 @@ namespace IoTTestbed.Pages.TaskList
 
                 if (result != null)
                 {
-                    result.Status = "available"; //change this to active
+                    result.Status = "active"; //change this to active
                 }
             }
 

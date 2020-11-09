@@ -197,9 +197,6 @@ namespace IoTTestbed.Pages.TaskList
                 await SFTPService.MQTTClient.ConnectAsync(ExperimentId, Duration);
             }
 
-       
-
-
             return RedirectToPage("/TaskList/Create");
 
         }

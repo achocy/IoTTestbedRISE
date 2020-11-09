@@ -92,7 +92,7 @@
 
                             <button asp-page-handler="Delete" asp-route-id="@item.ExperimentId" onclick="return confirm('Are you sure you want to delete?')" class="btn btn-danger ">Delete</button>
 
-                            <a asp-route-id="@item.ExperimentId" asp-page="Edit" class="btn-warning btn">View Log file</a>
+                            <button asp-route-id="@item.ExperimentId" asp-page-handler="Download"class="btn-warning btn">Download Log file</button>
                             
                             <a asp-route-id="@item.ExperimentId" asp-page="Results" class="btn-info btn">View Results</a>
 
