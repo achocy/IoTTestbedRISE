@@ -5,6 +5,48 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20201015101041_ChangeDurationDouble.cs" />
+    <Compile Remove="Migrations\20201015101041_ChangeDurationDouble.Designer.cs" />
+    <Compile Remove="Migrations\20201106113312_AddLogFileToExperiment.cs" />
+    <Compile Remove="Migrations\20201106113312_AddLogFileToExperiment.Designer.cs" />
+    <Compile Remove="Migrations\20201110133917_addUsertoDB.cs" />
+    <Compile Remove="Migrations\20201110133917_addUsertoDB.Designer.cs" />
+    <Compile Remove="Migrations\20201110135030_AddUser.cs" />
+    <Compile Remove="Migrations\20201110135030_AddUser.Designer.cs" />
+    <Compile Remove="Migrations\20201110135221_AddUsertoDb.cs" />
+    <Compile Remove="Migrations\20201110135221_AddUsertoDb.Designer.cs" />
+    <Compile Remove="Migrations\20201110135937_AddProjectTo.cs" />
+    <Compile Remove="Migrations\20201110135937_AddProjectTo.Designer.cs" />
+    <Compile Remove="Migrations\20201110140339_AddProjectToDB.cs" />
+    <Compile Remove="Migrations\20201110140339_AddProjectToDB.Designer.cs" />
+    <Compile Remove="Migrations\20201110140535_all.cs" />
+    <Compile Remove="Migrations\20201110140535_all.Designer.cs" />
+    <Compile Remove="Migrations\20201110141346_AddAll.cs" />
+    <Compile Remove="Migrations\20201110141346_AddAll.Designer.cs" />
+    <Compile Remove="Migrations\20201110141418_AddAll.cs" />
+    <Compile Remove="Migrations\20201110141418_AddAll.Designer.cs" />
+    <Compile Remove="Migrations\20201110141712_AddUserToDb.cs" />
+    <Compile Remove="Migrations\20201110141712_AddUserToDb.Designer.cs" />
+    <Compile Remove="Migrations\20201110142013_AddUserToDb2.cs" />
+    <Compile Remove="Migrations\20201110142013_AddUserToDb2.Designer.cs" />
+    <Compile Remove="Migrations\20201110142304_AddProject.cs" />
+    <Compile Remove="Migrations\20201110142304_AddProject.Designer.cs" />
+    <Compile Remove="Migrations\20201110143335_AddUser2.cs" />
+    <Compile Remove="Migrations\20201110143335_AddUser2.Designer.cs" />
+    <Compile Remove="Migrations\20201110144018_AddUser2.cs" />
+    <Compile Remove="Migrations\20201110144018_AddUser2.Designer.cs" />
+    <Compile Remove="Migrations\20201110144341_AddUser2.cs" />
+    <Compile Remove="Migrations\20201110144341_AddUser2.Designer.cs" />
+    <Compile Remove="Migrations\20201110144532_AddUser2.cs" />
+    <Compile Remove="Migrations\20201110144532_AddUser2.Designer.cs" />
+    <Compile Remove="Migrations\20201110144813_addForeign.cs" />
+    <Compile Remove="Migrations\20201110144813_addForeign.Designer.cs" />
+    <Compile Remove="Migrations\20201110144846_addForeign.cs" />
+    <Compile Remove="Migrations\20201110144846_addForeign.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="3.1.7" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.7" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.7" />

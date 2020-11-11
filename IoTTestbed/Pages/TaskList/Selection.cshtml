@@ -12,6 +12,47 @@
 
 }
 
+<style>
+    input:-webkit-autofill,
+    input:-webkit-autofill:hover,
+    input:-webkit-autofill:focus,
+    input:-webkit-autofill:active {
+        -webkit-box-shadow: 0 0 0 30px black inset !important;
+    }
+
+    input:-webkit-autofill {
+        -webkit-text-fill-color: #adb5bd !important;
+    }
+
+    input[type=text] {
+        width: 100%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        box-sizing: border-box;
+        background-color: black !important;
+    }
+
+        input[type=text]:focus {
+            background-color: black; 
+            border-color: #0275d8;
+            border-width: thin;
+        }
+
+    #uplabel {
+    
+    background-color:black !important;
+    
+    }
+
+    input[type=file] {
+    
+
+    
+    }
+
+
+</style>
+
 
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -26,7 +67,7 @@
                 <div class="modal-body">
 
                     <label for="NewProject">Project Name</label>
-                    <input type="text" class="form-control" placeholder="Enter name" name="NewProject">
+                    <input type="text" class="form-control text-light" placeholder="Enter name" name="NewProject">
 
 
                 </div>
@@ -129,7 +170,7 @@
                     <div class=" col-6 p-3 mt-3">
 
                         <label class="font-weight-bold" for="NewProject">Create new Project </label>
-                        <input type="text" class="form-control" placeholder="Enter name" name="NewProject">
+                        <input type="text" class="form-control text-light" placeholder="Enter name" name="NewProject">
                         <br />
                         @*  <button asp-page-handler="CreateNew" type="submit" class="btn btn-primary">Create Project</button>*@
 
@@ -158,8 +199,8 @@
     <form enctype="multipart/form-data" method="post">
         <div class="input-group" id="UploadInput" style="display: none;">
             <div class="custom-file">
-                <input asp-for="FileUpload.FormFile" type="file" class="custom-file-input" id="inputGroupFile04">
-                <label asp-for="FileUpload.FormFile" class="custom-file-label" for="inputGroupFile04">Choose file</label>
+                <input asp-for="FileUpload.FormFile" type="file" class="custom-file-input" size="60" id="inputGroupFile04">
+                <label id="uplabel" asp-for="FileUpload.FormFile" class="custom-file-label" for="inputGroupFile04">Choose file ...</label>
                 <span asp-validation-for="FileUpload.FormFile"></span>
             </div>
             <div class="input-group-append">
@@ -194,7 +235,7 @@
 
         </div>
         <br />
-        
+
 
     </form>
 

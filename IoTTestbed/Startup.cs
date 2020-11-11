@@ -7,11 +7,14 @@ using IoTTestbed.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Http;
 
 namespace IoTTestbed
 {
@@ -28,8 +31,24 @@ namespace IoTTestbed
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>(option => option.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            services.Configure<CookiePolicyOptions>(options =>
+            {
+                // This lambda determines whether user consent for non-essential cookies is needed for a given request.
+                options.CheckConsentNeeded = context => true;
+                options.MinimumSameSitePolicy = SameSiteMode.None;
+            });
+
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(cookieOptions => {
+                cookieOptions.LoginPath = "/TaskList/Authenticate";
+            });
             services.AddRazorPages().AddRazorRuntimeCompilation();
-          
+            services.AddRazorPages().AddRazorPagesOptions(config =>
+            {
+
+               // config.Conventions.AuthorizePage("/TaskList/Index");
+
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -51,11 +70,6 @@ namespace IoTTestbed
                 context.Response.Headers.Add("X-Frame-Options", "SAMEORIGIN");
                 await next();
             });
-
-
-
-
-
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();

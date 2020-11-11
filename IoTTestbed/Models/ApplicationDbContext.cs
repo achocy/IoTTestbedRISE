@@ -16,9 +16,10 @@ namespace IoTTestbed.Models
 
         }
         public DbSet<Sensor> Sensor { get; set; }
-        public DbSet<Experiment> Experiment { get; set; }
+       public DbSet<Experiment> Experiment { get; set; }
         public DbSet<SensorExperiment> SensorExperiment { get; set; }
-
+       public DbSet<User> User { get; set; }
+        public DbSet<Project> Project { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<SensorExperiment>()

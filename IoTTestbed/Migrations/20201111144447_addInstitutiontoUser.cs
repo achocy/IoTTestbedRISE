@@ -2,21 +2,21 @@
 
 namespace IoTTestbed.Migrations
 {
-    public partial class AddLogFileToExperiment : Migration
+    public partial class addInstitutiontoUser : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<string>(
-                name: "Log",
-                table: "Experiment",
+                name: "Institution",
+                table: "User",
                 nullable: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "Log",
-                table: "Experiment");
+                name: "Institution",
+                table: "User");
         }
     }
 }

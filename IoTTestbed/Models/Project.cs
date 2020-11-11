@@ -9,9 +9,9 @@ namespace IoTTestbed.Models
     public class Project
     {
         [Key]
-        public int ProjectId;
+        public int ProjectId { get; set; }
 
-        public int ExperimentId;
-    
+        public string ProjectName { get; set; }
+
     }
 }

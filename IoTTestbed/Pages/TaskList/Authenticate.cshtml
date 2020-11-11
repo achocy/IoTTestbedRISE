@@ -1,0 +1,228 @@
+﻿@page
+@model IoTTestbed.Pages.TaskList.AuthenticateModel
+@{
+}
+
+<style>
+
+    input:-webkit-autofill,
+    input:-webkit-autofill:hover,
+    input:-webkit-autofill:focus,
+    input:-webkit-autofill:active {
+        -webkit-box-shadow: 0 0 0 30px black inset !important;
+    }
+
+    input:-webkit-autofill {
+        -webkit-text-fill-color: #adb5bd !important;
+    }
+
+    input[type=text], input[type=password], input[type=email] {
+        width: 100%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        box-sizing: border-box;
+        background-color: black;
+    }
+
+        input[type=password]:focus, input[type=email]:focus, input[type=text]:focus {
+            background-color: black;
+            border-color: #0275d8;
+            border-width: thin;
+        }
+
+
+
+    body {
+        padding-bottom: 4.2rem;
+    }
+    /**/
+    a {
+        text-decoration: none !important;
+    }
+
+    .myform {
+        margin-top: 20%;
+        position: relative;
+        display: -ms-flexbox;
+        display: flex;
+        padding: 1rem;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        width: 100%;
+        pointer-events: auto;
+        background-color: #303030;
+        /*background-clip: padding-box;*/
+        border: 1px solid #375a7f;
+        border-radius: 10px;
+        outline: 0;
+        max-width: 600px;
+    }
+
+    .tx-tfm {
+        text-transform: uppercase;
+    }
+
+    .mybtn {
+        /*  border-radius: 50px;*/
+    }
+
+    .login-or {
+        position: relative;
+        color: #aaa;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+
+    .span-or {
+        display: block;
+        position: absolute;
+        left: 50%;
+        top: -2px;
+        margin-left: -25px;
+        background-color: #fff;
+        width: 50px;
+        text-align: center;
+    }
+
+    .hr-or {
+        height: 1px;
+        margin-top: 0px !important;
+        margin-bottom: 0px !important;
+    }
+
+    .google {
+        color: #666;
+        width: 100%;
+        height: 40px;
+        text-align: center;
+        outline: none;
+        border: 1px solid lightgrey;
+    }
+
+    form .error {
+        color: #ff0000;
+    }
+
+    #second {
+        display: none;
+    }
+</style>
+
+<div class="modal fade" id="modalRegisterForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <form method="post">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header text-center">
+                    <h4 class="modal-title w-100 font-weight-bold">Sign up</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body mx-3">
+                    <div class="md-form mb-5">
+                        <i class="fas fa-user prefix grey-text"></i>
+                        <input asp-for="user.Name" type="text" id="orangeForm-name" class="form-control  text-light">
+                        <label data-error="wrong" data-success="right" for="orangeForm-name">Your name</label>
+                    </div>
+                    <div class="md-form mb-5">
+                        <i class="fas fa-user prefix grey-text"></i>
+                        <input  asp-for="user.Institution" type="text" id="orangeForm-name" class="form-control text-light">
+                        <label data-error="wrong" data-success="right" for="orangeForm-name">Your Institution</label>
+                    </div>
+                    <div class="md-form mb-5">
+                        <i class="fas fa-envelope prefix grey-text"></i>
+                        <input asp-for="user.Email" type="email" id="orangeForm-email" class="form-control text-light" >
+                        <label data-error="wrong" data-success="right" for="orangeForm-email">Your email</label>
+                    </div>
+
+                    <div class="md-form mb-4">
+                        <i class="fas fa-lock prefix grey-text"></i>
+                        <input  asp-for="user.Password" type="password" id="orangeForm-pass" class="form-control text-light">
+                        <label data-error="wrong" data-success="right" for="orangeForm-pass">Your password</label>
+                    </div>
+                    <div class="md-form mb-4">
+                        <i class="fas fa-lock prefix grey-text"></i>
+                        <input type="password" id="orangeForm-pass" class="form-control text-light">
+                        <label data-error="wrong" data-success="right" for="orangeForm-pass">Verify your password</label>
+                    </div>
+
+                </div>
+                <div class="modal-footer d-flex justify-content-center">
+                    <button type="submit" asp-page-handler="RequestAccount" class="btn btn-success">Request an Account</button>
+                    <p class="text-light">The admin will check your request shortly</p>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="text-center">
+
+    Launch
+    Modal Register Form
+    </a>
+</div>
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col ml-5">
+            <div id="first">
+                <div class="myform form ">
+                    <div class="logo mb-3">
+                        <div class="col-md-12 text-center">
+                            <h1 class="text-light">Login</h1>
+                        </div>
+                    </div>
+                    <form action="" method="post" name="login">
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Email address</label>
+                            <input type="email" name="email" class="form-control text-light" id="email" aria-describedby="emailHelp" placeholder="Enter email">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Password</label>
+                            <input type="password" name="password" id="password" class="form-control text-light" aria-describedby="emailHelp" placeholder="Enter Password">
+                        </div>
+                        <br />
+                        <div class="form-group">
+                            <p class="text-center">By signing up you accept our <a href="#">Terms Of Use</a></p>
+                        </div>
+                        <br />
+                        <div class="col-md-12 text-center ">
+                            <button type="submit" asp-page-handler="Authenticate" class=" btn btn-block mybtn btn-light tx-tfm">Login</button>
+                        </div>
+
+                        <br /><br /> <br /><br /><br />
+                        <div class="form-group">
+                            <p class="text-center">Don't have account? <a class="text-light btn btn-default btn-rounded" data-toggle="modal" data-target="#modalRegisterForm">Request one here</a></p>
+
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+            <div id="second">
+                <div class="myform form ">
+                    <div class="logo mb-3">
+                        <div class="col-md-12 text-center">
+                            <h1>Signup</h1>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col" style="margin-top:20%">
+
+            <h2>
+                UCY IoT-LAB provides a facility suitable for testing networking with small wireless sensor devices and heterogeneous communicating objects.
+            </h2>
+
+        </div>
+
+    </div>
+</div>
