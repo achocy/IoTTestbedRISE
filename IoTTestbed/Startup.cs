@@ -39,16 +39,33 @@ namespace IoTTestbed
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(cookieOptions => {
+
+            services.AddRazorPages().AddRazorRuntimeCompilation();
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(30);
+            });
+            
+            
+            services.AddMemoryCache();
+
+
+
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(cookieOptions =>
+            {
                 cookieOptions.LoginPath = "/TaskList/Authenticate";
             });
-            services.AddRazorPages().AddRazorRuntimeCompilation();
+
+
             services.AddRazorPages().AddRazorPagesOptions(config =>
             {
-
-               // config.Conventions.AuthorizePage("/TaskList/Index");
-
+                config.Conventions.AuthorizePage("/TaskList/Index");
+                config.Conventions.AuthorizePage("/TaskList");
             });
+
+
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -75,9 +92,10 @@ namespace IoTTestbed
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
+            app.UseSession();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapRazorPages();

@@ -2,7 +2,10 @@
 @model IoTTestbed.Pages.TaskList.IndexModel
 @{
 
+    Layout = "_LayoutSession";
+
 }
+@using Microsoft.AspNetCore.Http
 
 <br />
 
@@ -11,7 +14,12 @@
 <div class="col-2">
     <a asp-page="Create" class="btn btn-primary form-control btn-lg">Create new Experiment</a>
 </div>
-<br /><br />
+<br />
+<br />
+
+<h4> Hello @HttpContext.Session.GetString("Email")</h4>
+
+
 <div class="col-12 p-3 mt-3">
     <form method="post">
 
@@ -92,8 +100,8 @@
 
                             <button asp-page-handler="Delete" asp-route-id="@item.ExperimentId" onclick="return confirm('Are you sure you want to delete?')" class="btn btn-danger ">Delete</button>
 
-                            <button asp-route-id="@item.ExperimentId" asp-page-handler="Download"class="btn-warning btn">Download Log file</button>
-                            
+                            <button asp-route-id="@item.ExperimentId" asp-page-handler="Download" class="btn-warning btn">Download Log file</button>
+
                             <a asp-route-id="@item.ExperimentId" asp-page="Results" class="btn-info btn">View Results</a>
 
 
