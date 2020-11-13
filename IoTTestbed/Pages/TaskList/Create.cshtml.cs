@@ -60,6 +60,8 @@ namespace IoTTestbed.Pages.TaskList
 
         public async Task<IActionResult> OnPostContinue()
         {
+       
+            Experiment.UserId = int.Parse(HttpContext.Session.GetString("UserId"));
             await _db.Experiment.AddAsync(Experiment);
             await _db.SaveChangesAsync();
 
