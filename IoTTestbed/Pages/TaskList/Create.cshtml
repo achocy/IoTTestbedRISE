@@ -2,38 +2,10 @@
 @model IoTTestbed.Pages.TaskList.CreateModel
 @{
 
-
+    Layout = "_LayoutSession";
 
 }
 
-<style>
-    input:-webkit-autofill,
-    input:-webkit-autofill:hover,
-    input:-webkit-autofill:focus,
-    input:-webkit-autofill:active {
-        -webkit-box-shadow: 0 0 0 30px black inset !important;
-    }
-
-    input:-webkit-autofill {
-        -webkit-text-fill-color: #adb5bd !important;
-    }
-
-    input[type=text] {
-        width: 100%;
-        padding: 12px 20px;
-        margin: 8px 0;
-        box-sizing: border-box;   
-        background-color: black;
-       
-    }
-
-        input[type=text]:focus {
-            background-color: black;
-            border-color: #0275d8;
-            border-width:thin;
-            }
-
-</style>
 
 
 <br />
@@ -54,7 +26,7 @@
                 <label asp-for="Experiment.ExperimentName"></label>
             </div>
             <div class="col-6">
-                <input asp-for="Experiment.ExperimentName" class="form-control text-light" />
+                <input asp-for="Experiment.ExperimentName" class="form-control " />
             </div>
 
             <span asp-validation-for="Experiment.ExperimentName" class="text-danger"></span>
@@ -67,16 +39,16 @@
                 <label asp-for="Experiment.Info"></label>
             </div>
             <div class="col-6">
-                <input asp-for="Experiment.Info" class="form-control text-light" />
+                <input asp-for="Experiment.Info" class="form-control " />
             </div>
             <span asp-validation-for="Experiment.Info" class="text-danger"></span>
         </div>
     
 
+        <br />
+    <h3 class="text-dark">
 
-    <h3 class="text-light">
-
-        Select <strong class="text-primary">available</strong> sensor(s) then upload the file.
+        Select sensor(s) then continue to the next step.
 
     </h3>
 
