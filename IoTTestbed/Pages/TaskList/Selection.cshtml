@@ -73,15 +73,15 @@
 
 
                     </th>
-                    <th>
+                    @*<th>
 
                         <label asp-for="SelectedSensors.FirstOrDefault().Risp"></label>
 
-                    </th>
+                    </th>*@
 
                     <th>
 
-                        <label asp-for="SelectedSensors.FirstOrDefault().Status"></label>
+                        <label asp-for="SelectedSensors.FirstOrDefault().IsFileUpload"></label>
 
                     </th>
 
@@ -107,12 +107,12 @@
                             @Html.DisplayFor(m => item.SensorId)
 
                         </td>
-                        <td>
+                        @*<td>
                             @Html.DisplayFor(m => item.Risp)
-                        </td>
+                        </td>*@
 
                         <td>
-                            @Html.DisplayFor(m => item.Status)
+                            @Html.DisplayFor(m => item.IsFileUpload)
                         </td>
                         <td>
                             <input class="btn-danger btn " type="submit" name="Delete" value="Delete">

@@ -58,6 +58,7 @@ namespace IoTTestbed.Models
         public string ProjectName { get; set; }
         public string Filename { get; set; }
         public Boolean IsFileUpload { get; set; }
+        public Boolean IsProjectCreated { get; set; }
 
     }
 

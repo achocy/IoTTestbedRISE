@@ -72,10 +72,10 @@ namespace IoTTestbed.Pages.TaskList
                 await _db.SensorExperiment.AddAsync(se);
                 var result = _db.Sensor.SingleOrDefault(b => b.SensorId == SensorIds);
 
-                if (result != null)
-                {
-                    result.Status = "active"; //change this to active
-                }
+                //if (result != null)
+                //{
+                //    result.Status = "ready"; //change this to active
+                //}
             }
 
             await _db.SaveChangesAsync();

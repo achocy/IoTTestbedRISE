@@ -7,43 +7,86 @@
 }
 <br />
 
+<style>
+    .counter {
+        background-color: #f5f5f5;
+        padding: 20px 0;
+        border-radius: 5px;
+    }
+
+    .count-title {
+        font-size: 40px;
+        font-weight: normal;
+        margin-top: 10px;
+        margin-bottom: 0;
+        text-align: center;
+    }
+
+    .count-text {
+        font-size: 13px;
+        font-weight: normal;
+        margin-top: 10px;
+        margin-bottom: 0;
+        text-align: center;
+    }
+
+    .fa-2x {
+        margin: 0 auto;
+        float: none;
+        display: table;
+        color: #4ad1e5;
+    }
+</style>
+
+
 <main id="main">
 
 
     <section id="cliens" class="cliens section-bg">
         <div class="container">
-
-            <div class="row" data-aos="zoom-in">
-
-                <div class="col-lg-2 col-md-4 col-6 d-flex align-items-center justify-content-center">
-                    <img src="~/img/clients/client-1.png" class="img-fluid" alt="">
+            <div class="row">
+                <br />
+                <div class="col text-center">
+                    <h2>The UCY IoT Testbed widely used by a large part of the community</h2>
+                    <p></p>
                 </div>
 
-                <div class="col-lg-2 col-md-4 col-6 d-flex align-items-center justify-content-center">
-                    <img src="~/img/clients/client-2.png" class="img-fluid" alt="">
-                </div>
 
-                <div class="col-lg-2 col-md-4 col-6 d-flex align-items-center justify-content-center">
-                    <img src="~/img/clients/client-3.png" class="img-fluid" alt="">
-                </div>
-
-                <div class="col-lg-2 col-md-4 col-6 d-flex align-items-center justify-content-center">
-                    <img src="~/img/clients/client-4.png" class="img-fluid" alt="">
-                </div>
-
-                <div class="col-lg-2 col-md-4 col-6 d-flex align-items-center justify-content-center">
-                    <img src="~/img/clients/client-5.png" class="img-fluid" alt="">
-                </div>
-
-                <div class="col-lg-2 col-md-4 col-6 d-flex align-items-center justify-content-center">
-                    <img src="~/img/clients/client-6.png" class="img-fluid" alt="">
-                </div>
 
             </div>
-
+            <div class="row text-center">
+                <div class="col">
+                    <div class="counter">
+                        <i class="fa fa-user fa-2x"></i>
+                        <h2 class="timer count-title count-number" data-to="100" data-speed="1500"></h2>
+                        <p class="count-text ">Users</p>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="counter">
+                        <i class="fa fa-code-branch fa-2x"></i>
+                        <h2 class="timer count-title count-number" data-to="1700" data-speed="1500"></h2>
+                        <p class="count-text ">Experiments</p>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="counter">
+                        <i class="fa fa-broadcast-tower fa-2x"></i>
+                        <h2 class="timer count-title count-number" data-to="11900" data-speed="1500"></h2>
+                        <p class="count-text ">Nodes</p>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="counter">
+                        <i class="fa fa-school fa-2x"></i>
+                        <h2 class="timer count-title count-number" data-to="157" data-speed="1500"></h2>
+                        <p class="count-text ">Institutions</p>
+                    </div>
+                </div>
+            </div>
         </div>
-    </section> 
-    
+    </section>
+
     <section id="about" class="about">
         <div class="container" data-aos="fade-up">
 
@@ -74,7 +117,7 @@
             </div>
 
         </div>
-    </section>  
+    </section>
     <section id="why-us" class="why-us section-bg">
         <div class="container-fluid" data-aos="fade-up">
 
@@ -83,7 +126,7 @@
                 <div class="col-lg-7 d-flex flex-column justify-content-center align-items-stretch  order-2 order-lg-1">
 
                     <div class="content">
-                        <h3>Eum ipsam laborum deleniti <strong>velit pariatur architecto aut nihil</strong></h3>
+                        <h3>A remote Testbed <strong>full of interactions by following simple steps</strong></h3>
                         <p>
                             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Duis aute irure dolor in reprehenderit
                         </p>
@@ -92,28 +135,41 @@
                     <div class="accordion-list">
                         <ul>
                             <li>
-                                <a data-toggle="collapse" class="collapse" href="#accordion-list-1"><span>01</span> Non consectetur a erat nam at lectus urna duis? <i class="bx bx-chevron-down icon-show"></i><i class="bx bx-chevron-up icon-close"></i></a>
+                                <a data-toggle="collapse" class="collapse" href="#accordion-list-1"><span>01</span>Create Projects, Flash sensors, Start & Stop <i class="bx bx-chevron-down icon-show"></i><i class="bx bx-chevron-up icon-close"></i></a>
                                 <div id="accordion-list-1" class="collapse show" data-parent=".accordion-list">
                                     <p>
-                                        Feugiat pretium nibh ipsum consequat. Tempus iaculis urna id volutpat lacus laoreet non curabitur gravida. Venenatis lectus magna fringilla urna porttitor rhoncus dolor purus non.
+                                        Use Node management tools (web portal/CLI) to remotely create projects, submit and schedule experiments and debug applications.
                                     </p>
                                 </div>
                             </li>
 
                             <li>
-                                <a data-toggle="collapse" href="#accordion-list-2" class="collapsed"><span>02</span> Feugiat scelerisque varius morbi enim nunc? <i class="bx bx-chevron-down icon-show"></i><i class="bx bx-chevron-up icon-close"></i></a>
+                                <a data-toggle="collapse" href="#accordion-list-2" class="collapsed"><span>02</span>Monitoring & Benchmarking <i class="bx bx-chevron-down icon-show"></i><i class="bx bx-chevron-up icon-close"></i></a>
                                 <div id="accordion-list-2" class="collapse" data-parent=".accordion-list">
                                     <p>
-                                        Dolor sit amet consectetur adipiscing elit pellentesque habitant morbi. Id interdum velit laoreet id donec ultrices. Fringilla phasellus faucibus scelerisque eleifend donec pretium. Est pellentesque elit ullamcorper dignissim. Mauris ultrices eros in cursus turpis massa tincidunt dui.
+                                        Use the full-fledged benchmarking infrastructure to real-time monitor and evaluate the performance of the low-power systems.
+                                        Automated Testing of the reliability, timeliness and energy consumption of applications and protocols.
                                     </p>
                                 </div>
                             </li>
 
                             <li>
-                                <a data-toggle="collapse" href="#accordion-list-3" class="collapsed"><span>03</span> Dolor sit amet consectetur adipiscing elit? <i class="bx bx-chevron-down icon-show"></i><i class="bx bx-chevron-up icon-close"></i></a>
+                                <a data-toggle="collapse" href="#accordion-list-3" class="collapsed"><span>03</span> Serial Console Access<i class="bx bx-chevron-down icon-show"></i><i class="bx bx-chevron-up icon-close"></i></a>
                                 <div id="accordion-list-3" class="collapse" data-parent=".accordion-list">
                                     <p>
-                                        Eleifend mi in nulla posuere sollicitudin aliquam ultrices sagittis orci. Faucibus pulvinar elementum integer enim. Sem nulla pharetra diam sit amet nisl suscipit. Rutrum tellus pellentesque eu tincidunt. Lectus urna duis convallis convallis tellus. Urna molestie at elementum eu facilisis sed odio morbi quis
+
+                                        Direct access to the individual node's serial console and the standard output
+
+                                    </p>
+                                </div>
+                            </li>
+
+                            <li>
+                                <a data-toggle="collapse" href="#accordion-list-4" class="collapsed"><span>04</span> MQTT Broker<i class="bx bx-chevron-down icon-show"></i><i class="bx bx-chevron-up icon-close"></i></a>
+                                <div id="accordion-list-4" class="collapse" data-parent=".accordion-list">
+                                    <p>
+                                        Direct communication with your nodes by publishing messages to the MQTT Broker instance using the MQTT protocol
+
                                     </p>
                                 </div>
                             </li>
@@ -127,8 +183,8 @@
             </div>
 
         </div>
-    </section> 
-    
+    </section>
+
 
     <section id="services" class="services section-bg">
         <div class="container" data-aos="fade-up">
@@ -175,7 +231,7 @@
 
         </div>
     </section>
- 
+
     <section id="team" class="team section-bg">
         <div class="container" data-aos="fade-up">
 
@@ -257,10 +313,10 @@
             </div>
 
         </div>
-    </section> 
-  
-    
-  
+    </section>
+
+
+
     <section id="contact" class="contact">
         <div class="container" data-aos="fade-up">
 
@@ -293,7 +349,7 @@
                             <p>+ 357-22-892700</p>
                         </div>
 
-                        <iframe  src="https://www.google.com/maps/d/embed?mid=1zlwM-PIkJaHTpV6O6xWc9zGMMh4" frameborder="0" style="border:0; width: 100%; height: 290px;" allowfullscreen></iframe>
+                        <iframe src="https://www.google.com/maps/d/embed?mid=1zlwM-PIkJaHTpV6O6xWc9zGMMh4" frameborder="0" style="border:0; width: 100%; height: 290px;" allowfullscreen></iframe>
                     </div>
 
                 </div>
@@ -334,9 +390,9 @@
             </div>
 
         </div>
-    </section> 
+    </section>
 
-</main> 
+</main>
 
 <footer id="footer">
 
@@ -436,3 +492,108 @@
 
 <!-- Template Main JS File -->
 <script src="~/js/main.js"></script>
+
+
+<script>
+
+    (function ($) {
+        $.fn.countTo = function (options) {
+            options = options || {};
+
+            return $(this).each(function () {
+                // set options for current element
+                var settings = $.extend({}, $.fn.countTo.defaults, {
+                    from: $(this).data('from'),
+                    to: $(this).data('to'),
+                    speed: $(this).data('speed'),
+                    refreshInterval: $(this).data('refresh-interval'),
+                    decimals: $(this).data('decimals')
+                }, options);
+
+                // how many times to update the value, and how much to increment the value on each update
+                var loops = Math.ceil(settings.speed / settings.refreshInterval),
+                    increment = (settings.to - settings.from) / loops;
+
+                // references & variables that will change with each update
+                var self = this,
+                    $self = $(this),
+                    loopCount = 0,
+                    value = settings.from,
+                    data = $self.data('countTo') || {};
+
+                $self.data('countTo', data);
+
+                // if an existing interval can be found, clear it first
+                if (data.interval) {
+                    clearInterval(data.interval);
+                }
+                data.interval = setInterval(updateTimer, settings.refreshInterval);
+
+                // initialize the element with the starting value
+                render(value);
+
+                function updateTimer() {
+                    value += increment;
+                    loopCount++;
+
+                    render(value);
+
+                    if (typeof (settings.onUpdate) == 'function') {
+                        settings.onUpdate.call(self, value);
+                    }
+
+                    if (loopCount >= loops) {
+                        // remove the interval
+                        $self.removeData('countTo');
+                        clearInterval(data.interval);
+                        value = settings.to;
+
+                        if (typeof (settings.onComplete) == 'function') {
+                            settings.onComplete.call(self, value);
+                        }
+                    }
+                }
+
+                function render(value) {
+                    var formattedValue = settings.formatter.call(self, value, settings);
+                    $self.html(formattedValue);
+                }
+            });
+        };
+
+        $.fn.countTo.defaults = {
+            from: 0,               // the number the element should start at
+            to: 0,                 // the number the element should end at
+            speed: 1000,           // how long it should take to count between the target numbers
+            refreshInterval: 100,  // how often the element should be updated
+            decimals: 0,           // the number of decimal places to show
+            formatter: formatter,  // handler for formatting the value before rendering
+            onUpdate: null,        // callback method for every time the element is updated
+            onComplete: null       // callback method for when the element finishes updating
+        };
+
+        function formatter(value, settings) {
+            return value.toFixed(settings.decimals);
+        }
+    }(jQuery));
+
+    jQuery(function ($) {
+        // custom formatting example
+        $('.count-number').data('countToOptions', {
+            formatter: function (value, options) {
+                return value.toFixed(options.decimals).replace(/\B(?=(?:\d{3})+(?!\d))/g, ',');
+            }
+        });
+
+        // start all the timers
+        $('.timer').each(count);
+
+        function count(options) {
+            var $this = $(this);
+            options = $.extend({}, options || {}, $this.data('countToOptions') || {});
+            $this.countTo(options);
+        }
+    });
+
+
+</script>
