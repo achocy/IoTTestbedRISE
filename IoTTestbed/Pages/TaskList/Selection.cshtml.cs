@@ -102,6 +102,7 @@ namespace IoTTestbed.Pages.TaskList
         }
         public async Task OnPostCreateNew(int ExperimentId)
         {
+            NewProject = NewProject.Replace(" ", "");
             Debug.Print("Reachable code");
             foreach (int SelectedSensorId in SelectedSensorsIDs)
             {
@@ -122,7 +123,7 @@ namespace IoTTestbed.Pages.TaskList
 
                 var SelectedSensorDb = await _db.SensorExperiment.FirstOrDefaultAsync(o => o.ExperimentId == ExperimentId && o.SensorId == SelectedSensorId);
                 SelectedSensorDb.ProjectName = NewProject;
-               SelectedSensorDb.IsProjectCreated = true;
+                SelectedSensorDb.IsProjectCreated = true;
 
                 //SelectedSensor.Status = "active";
 
