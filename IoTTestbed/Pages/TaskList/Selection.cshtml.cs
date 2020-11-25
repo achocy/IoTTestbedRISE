@@ -37,6 +37,8 @@ namespace IoTTestbed.Pages.TaskList
         public BufferedSingleFileUploadPhysical FileUpload { get; set; }
 
         private readonly ApplicationDbContext _db;
+
+        public IEnumerable<SensorExperiment> sensexp { get; set; }
         public SelectionModel(ApplicationDbContext db)
         {
             _db = db;
@@ -75,23 +77,9 @@ namespace IoTTestbed.Pages.TaskList
 
             Debug.Print(ExperimentId.ToString());
 
-            //var SelectedSensorsv = _db.SensorExperiment.Where(o => o.ExperimentId == ExperimentId).Join(
-            //     _db.Sensor,
-            //     Sensor => Sensor.SensorId,
-            //     SensorExperiment => SensorExperiment.SensorId,
-            //     (Sensor, SensorExperiment) => new SelectedSensor
-            //     {
-            //         SensorId = Sensor.SensorId,
-            //         Risp = Sensor.Sensor.RasIp,
-            //         isFileUpload = SensorExperiment.
 
 
-            //     }).ToList();
-
-            //SelectedSensorsv.RemoveAll(item => item.Status.Equals("ready"));
-
-
-            var SelectedSensorsv = _db.SensorExperiment.Where(o => o.ExperimentId == ExperimentId && !o.IsFileUpload).ToList();
+            var SelectedSensorsv = _db.SensorExperiment.Where(o => o.ExperimentId == ExperimentId && !o.IsFileUpload).ToList(); //needs a join to fetch RIME
             SelectedSensors = SelectedSensorsv;
             if (SelectedSensors.Count() == 0)
                 Ready = true;
@@ -143,7 +131,7 @@ namespace IoTTestbed.Pages.TaskList
             //    return Page();
             //}
             var CurrentSensorsIDs = await _db.SensorExperiment.Where(o => o.ExperimentId == ExperimentId && o.IsProjectCreated && !o.IsFileUpload).Select(o => o.SensorId).ToListAsync();
-            var CurrentProjectName = _db.SensorExperiment.FirstOrDefault(o => o.ExperimentId == ExperimentId && o.IsProjectCreated && !o.IsFileUpload ).ProjectName;
+            var CurrentProjectName = _db.SensorExperiment.FirstOrDefault(o => o.ExperimentId == ExperimentId && o.IsProjectCreated && !o.IsFileUpload).ProjectName;
             foreach (int CurrentSensorID in CurrentSensorsIDs)
             {
                 var CurrentSensor = await _db.Sensor.FirstOrDefaultAsync(o => o.SensorId == CurrentSensorID);
@@ -193,12 +181,35 @@ namespace IoTTestbed.Pages.TaskList
             CurrentExperiment.Status = "pending";
             _db.Experiment.Update(CurrentExperiment);
             await _db.SaveChangesAsync();
-    
+
             await SFTPService.MQTTClient.ConnectAsync(ExperimentId, Duration);
-           
+
             return RedirectToPage("/TaskList/Index");
 
         }
+
+
+        public async Task<IActionResult> OnPostDelete(int ExperimentId, int SensorId)
+        {
+
+            System.Diagnostics.Debug.Print("On DeletePost");
+            System.Diagnostics.Debug.Print(SensorId.ToString());
+            var expSensor = await _db.SensorExperiment.FirstOrDefaultAsync(o => o.ExperimentId == ExperimentId && o.SensorId == SensorId);
+            sensexp = _db.SensorExperiment.Where(s => s.ExperimentId == ExperimentId);
+
+            if (sensexp.Count() == 1)
+                return RedirectToPage();
+            else
+                 _db.Remove(expSensor);
+
+            await _db.SaveChangesAsync();
+
+            return RedirectToPage();
+        }
+
+
+
+
 
 
     }

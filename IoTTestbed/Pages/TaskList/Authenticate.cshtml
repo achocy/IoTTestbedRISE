@@ -120,12 +120,12 @@
                                         <div class="col-md-12 text-center ">
                                             <button asp-page-handler="Authenticate" type="submit" class=" btn btn-block mybtn btn-primary tx-tfm">Login</button>
                                         </div>
-                                  
+
                                     </form>
 
                                 </div>
                             </div>
-                      
+
                         </div>
                     </div>
                 </div>
@@ -137,12 +137,18 @@
         </div>
     </div>
 </div>
-
-
-
 <br />
 <br />
 <br />
+<br />
+
+@if (TempData["Approved"]!=null)
+{
+    <p class="alert alert-danger" role="alert">Your account is not approved yet!</p>
+}
+
+
+
 <div class="container">
     <br>
     <hr>
@@ -180,7 +186,7 @@
 
                         <div class="form-group">
                             <label>Create password</label>
-                            <input class="form-control"  asp-for="user.Password" type="password">
+                            <input class="form-control" asp-for="user.Password" type="password">
                         </div> <!-- form-group end.// -->
                         <div class="form-group">
                             <button asp-page-handler="RequestAccount" type="submit" class="btn btn-primary btn-block"> Register  </button>
@@ -188,7 +194,7 @@
                         <small class="text-muted">By clicking the 'Sign Up' button, you confirm that you accept our <br> Terms of use and Privacy Policy.</small>
                     </form>
                 </article> <!-- card-body end .// -->
-                <div class="border-top card-body text-center">Have an account? <a  data-toggle="modal" data-target="#exampleModalCenter" href="">Log In</a></div>
+                <div class="border-top card-body text-center">Have an account? <a data-toggle="modal" data-target="#exampleModalCenter" href="">Log In</a></div>
             </div> <!-- card.// -->
         </div> <!-- col.//-->
 

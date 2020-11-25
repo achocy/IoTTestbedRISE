@@ -2,12 +2,6 @@
 @model IoTTestbed.Pages.TaskList.SelectionModel
 @{
 
-    string Disabled = "";
-    if (Model.Ready == false)
-    {
-        Disabled = "disabled";
-    }
-
     Layout = "_LayoutSession";
 
 }
@@ -26,7 +20,6 @@
 
                     <label for="NewProject">Project Name</label>
                     <input type="text" class="form-control" placeholder="Enter name" name="NewProject">
-
 
                 </div>
                 <div class="modal-footer">
@@ -75,13 +68,13 @@
                     </th>
                     @*<th>
 
-                        <label asp-for="SelectedSensors.FirstOrDefault().Risp"></label>
+                            <label asp-for="SelectedSensors.FirstOrDefault().Risp"></label>
 
-                    </th>*@
+                        </th>*@
 
                     <th>
 
-                        <label asp-for="SelectedSensors.FirstOrDefault().IsFileUpload"></label>
+                        <label asp-for="SelectedSensors.FirstOrDefault().ExperimentId"></label>
 
                     </th>
 
@@ -108,15 +101,15 @@
 
                         </td>
                         @*<td>
-                            @Html.DisplayFor(m => item.Risp)
-                        </td>*@
+                                @Html.DisplayFor(m => item.Risp)
+                            </td>*@
 
                         <td>
                             @Html.DisplayFor(m => item.IsFileUpload)
                         </td>
                         <td>
-                            <input class="btn-danger btn " type="submit" name="Delete" value="Delete">
-                            <input asp-page="continue" class=" btn btn-secondary" type="submit" name="View" value="View Contents">
+                            <button asp-page-handler="Delete" asp-route-SensorId="@item.SensorId" onclick="return confirm('Are you sure you want to delete?')" class="btn btn-danger btn-sm  ">Delete</button>
+
                         </td>
                         <td> <input type="checkbox" name="SelectedSensorsIDs" value="@item.SensorId"> </td>
                     </tr>
@@ -128,7 +121,7 @@
                     <div class=" col-6 p-3 mt-3">
 
                         <label class="font-weight-bold" for="NewProject">Create new Project </label>
-                        <input type="text" class="form-control text-light" placeholder="Enter name" name="NewProject">
+                        <input id="pjn" type="text" class="form-control" placeholder="Enter name" name="NewProject">
                         <br />
                         @*  <button asp-page-handler="CreateNew" type="submit" class="btn btn-primary">Create Project</button>*@
 
@@ -155,14 +148,14 @@
     <br />
 
     <form enctype="multipart/form-data" method="post">
-        <div class="input-group" id="UploadInput" style="display: none;">
+        <div class="input-group " id="UploadInput">
             <div class="custom-file">
-                <input asp-for="FileUpload.FormFile" type="file" class="custom-file-input" size="60" id="inputGroupFile04">
+                <input asp-for="FileUpload.FormFile" type="file" class="custom-file-input" size="60" id="inputGroupFile04" disabled>
                 <label id="uplabel" asp-for="FileUpload.FormFile" class="custom-file-label" for="inputGroupFile04">Choose file ...</label>
                 <span asp-validation-for="FileUpload.FormFile"></span>
             </div>
             <div class="input-group-append">
-                <input asp-page-handler="Upload" class="btn btn-primary form-control" type="submit" value="Upload" />
+                <input asp-page-handler="Upload" class="btn btn-primary form-control" type="submit" value="Upload" disabled id="buttonUpload" />
             </div>
         </div>
         <br />
@@ -174,14 +167,18 @@
             @if (Model.SelectedSensors.Count() > 0)
             {
 
-                <input type="text" class="form-control" placeholder="Duration" name="Duration" hidden>
+                <input type="text" class="form-control" placeholder="Duration" name="Duration">
                 <br />
 
 
-                <input asp-page-handler="RunExperiment" class="btn btn-success" type="submit" name="runExperiment" value="Run Experiment" hidden />
+                <input asp-page-handler="RunExperiment" class="btn btn-success" type="submit" name="runExperiment" value="Run Experiment" />
             }
             else
             {
+
+                //Information about the testbed status etc
+
+
                 <label for="durationInput">Experiment duration</label>
                 <input type="text" class="form-control mx-sm-3" id="durationInput" aria-describedby="durationInput" name="Duration">
                 <small id="durationInput" class="text-muted">Experiment Duration in minutes</small>
@@ -199,19 +196,14 @@
 
 </div>
 
-
 @section Scripts{
     @*  @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}*@
     <script>
-        function showHidden() {
+        function showDisabled() {
             UploadInput
-            var div = document.getElementById("UploadInput");
-            if (div.style.display == 'none') {
-                div.style.display = '';
-            }
-            //else {
-            //    div.style.display = 'none';
-            //}
+            document.getElementById('inputGroupFile04').disabled = false;
+            document.getElementById('buttonUpload').disabled = false;
+            document.getElementById('pjn').disabled = true;
         }
         function DoAjaxPostAndMore(btnClicked) {
             var $form = $(btnClicked).parents('form');
@@ -224,7 +216,7 @@
                 error: function (xhr, status, error) {
                 },
                 success: function (response) {
-                    showHidden();
+                    showDisabled();
                 }
             });
             return false;

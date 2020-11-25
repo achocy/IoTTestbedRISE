@@ -25,6 +25,7 @@ namespace IoTTestbed.Pages.TaskList
 
         [BindProperty]
         public User user { get; set; }
+        public static bool approved = true;
 
         public AuthenticateModel(ApplicationDbContext db, IConfiguration config)
         {
@@ -35,6 +36,8 @@ namespace IoTTestbed.Pages.TaskList
 
         public void OnGet()
         {
+        
+        
         }
 
 
@@ -51,6 +54,14 @@ namespace IoTTestbed.Pages.TaskList
                 var passwordHasher = new PasswordHasher<string>();
                 if (passwordHasher.VerifyHashedPassword(null, _user.Password, user.Password) == PasswordVerificationResult.Success)
                 {
+                    if (!_user.Approved)
+                    {
+
+                        TempData["Approved"] = false;
+                        return RedirectToPage("/TaskList/Authenticate");
+                    }
+
+
                     var claims = new List<Claim> { new Claim(ClaimTypes.Name, user.Email) };
                     var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
                     await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
@@ -71,7 +82,7 @@ namespace IoTTestbed.Pages.TaskList
             var passwordHasher = new PasswordHasher<string>();
             Debug.Print(passwordHasher.HashPassword(null, this.user.Password));
             var user = new User() { Name = this.user.Name, Surname = this.user.Surname, Institution = this.user.Institution, Email = this.user.Email, Password = passwordHasher.HashPassword(null, this.user.Password), Role = "user" };
-            
+
 
             await _db.User.AddAsync(user);
             await _db.SaveChangesAsync();
