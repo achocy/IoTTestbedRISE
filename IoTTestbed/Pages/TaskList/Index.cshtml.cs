@@ -22,11 +22,9 @@ namespace IoTTestbed.Pages.TaskList
         public IndexModel(ApplicationDbContext db)
 
         {
-
             _db = db;
-
         }
-
+        [BindProperty]
         public IEnumerable<Experiment> Experiments { get; set; }
         /// int.Parse(HttpContext.Session.GetString("UserId"))
 

@@ -58,6 +58,8 @@ namespace IoTTestbed.Pages.TaskList
         public string NewProject2 { get; set; }
         [BindProperty]
         public IEnumerable<SensorExperiment> SelectedSensors { get; set; }
+        [BindProperty]
+        public IList<SelectedSensor> FinalSensors { get; set; }
         public Sensor sel;
         public Experiment Experiment { get; set; }
 
@@ -77,14 +79,34 @@ namespace IoTTestbed.Pages.TaskList
 
             Debug.Print(ExperimentId.ToString());
 
+            SelectedSensors = await _db.SensorExperiment.Where(o => o.ExperimentId == ExperimentId && !o.IsFileUpload).ToListAsync(); //needs a join to fetch RIME
 
-
-            var SelectedSensorsv = _db.SensorExperiment.Where(o => o.ExperimentId == ExperimentId && !o.IsFileUpload).ToList(); //needs a join to fetch RIME
-            SelectedSensors = SelectedSensorsv;
             if (SelectedSensors.Count() == 0)
+            {
                 Ready = true;
 
+                //FinalSensors = _db.SensorExperiment.Where(o => o.ExperimentId == ExperimentId).ToList();
+                var FinalSensorsTemp = _db.SensorExperiment.Where(s=>s.ExperimentId == ExperimentId)
+          .Join(
+              _db.Sensor,
+               sensorexp => sensorexp.Sensor.SensorId,
+              sensor => sensor.SensorId,  
+              (sensorexp,sensor ) => new SelectedSensor
+              {
+                  SensorId = sensor.SensorId,
+                  Rime = sensor.Rime,
+                  Filename = sensorexp.Filename,
+                  ProjectName = sensorexp.ProjectName,
+                  Rsip=sensor.RasIp
+              }
+          ).ToList();
 
+                FinalSensors = FinalSensorsTemp;
+
+
+
+
+            }
 
             //  SensorExperiments = await _db.SensorExperiment.Where(o => o.ExperimentId == 57).ToListAsync();
         }
@@ -200,7 +222,7 @@ namespace IoTTestbed.Pages.TaskList
             if (sensexp.Count() == 1)
                 return RedirectToPage();
             else
-                 _db.Remove(expSensor);
+                _db.Remove(expSensor);
 
             await _db.SaveChangesAsync();
 
@@ -230,8 +252,10 @@ public class SelectedSensor
 {
 
     public int SensorId;
-    public string Risp;
-    public bool isFileUpload;
+    public string Rime;
+    public string Filename;
+    public string ProjectName;
+    public string Rsip;
 
 }
 

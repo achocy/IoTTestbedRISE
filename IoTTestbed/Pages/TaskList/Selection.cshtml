@@ -32,19 +32,24 @@
     </div>
 </div>
 
+<br />
+<br />
+<br />
 
-
-<div class="col-12 border p-3 m-3 ">
+<div class="col-12 border pt-5 mt-5 ">
 
     <h7 class="text-black-50"> Experiment ID: <strong>@Html.DisplayFor(m => Model.Experiment.ExperimentId)</strong></h7>
     <br /> <br />
     <h7 class="text-black-50"> Experiment name: <strong>@Html.DisplayFor(m => Model.Experiment.ExperimentName)</strong></h7>
     <br /><br />
+    <h7 class="text-black-50"> Experiment Info: <strong>@Html.DisplayFor(m => Model.Experiment.Info)</strong></h7>
+    <br /><br />
     <ul>
-        <li>Create a new project at Selected Nodes</li>
-        <li>Select the sensors then upload the files (Do not Forget to upload the Makefile). </li>
-        <li>When complete uploading to selected sensors choose Runtime then run the Experiment</li>
-        <li> @(ViewContext.RouteData.Values["ExperimentId"])</li>
+        <li>Select sensors (You can select multiple sensors to upload the same firmware) </li>
+        <li>Create a new Project for each different upload </li>
+        <li>Select the <strong>iHex </strong>file then upload</li>
+        <li>When you upload an iHex file to <strong>all</strong> sensors enter experiment Duration in seconds</li>
+        <li> Run the experiment. System will inform if it's busy and your experiment will be therefore scheduled</li>
     </ul>
 
 </div>
@@ -52,12 +57,12 @@
 
 
 
-<div class="col-12  p-3 mt-3">
-    <form id="form" method="post" onsubmit="showHidden(); return False;">
+<div class="col-12  mt-3">
 
-        @if (Model.SelectedSensors.Count() > 0)
-        {
 
+    @if (Model.SelectedSensors.Count() > 0)
+    {
+        <form id="form" method="post" onsubmit="showHidden(); return False;">
             <table class="table table-striped border">
                 <tr class="table-secondary">
                     <th>
@@ -111,7 +116,7 @@
                             <button asp-page-handler="Delete" asp-route-SensorId="@item.SensorId" onclick="return confirm('Are you sure you want to delete?')" class="btn btn-danger btn-sm  ">Delete</button>
 
                         </td>
-                        <td> <input type="checkbox" name="SelectedSensorsIDs" value="@item.SensorId"> </td>
+                        <td> <input type="checkbox" name="SelectedSensorsIDs" value="@item.SensorId" id="selsens"  onchange="document.getElementById('CreateProject').disabled = !this.checked;"> </td>
                     </tr>
                 }
             </table>
@@ -126,81 +131,124 @@
                         @*  <button asp-page-handler="CreateNew" type="submit" class="btn btn-primary">Create Project</button>*@
 
                         <input id="expid" type="hidden" value=@(ViewContext.RouteData.Values["ExperimentId"]) />
-                        <input type="button" class="btn btn-primary" value="Create Project" onclick="DoAjaxPostAndMore(this)" />
+                        <input disabled id="CreateProject" type="button" class="btn btn-primary" value="Create Project" onclick="DoAjaxPostAndMore(this)" />
 
                     </div>
 
 
                 </div>
             </div>
-        }
+        </form>
 
-        else
-        {
+        <br />
+        <hr />
+        <br />
 
-            <h2> Your Experiment is ready to run</h2>
+        <form enctype="multipart/form-data" method="post">
+            <div class="input-group " id="UploadInput">
+                <div class="custom-file">
+                    <input asp-for="FileUpload.FormFile" type="file" class="custom-file-input" size="60" id="inputGroupFile04" disabled>
+                    <label id="uplabel" asp-for="FileUpload.FormFile" class="custom-file-label" for="inputGroupFile04">Choose file ...</label>
+                    <span asp-validation-for="FileUpload.FormFile"></span>
+                </div>
+                <div class="input-group-append">
+                    <input asp-page-handler="Upload" class="btn btn-primary form-control" type="submit" value="Upload" disabled id="buttonUpload" />
+                </div>
+            </div>
+            <br />
+            @Html.AntiForgeryToken()
+        </form>
 
 
-        }
+
+    }
+
+    else
+
+    {
+<div class="container pt-5">
+    
+      
+            <table class="table table-striped border">
+                <tr class="table-secondary">
+                    <th>
+                        <label asp-for="FinalSensors.FirstOrDefault().SensorId"></label>
+                    </th>
+                    <th class="">
+                        <label asp-for="FinalSensors.FirstOrDefault().Rime"></label>
+                    </th>
+
+                    <th class="">
+                        <label asp-for="FinalSensors.FirstOrDefault().Rsip"></label>
+                    </th>
+
+                    <th class="">
+                        <label asp-for="FinalSensors.FirstOrDefault().ProjectName"></label>
+                    </th>
+                    <th>
+                        <label asp-for="FinalSensors.FirstOrDefault().Filename"></label>
+
+                    </th>
+
+                </tr>
+
+                @foreach (var item in Model.FinalSensors)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(m => item.SensorId)
+
+                        </td>
+                        <td>
+                            @Html.DisplayFor(m => item.Rime)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(m => item.Rsip)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(m => item.ProjectName)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(m => item.Filename)
+                        </td>
+
+                    </tr>
+                }
+            </table>
+   
+        <br />
+        <form method="post" class="form-inline pt-3">
+            <div class="container form-group">
+                <input type="text" class="form-control mx-sm-3" id="durationInput" aria-describedby="durationInput" name="Duration">
+                <small id="durationInput" class="text-muted">Experiment Duration in seconds</small>
+
+                <input asp-page-handler="RunExperiment" class="btn btn-success ml-3 btn-lg" type="submit" name="runExperiment" value="Run" />
+
+            </div>
+
+            <br />
+
+        </form>
+</div>
+    }
 
 
-    </form>
     <br />
 
-    <form enctype="multipart/form-data" method="post">
-        <div class="input-group " id="UploadInput">
-            <div class="custom-file">
-                <input asp-for="FileUpload.FormFile" type="file" class="custom-file-input" size="60" id="inputGroupFile04" disabled>
-                <label id="uplabel" asp-for="FileUpload.FormFile" class="custom-file-label" for="inputGroupFile04">Choose file ...</label>
-                <span asp-validation-for="FileUpload.FormFile"></span>
-            </div>
-            <div class="input-group-append">
-                <input asp-page-handler="Upload" class="btn btn-primary form-control" type="submit" value="Upload" disabled id="buttonUpload" />
-            </div>
-        </div>
-        <br />
-        @Html.AntiForgeryToken()
-    </form>
-
-    <form method="post" class="form-inline">
-        <div class="form-group">
-            @if (Model.SelectedSensors.Count() > 0)
-            {
-
-                <input type="text" class="form-control" placeholder="Duration" name="Duration">
-                <br />
 
 
-                <input asp-page-handler="RunExperiment" class="btn btn-success" type="submit" name="runExperiment" value="Run Experiment" />
-            }
-            else
-            {
-
-                //Information about the testbed status etc
-
-
-                <label for="durationInput">Experiment duration</label>
-                <input type="text" class="form-control mx-sm-3" id="durationInput" aria-describedby="durationInput" name="Duration">
-                <small id="durationInput" class="text-muted">Experiment Duration in minutes</small>
-
-                //    <input type="text" class="form-control" placeholder="Duration" name="Duration">
-
-                <input asp-page-handler="RunExperiment" class="btn btn-success ml-3" type="submit" name="runExperiment" value="Run Experiment" />
-            }
-
-        </div>
-        <br />
-
-
-    </form>
 
 </div>
 
 @section Scripts{
     @*  @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}*@
     <script>
+
+
         function showDisabled() {
-            UploadInput
+
             document.getElementById('inputGroupFile04').disabled = false;
             document.getElementById('buttonUpload').disabled = false;
             document.getElementById('pjn').disabled = true;
@@ -208,7 +256,7 @@
         function DoAjaxPostAndMore(btnClicked) {
             var $form = $(btnClicked).parents('form');
             var expid = $("input[id=expid]").val();
-            //console.log('Its working damn!!!!', expid)
+
             $.ajax({
                 type: "post",
                 url: "/TaskList/Selection/" + expid + "?handler=CreateNew",
@@ -217,6 +265,7 @@
                 },
                 success: function (response) {
                     showDisabled();
+
                 }
             });
             return false;
