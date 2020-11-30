@@ -1,0 +1,211 @@
+﻿@page
+@model IoTTestbed.Pages.Admin.RequestsModel
+@{
+
+    Layout = "_LayoutAdmin";
+}
+<div class="modal mw-100 fade" id="orderModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" >User Request with ID: <span id="uri"></span></h5> 
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+
+                <div class="row justify-content-center">
+                 
+              
+                    <form method="post">
+
+                        <input type="text" name="UserId" value="" hidden id="uid" />
+
+
+                        <div class="form-row">
+                            <div class="col form-group mr-3">
+                                <label> <strong>First name </strong></label>
+                                <p id="fn"></p>
+
+
+                            </div> <!-- form-group end.// -->
+                            <div class="col form-group">
+                                <label><strong>Last name </strong></label>
+                                <p id="sn"></p>
+
+                            </div> <!-- form-group end.// -->
+                        </div> <!-- form-row end.// -->
+                        <div class="form-group">
+                            <label><strong>Email </strong></label>
+                            <p id="em"></p>
+
+
+                        </div> <!-- form-group end.// -->
+
+                        <div class="form-group">
+                            <label><strong>Institution </strong></label>
+                            <p id="ins"></p>
+
+                        </div>
+
+                        <div class="form-group">
+                            <label><strong>Motivations </strong></label>
+                            <p id="mo"></p>
+
+
+                        </div>
+
+
+                        <div class="modal-footer">
+
+                            <button type="submit" class="btn btn-success" asp-page-handler="RequestApprove">Approve</button>
+                            <button type="button" class="btn btn-danger" asp-page-handler="">Reject</button>
+
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+
+                    </form>
+
+               
+
+                </div> <!-- row.//-->
+
+
+
+
+            </div>
+           
+        </div>
+    </div>
+</div>
+
+    <br /><br /> <br />
+    <div class="col-12 mt-5">
+
+        <h1 class="text-black-50">User Requests</h1>
+
+
+
+    </div>
+
+
+    <div class="col-12 border  mt-5">
+        <form method="post">
+
+            @if (Model.UserRequests.Count() > 0)
+            {
+
+                <table class="table table-striped border">
+                    <tr class="table-secondary">
+                        <th>
+
+                            <label asp-for="UserRequests.FirstOrDefault().Name"></label>
+
+                        </th>
+
+
+                        @*this is the same thing*@
+
+                        @*<th>
+                                @Html.DisplayNameFor(m=>m.Books.FirstOrDefault().Password)
+
+                            </th>*@
+
+                        <th>
+
+                            <label asp-for="UserRequests.FirstOrDefault().Surname"></label>
+
+                        </th>
+
+
+                        <th>
+
+                            <label asp-for="UserRequests.FirstOrDefault().Email"></label>
+
+                        </th>
+
+                        <th>
+
+                            <label asp-for="UserRequests.FirstOrDefault().Institution"></label>
+
+                        </th>
+
+
+
+                    </tr>
+                    @foreach (var item in Model.UserRequests)
+                    {
+                        <tr data-toggle="modal" data-id="@item.UserId" data-fn="@item.Name" data-sn="@item.Surname" data-em="@item.Email" data-ins="@item.Institution" data-target="#orderModal">
+                            <td>
+                                @Html.DisplayFor(m => item.Name)
+
+                            </td>
+                            <td>
+                                @Html.DisplayFor(m => item.Surname)
+
+                            </td>
+
+
+                            <td>
+                                @Html.DisplayFor(m => item.Email)
+
+                            </td>
+
+                            <td>
+                                @Html.DisplayFor(m => item.Institution)
+
+                            </td>
+
+
+
+
+                        </tr>
+
+                    }
+                </table>
+
+
+            }
+            else
+            {
+
+                <p>No requests</p>
+
+            }
+        </form>
+
+    </div>
+
+
+
+
+
+<script>
+
+
+    $('#orderModal').on('show.bs.modal', function (event) {
+
+        var id = $(event.relatedTarget).data('id');
+        $('#uid').val(id);
+        $(this).find("#uri").text(id);
+
+        var fn = $(event.relatedTarget).data('fn');
+        $(this).find("#fn").text(fn);
+
+        var sn = $(event.relatedTarget).data('sn');
+        $(this).find("#sn").text(sn);
+
+        var em = $(event.relatedTarget).data('em');
+        $(this).find("#em").text(em);
+
+        var ins = $(event.relatedTarget).data('ins');
+        $(this).find("#ins").text(ins);
+
+        
+    }); 
+
+
+</script>
+

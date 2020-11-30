@@ -67,7 +67,16 @@ namespace IoTTestbed.Pages.TaskList
                     await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
                     HttpContext.Session.SetString("UserId", _user.UserId.ToString());
                     HttpContext.Session.SetString("Email", _user.Email.ToString());
-                    return RedirectToPage("/TaskList/Index");
+
+
+                    if (_user.Role == "admin")
+
+                        return RedirectToPage("/Admin/Dashboard");
+                    else
+                        return RedirectToPage("/TaskList/Index");
+                
+                
+                
                 }
             }
             return Page();
@@ -81,7 +90,7 @@ namespace IoTTestbed.Pages.TaskList
 
             var passwordHasher = new PasswordHasher<string>();
             Debug.Print(passwordHasher.HashPassword(null, this.user.Password));
-            var user = new User() { Name = this.user.Name, Surname = this.user.Surname, Institution = this.user.Institution, Email = this.user.Email, Password = passwordHasher.HashPassword(null, this.user.Password), Role = "user" };
+            var user = new User() { Name = this.user.Name, Surname = this.user.Surname, Institution = this.user.Institution, Email = this.user.Email, Category=this.user.Category ,Password = passwordHasher.HashPassword(null, this.user.Password), Role = "user" };
 
 
             await _db.User.AddAsync(user);

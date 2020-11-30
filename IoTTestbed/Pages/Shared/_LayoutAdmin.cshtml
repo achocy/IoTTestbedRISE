@@ -31,9 +31,9 @@
     <link href="~/vendor/venobox/venobox.css" rel="stylesheet">
     <link href="~/vendor/owl.carousel/assets/owl.carousel.min.css" rel="stylesheet">
     <link href="~/vendor/aos/aos.css" rel="stylesheet">
-
+    @*<link rel="canonical" href="https://getbootstrap.com/docs/4.5/examples/dashboard/">*@
     <link href="~/css/style.css" rel="stylesheet" />
-
+    <link rel="stylesheet" href="~/css/Dashboard.css"/>
 
     <script src="~/vendor/jquery/jquery.min.js"></script>
     <script src="~/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -71,12 +71,12 @@
                     <li class="drop-down ">
                         <a class="nav-link" href=""><i class="fa fa-user" aria-hidden="true"></i></a>
                         <ul>
-                            <li><a class="nav-link" asp-page="/TaskList/Index">Experiments</a></li>
+                            @*<li><a class="nav-link" asp-page="/TaskList/Index">Experiments</a></li>
                             <li><a class="nav-link" asp-page="/TaskList/Status">Testbed Status</a></li>
                             <li><a class="nav-link" asp-page="/TaskList/Status">Account</a></li>
-                            <li class="dropdown-divider"></li>
+                            <li class="dropdown-divider"></li>*@
 
-                            <li><a asp-page="Logout">Log out</a></li>
+                            <li><a asp-page="../TaskList/Logout">Log out</a></li>
                         </ul>
                     </li>
 
@@ -86,11 +86,84 @@
         </div>
     </header>
 
+    <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse mt-3">
+        <div class="sidebar-sticky pt-5">
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link active" asp-page="/Admin/Dashboard">
+
+                        Dashboard <span class="sr-only">(current)</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-page="/Admin/Experiments">
+
+                        Experiments
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-page="/Admin/Users">
+
+                        Users
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-page="/Admin/Requests">
+
+                        Requests
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-page="/Admin/Sensors">
+
+                        Sensors
+                    </a>
+                </li>
+            </ul>
+
+            <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                <span>Saved reports</span>
+                <a class="d-flex align-items-center text-muted" href="#" aria-label="Add a new report">
+                    <span data-feather="plus-circle"></span>
+                </a>
+            </h6>
+            <ul class="nav flex-column mb-2">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">
+                        <span data-feather="file-text"></span>
+                        Current month
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">
+                        <span data-feather="file-text"></span>
+                        Last quarter
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">
+                        <span data-feather="file-text"></span>
+                        Social engagement
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">
+                        <span data-feather="file-text"></span>
+                        Year-end sale
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+
     <div class="container pb-5">
-
-        @RenderBody()
-
+       
+            @RenderBody()
+       
     </div>
+
+
 
     <footer class=" footer text-muted text-center">
         <div class="container">

@@ -43,6 +43,12 @@
     <Compile Remove="Migrations\20201110144813_addForeign.Designer.cs" />
     <Compile Remove="Migrations\20201110144846_addForeign.cs" />
     <Compile Remove="Migrations\20201110144846_addForeign.Designer.cs" />
+    <Compile Remove="Migrations\20201130131250_DefaultValuetoRole.cs" />
+    <Compile Remove="Migrations\20201130131250_DefaultValuetoRole.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="wwwroot\css\Dashboard.css" />
   </ItemGroup>
 
   <ItemGroup>
@@ -64,6 +70,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="wwwroot\css\Dashboard.css" />
     <None Include="wwwroot\Images\iot.jpg" />
     <None Include="wwwroot\js\site.js" />
     <None Include="wwwroot\vendor\aos\aos.js" />

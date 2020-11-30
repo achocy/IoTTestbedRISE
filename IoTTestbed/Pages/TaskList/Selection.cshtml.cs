@@ -102,10 +102,6 @@ namespace IoTTestbed.Pages.TaskList
           ).ToList();
 
                 FinalSensors = FinalSensorsTemp;
-
-
-
-
             }
 
             //  SensorExperiments = await _db.SensorExperiment.Where(o => o.ExperimentId == 57).ToListAsync();
