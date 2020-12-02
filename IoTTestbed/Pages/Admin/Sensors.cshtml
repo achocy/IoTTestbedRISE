@@ -5,3 +5,140 @@
     Layout = "_LayoutAdmin";
 
 }
+
+<br />
+<br />
+<br />
+<div class="col-12 mt-5 text-black-50">
+
+    <h1>Sensors</h1>
+
+</div>
+
+
+<div class="col-12 pt-2 mt-5 border">
+
+    @if (Model.Sensors.Count() > 0)
+    {
+
+    <table class="table table-striped border">
+        <tr class="table-secondary">
+
+            <th>
+
+                <label asp-for="Sensors.FirstOrDefault().SensorId"></label>
+
+            </th>
+
+            <th>
+
+                <label asp-for="Sensors.FirstOrDefault().RasIp"></label>
+
+            </th>
+
+
+            @*this is the same thing*@
+
+            @*<th>
+            @Html.DisplayNameFor(m=>m.Books.FirstOrDefault().Password)
+
+        </th>*@
+
+            <th>
+
+                <label asp-for="Sensors.FirstOrDefault().Rime"></label>
+
+            </th>
+
+            <th>
+
+                <label asp-for="Sensors.FirstOrDefault().Status"></label>
+
+            </th>
+
+            <th>
+
+                <label>Actions</label>
+
+            </th>
+
+
+
+        </tr>
+        <tbody>
+
+            @foreach (var sensor_item in Model.Sensors)
+            {
+
+                <tr>
+
+                    <td>@Html.DisplayFor(m => sensor_item.SensorId)</td>
+                    <td class="">@Html.DisplayFor(m => sensor_item.RasIp)</td>
+                    <td class="">@Html.DisplayFor(m => sensor_item.Rime)</td>
+
+                    @if (sensor_item.Status.Equals("active"))
+                    {
+
+                        <td>
+                            <span class="badge badge-warning">Active</span>
+                        </td>
+                    }
+
+
+                    else if (sensor_item.Status.Equals("pending"))
+                    {
+
+                        <td>
+                            <span class="badge badge-info">Pending</span>
+                        </td>
+                    }
+
+
+                    else if (sensor_item.Status.Equals("unavailable"))
+                    {
+
+
+                        <td>
+                            <span class="badge badge-danger">Unavailable</span>
+                        </td>
+
+
+                    }
+
+                    else
+                    {
+                        <td>
+                            <span class="badge badge-success">Available</span>
+                        </td>
+                    }
+
+                <td>
+                  @*  <a asp-route-ip="@sensor_item.RasIp" asp-page="Ping" class=" text-black-50 btn-link pl-1"><i class="fas fa-wifi"></i></a>*@
+
+                </td>
+
+
+                </tr>
+
+
+            }
+
+
+        </tbody>
+    </table>
+    }
+
+    else
+    {
+
+
+        <p>There are no sensors available</p>
+
+
+    }
+
+
+</div>
+
+
+
