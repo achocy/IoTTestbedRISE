@@ -25,11 +25,7 @@ namespace IoTTestbed.Pages.Admin
 
         public void OnGet()
         {
-
             users = _db.User.ToList();
-
-
-
         }
 
 

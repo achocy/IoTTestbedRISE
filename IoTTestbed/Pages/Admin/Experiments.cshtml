@@ -136,28 +136,41 @@
 
 
 
+                            @if (item.Status == "running")
 
-                            <a asp-page-handler="Delete" asp-route-id="@item.ExperimentId" onclick="return confirm('Are you sure you want to delete?')" class="text-black-50 hover"><i class="fas fa-trash-alt"></i></a>
+                            {
+                                <button asp-page-handler="Delete" asp-route-id="@item.ExperimentId" onclick="return confirm('Are you sure you want to delete?')" class="disabled text-black-50 btn btn-link"><i class="fas fa-trash-alt"></i></button>
+                            }
+
+                            else
+                            {
+
+                                <button asp-page-handler="Delete" asp-route-id="@item.ExperimentId" onclick="return confirm('Are you sure you want to delete?')" class="text-black-50 btn btn-link"><i class="fas fa-trash-alt"></i></button>
+
+                            }
 
                             @if (item.Status == "finished")
                             {
 
-                                <a asp-route-id="@item.ExperimentId" asp-page-handler="Download" class="text-black-50 pl-1"><i class="fas fa-download"></i></a>
+                                <button asp-route-id="@item.ExperimentId" asp-page-handler="Download" class="text-black-50 btn btn-link "><i class="fas fa-download"></i></button>
                             }
                             else
                             {
-                                <a asp-route-id="@item.ExperimentId" asp-page-handler="Download" class="text-black-50 btn-link disabled pl-1"><i class="fas fa-download"></i></a>
+                                <button asp-route-id="@item.ExperimentId" asp-page-handler="Download" class="text-black-50 btn btn-link disabled "><i class="fas fa-download"></i></button>
                             }
 
                             @if (item.Status == "running")
                             {
-                                <a asp-route-id="@item.ExperimentId" asp-page="Results" class=" text-black-50 btn-link pl-1"><i class="fas fa-chart-line"></i></a>
+                                <button asp-route-id="@item.ExperimentId" asp-page="Results" class=" text-black-50 btn btn-link "><i class="fas fa-chart-line"></i></button>
+
+                                <button asp-route-id="@item.ExperimentId" asp-page="Results" class=" text-black-50 btn btn-link "><i class="fas fa-stop"></i></button>
                             }
                             else
                             {
 
-                                <a asp-route-id="@item.ExperimentId" asp-page="Results" class=" text-black-50 btn-link disabled pl-1"><i class="fas fa-chart-line"></i></a>
-
+                                <button asp-route-id="@item.ExperimentId" asp-page="Results" class=" text-black-50 btn btn-link disabled"><i class="fas fa-chart-line"></i></button>
+                                
+                                <button asp-route-id="@item.ExperimentId" asp-page="Results" class=" text-black-50 btn btn-link disabled "><i class="fas fa-stop"></i></button>
                             }
 
 

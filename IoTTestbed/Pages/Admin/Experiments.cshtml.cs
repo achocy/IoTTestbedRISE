@@ -15,6 +15,10 @@ namespace IoTTestbed.Pages.Admin
         [BindProperty]
         public string filter { get; set; }
         public IEnumerable<Experiment> Experiments { get; set; }
+
+
+        public IEnumerable<SensorExperiment> sensexp { get; set; }
+
         public ExperimentsModel(ApplicationDbContext db)
 
         {
@@ -56,6 +60,46 @@ namespace IoTTestbed.Pages.Admin
 
             //return RedirectToPage()
         }
+
+
+        public async Task<ActionResult> OnPostDownload(int id)
+        {
+            System.Diagnostics.Debug.Print(id.ToString());
+
+            var exp = await _db.Experiment.FindAsync(id);
+
+            var stream = System.IO.File.OpenRead(@exp.Log);
+            System.Diagnostics.Debug.Print("Download");
+            return File(stream, "text/plain", "aggregator_log_" + id + ".log");
+
+        }
+
+        public async Task<IActionResult> OnPostDelete(int id)
+        {
+
+            System.Diagnostics.Debug.Print("On DeletePost");
+            var exp = await _db.Experiment.FindAsync(id);
+            if (exp == null)
+            {
+                return NotFound();
+            }
+
+
+            sensexp = _db.SensorExperiment.Where(s => s.ExperimentId == id);
+
+            foreach (SensorExperiment se in sensexp)
+                _db.SensorExperiment.Remove(se);
+
+
+            _db.Experiment.Remove(exp);
+            await _db.SaveChangesAsync();
+
+            return RedirectToPage();
+        }
+
+
+
+
 
     }
 }

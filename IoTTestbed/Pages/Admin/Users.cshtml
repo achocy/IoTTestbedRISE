@@ -21,94 +21,134 @@
         @if (Model.users.Count() > 0)
         {
 
-            <table class="table table-striped border">
-                <tr class="table-secondary">
+        <table class="table table-striped border">
+            <tr class="table-secondary">
 
-                    <th>
+                <th>
 
-                        <label>User ID</label>
+                    <label>User ID</label>
 
-                    </th>
-                    <th>
+                </th>
+                <th>
 
-                        <label asp-for="users.FirstOrDefault().Name"></label>
+                    <label asp-for="users.FirstOrDefault().Name"></label>
 
-                    </th>
-
-
+                </th>
 
 
-                    <th>
-
-                        <label asp-for="users.FirstOrDefault().Surname"></label>
-
-                    </th>
 
 
-                    <th>
+                <th>
 
-                        <label asp-for="users.FirstOrDefault().Email"></label>
+                    <label asp-for="users.FirstOrDefault().Surname"></label>
 
-                    </th>
-
-                    <th>
-
-                        <label asp-for="users.FirstOrDefault().Institution"></label>
-
-                    </th>
-
-                    <th>
-
-                        <label>Actions</label>
-
-                    </th>
-
-                </tr>
-                @foreach (var item in Model.users)
-                {
-            <tr>
-                <td class="font-weight-bold">
-                    @Html.DisplayFor(m => item.UserId)
-
-                </td>
-                <td>
-                    @Html.DisplayFor(m => item.Name)
-
-                </td>
-                <td>
-                    @Html.DisplayFor(m => item.Surname)
-
-                </td>
+                </th>
 
 
-                <td>
-                    @Html.DisplayFor(m => item.Email)
+                <th>
 
-                </td>
+                    <label asp-for="users.FirstOrDefault().Email"></label>
 
-                <td>
-                    @Html.DisplayFor(m => item.Institution)
+                </th>
 
-                </td>
+                <th>
 
-                <td>
-                    <button asp-page-handler="Delete" asp-route-uid="@item.UserId" onclick="return confirm('Are you sure you want to delete?')" class="btn btn-link"><i class="fas fa-trash-alt"></i></button>
+                    <label asp-for="users.FirstOrDefault().Institution"></label>
 
-                  @*  <a asp-page-handler="Delete" asp-route-uid="@item.UserId" onclick="return confirm('Are you sure you want to delete?')" class="btn-link text-black-50 hover"><i class="fas fa-trash-alt"></i></a>*@
+                </th>
 
-                </td>
+                <th>
 
+                    <label>Actions</label>
+
+                </th>
 
             </tr>
+            @foreach (var item in Model.users)
+            {
+
+
+                @if (item.Approved)
+                {
+                    <tr>
+                        <td class="font-weight-bold">
+                            @Html.DisplayFor(m => item.UserId)
+
+                        </td>
+                        <td>
+                            @Html.DisplayFor(m => item.Name)
+
+                        </td>
+                        <td>
+                            @Html.DisplayFor(m => item.Surname)
+
+                        </td>
+
+
+                        <td>
+                            @Html.DisplayFor(m => item.Email)
+
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(m => item.Institution)
+
+                        </td>
+
+                        <td>
+                            <button asp-page-handler="Block" asp-route-uid="@item.UserId" onclick="return confirm('Are you sure you want to delete?')" class="btn btn-link"><i class="fas fa-trash-alt"></i></button>
+
+                            @*  <a asp-page-handler="Delete" asp-route-uid="@item.UserId" onclick="return confirm('Are you sure you want to delete?')" class="btn-link text-black-50 hover"><i class="fas fa-trash-alt"></i></a>*@
+
+                        </td>
+
+
+                    </tr>
 
                 }
-            </table>
+                else
+                {
+        <tr>
+            <td class="font-weight-bold text-danger">
+                @Html.DisplayFor(m => item.UserId)
+
+            </td>
+            <td class="font-weight-bold text-danger">
+                @Html.DisplayFor(m => item.Name)
+
+            </td>
+            <td class="font-weight-bold text-danger">
+                @Html.DisplayFor(m => item.Surname)
+
+            </td>
 
 
+            <td class="font-weight-bold text-danger">
+                @Html.DisplayFor(m => item.Email)
+
+            </td>
+
+            <td class="font-weight-bold text-danger">
+                @Html.DisplayFor(m => item.Institution)
+
+            </td>
+
+            <td>
+                <button asp-page-handler="Block" asp-route-uid="@item.UserId" onclick="return confirm('Are you sure you want to delete?')" class="btn btn-link disabled"><i class="fas fa-trash-alt"></i></button>
+
+                @*  <a asp-page-handler="Delete" asp-route-uid="@item.UserId" onclick="return confirm('Are you sure you want to delete?')" class="btn-link text-black-50 hover"><i class="fas fa-trash-alt"></i></a>*@
+
+            </td>
+
+
+        </tr>
+                        }
+
+                        }
+                </table>
         }
         else
         {
-
             <p>No requests</p>
 
         }
