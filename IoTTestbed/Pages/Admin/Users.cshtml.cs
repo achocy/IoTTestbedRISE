@@ -23,9 +23,11 @@ namespace IoTTestbed.Pages.Admin
         }
 
 
+
+
         public void OnGet()
         {
-            users = _db.User.ToList();
+            users = _db.User.Where(o => o.Role != "admin").ToList();
         }
 
 

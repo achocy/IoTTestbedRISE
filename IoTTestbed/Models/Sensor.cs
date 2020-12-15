@@ -40,10 +40,18 @@ namespace IoTTestbed.Models
 
         public string Log { get; set; }
 
+        public bool Precedence { get; set; }
+
+        public DateTime DateInitialized { get; set; }
+        public DateTime DateFinished { get; set; }
+
+
         [ForeignKey("User")]
         public int? UserId { get; set; }
         public User User { get; set; }
         public ICollection<SensorExperiment> SensorExperiment { get; set; }
+
+
 
     }
 

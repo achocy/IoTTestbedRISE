@@ -6,16 +6,20 @@
 
 }
 
-
+<br /><br /><br />
 
 <br />
-<h1 class="text-light">
+<div class="container mt-3">
+    <h1 class="text-black-50">
 
-    Create a new Experiment
+        Create a new Experiment
 
-</h1>
+    </h1>
+</div>
+<br />
 <hr />
 
+<div class="container">
 <form method="post">
    
 
@@ -71,10 +75,9 @@
                                     <label class="text-center" asp-for="Sensors.FirstOrDefault().SensorId"></label>
 
                                 </th>
-                                <th> <label class="text-center ml-auto" asp-for="Sensors.FirstOrDefault().RasIp"></label></th>
-                                <th> <label class="text-center" asp-for="Sensors.FirstOrDefault().Rime"></label></th>
-                                <th> <label class="" asp-for="Sensors.FirstOrDefault().Availability"></label></th>
-                                <th> <label class="text-center" asp-for="Sensors.FirstOrDefault().Status"></label></th>
+                                 <th> <label class="text-center" asp-for="Sensors.FirstOrDefault().Rime"></label></th>
+                                <th> <label class="" asp-for="Sensors.FirstOrDefault().Status"></label></th>
+                                <th> <label class="text-center" asp-for="Sensors.FirstOrDefault().Availability"></label></th>
                                 <th> Select</th>
                             </tr>
                         </thead>
@@ -86,7 +89,6 @@
                                 <tr>
 
                                     <td>@Html.DisplayFor(m => sensor_item.SensorId)</td>
-                                    <td class="">@Html.DisplayFor(m => sensor_item.RasIp)</td>
                                     <td class="">@Html.DisplayFor(m => sensor_item.Rime)</td>
                                     <td class="">@Html.DisplayFor(m => sensor_item.Availability)</td>
 
@@ -201,7 +203,7 @@
 
 
 </form>
-
+</div>
 @section scripts{
 
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

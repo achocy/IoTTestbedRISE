@@ -33,7 +33,18 @@
 
     </form>
 </div>
+<br /><hr /><br />
+<form method="post" class="form-inline">
+    <div class="form-group mx-sm-3">
+        <label for="inputsearch" class="sr-only">Search by user ID</label>
+       
+        <input type="text" class="form-control" id="inputsearch" placeholder="User ID" asp-for="SearchUserId">
+    </div>
+        <button asp-page-handler="SearchByUserId" class=" btn btn-primary">Search</button>
 
+    
+
+</form>
 
 
 <div class="col-12 pt-2 mt-5 border">
@@ -169,10 +180,13 @@
                             {
 
                                 <button asp-route-id="@item.ExperimentId" asp-page="Results" class=" text-black-50 btn btn-link disabled"><i class="fas fa-chart-line"></i></button>
-                                
+
                                 <button asp-route-id="@item.ExperimentId" asp-page="Results" class=" text-black-50 btn btn-link disabled "><i class="fas fa-stop"></i></button>
                             }
 
+                            <button asp-route-id="@item.ExperimentId" asp-page-handler="Details" class="text-black-50 btn btn-link "><i class="fas fa-info-circle"></i></button>
+                            
+                            <button asp-route-id="@item.ExperimentId" asp-page-handler="Priority" class="text-black-50 btn btn-link "><i class="fab fa-pushed"></i></button>
 
 
 

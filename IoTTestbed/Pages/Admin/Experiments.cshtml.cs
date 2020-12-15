@@ -16,6 +16,8 @@ namespace IoTTestbed.Pages.Admin
         public string filter { get; set; }
         public IEnumerable<Experiment> Experiments { get; set; }
 
+        [BindProperty]
+        public int? SearchUserId { get; set; }
 
         public IEnumerable<SensorExperiment> sensexp { get; set; }
 
@@ -61,6 +63,13 @@ namespace IoTTestbed.Pages.Admin
             //return RedirectToPage()
         }
 
+        public void OnPostSearchByUserId() {
+
+            Experiments = _db.Experiment.Where(o => o.UserId == SearchUserId).ToList();
+            Experiments.Reverse();
+        
+        }
+
 
         public async Task<ActionResult> OnPostDownload(int id)
         {
@@ -92,6 +101,25 @@ namespace IoTTestbed.Pages.Admin
 
 
             _db.Experiment.Remove(exp);
+            await _db.SaveChangesAsync();
+
+            return RedirectToPage();
+        }       
+        
+        
+        public async Task<IActionResult> OnPostPriority(int id)
+        {
+
+          
+            var exp = await _db.Experiment.FindAsync(id);
+            if (exp == null)
+            {
+                return NotFound();
+            }
+
+            exp.Precedence = true;
+
+            _db.Experiment.Update(exp);
             await _db.SaveChangesAsync();
 
             return RedirectToPage();

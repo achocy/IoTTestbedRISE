@@ -24,7 +24,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button asp-page-handler="CreateNew" type="submit" class="btn btn-primary">Create Project</button>
+                    <button asp-page-handler="CreateNew" type="submit" class="btn btn-primary">Create Scenario</button>
                 </div>
 
             </form>
@@ -35,209 +35,210 @@
 <br />
 <br />
 <br />
+<div class="container">
+    <div class="col-12 border pt-5 mt-5 ">
 
-<div class="col-12 border pt-5 mt-5 ">
+        <h7 class="text-black-50"> Experiment ID: <strong>@Html.DisplayFor(m => Model.Experiment.ExperimentId)</strong></h7>
+        <br /> <br />
+        <h7 class="text-black-50"> Experiment name: <strong>@Html.DisplayFor(m => Model.Experiment.ExperimentName)</strong></h7>
+        <br /><br />
+        <h7 class="text-black-50"> Experiment Info: <strong>@Html.DisplayFor(m => Model.Experiment.Info)</strong></h7>
+        <br /><br />
+        <ul>
+            <li>Select sensors (You can select multiple sensors to upload the same firmware) </li>
+            <li>Create a scenario for each different iHex file upload</li>
+            <li>Select the <strong>iHex </strong>file then upload</li>
+            <li>When you upload an iHex file to <strong>all</strong> sensors enter experiment Duration in seconds</li>
+            <li> Run the experiment. System will inform if it's busy and your experiment will be therefore scheduled</li>
+        </ul>
 
-    <h7 class="text-black-50"> Experiment ID: <strong>@Html.DisplayFor(m => Model.Experiment.ExperimentId)</strong></h7>
-    <br /> <br />
-    <h7 class="text-black-50"> Experiment name: <strong>@Html.DisplayFor(m => Model.Experiment.ExperimentName)</strong></h7>
-    <br /><br />
-    <h7 class="text-black-50"> Experiment Info: <strong>@Html.DisplayFor(m => Model.Experiment.Info)</strong></h7>
-    <br /><br />
-    <ul>
-        <li>Select sensors (You can select multiple sensors to upload the same firmware) </li>
-        <li>Create a new Project for each different upload </li>
-        <li>Select the <strong>iHex </strong>file then upload</li>
-        <li>When you upload an iHex file to <strong>all</strong> sensors enter experiment Duration in seconds</li>
-        <li> Run the experiment. System will inform if it's busy and your experiment will be therefore scheduled</li>
-    </ul>
-
-</div>
-
-
+    </div>
 
 
-<div class="col-12  mt-3">
 
 
-    @if (Model.SelectedSensors.Count() > 0)
-    {
-        <form id="form" method="post" onsubmit="showHidden(); return False;">
-            <table class="table table-striped border">
-                <tr class="table-secondary">
-                    <th>
-
-                        <label asp-for="SelectedSensors.FirstOrDefault().SensorId"></label>
+    <div class="col-12  mt-3">
 
 
-                    </th>
-                    @*<th>
+        @if (Model.SelectedSensors.Count() > 0)
+        {
+            <form id="form" method="post" onsubmit="showHidden(); return False;">
+                <table class="table table-striped border">
+                    <tr class="table-secondary">
+                        <th>
 
-                            <label asp-for="SelectedSensors.FirstOrDefault().Risp"></label>
-
-                        </th>*@
-
-                    <th>
-
-                        <label asp-for="SelectedSensors.FirstOrDefault().ExperimentId"></label>
-
-                    </th>
+                            <label asp-for="SelectedSensors.FirstOrDefault().SensorId"></label>
 
 
-                    <th class="text-left">
+                        </th>
+                        @*<th>
 
-                        <label>Actions</label>
+                                <label asp-for="SelectedSensors.FirstOrDefault().Risp"></label>
 
-                    </th>
+                            </th>*@
 
-                    <th>
+                        <th>
 
-                        <label>Select</label>
+                            <label asp-for="SelectedSensors.FirstOrDefault().ExperimentId"></label>
 
-                    </th>
+                        </th>
 
-                </tr>
 
-                @foreach (var item in Model.SelectedSensors)
-                {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(m => item.SensorId)
+                        <th class="text-left">
 
-                        </td>
-                        @*<td>
-                                @Html.DisplayFor(m => item.Risp)
-                            </td>*@
+                            <label>Actions</label>
 
-                        <td>
-                            @Html.DisplayFor(m => item.IsFileUpload)
-                        </td>
-                        <td>
-                            <button asp-page-handler="Delete" asp-route-SensorId="@item.SensorId" onclick="return confirm('Are you sure you want to delete?')" class="btn btn-danger btn-sm  ">Delete</button>
+                        </th>
 
-                        </td>
-                        <td> <input type="checkbox" name="SelectedSensorsIDs" value="@item.SensorId" id="selsens"  onchange="document.getElementById('CreateProject').disabled = !this.checked;"> </td>
+                        <th>
+
+                            <label>Select</label>
+
+                        </th>
+
                     </tr>
-                }
-            </table>
 
-            <div class="container">
-                <div class="row">
-                    <div class=" col-6 p-3 mt-3">
+                    @foreach (var item in Model.SelectedSensors)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(m => item.SensorId)
 
-                        <label class="font-weight-bold" for="NewProject">Create new Project </label>
-                        <input id="pjn" type="text" class="form-control" placeholder="Enter name" name="NewProject">
-                        <br />
-                        @*  <button asp-page-handler="CreateNew" type="submit" class="btn btn-primary">Create Project</button>*@
+                            </td>
+                            @*<td>
+                                    @Html.DisplayFor(m => item.Risp)
+                                </td>*@
 
-                        <input id="expid" type="hidden" value=@(ViewContext.RouteData.Values["ExperimentId"]) />
-                        <input disabled id="CreateProject" type="button" class="btn btn-primary" value="Create Project" onclick="DoAjaxPostAndMore(this)" />
+                            <td>
+                                @Html.DisplayFor(m => item.IsFileUpload)
+                            </td>
+                            <td>
+                                <button asp-page-handler="Delete" asp-route-SensorId="@item.SensorId" onclick="return confirm('Are you sure you want to delete?')" class="btn btn-danger btn-sm  ">Delete</button>
+
+                            </td>
+                            <td> <input type="checkbox" name="SelectedSensorsIDs" value="@item.SensorId" id="selsens" onchange="document.getElementById('CreateProject').disabled = !this.checked;"> </td>
+                        </tr>
+                    }
+                </table>
+
+                <div class="container">
+                    <div class="row">
+                        <div class=" col-6 p-3 mt-3">
+
+                            <label class="font-weight-bold" for="NewProject">Create new Scenario </label>
+                            <input id="pjn" type="text" class="form-control" placeholder="Enter name" name="NewProject">
+                            <br />
+                            @*  <button asp-page-handler="CreateNew" type="submit" class="btn btn-primary">Create Project</button>*@
+
+                            <input id="expid" type="hidden" value=@(ViewContext.RouteData.Values["ExperimentId"]) />
+                            <input disabled id="CreateProject" type="button" class="btn btn-primary" value="Create Scenario" onclick="DoAjaxPostAndMore(this)" />
+
+                        </div>
+
 
                     </div>
-
-
                 </div>
-            </div>
-        </form>
+            </form>
 
-        <br />
-        <hr />
-        <br />
-
-        <form enctype="multipart/form-data" method="post">
-            <div class="input-group " id="UploadInput">
-                <div class="custom-file">
-                    <input asp-for="FileUpload.FormFile" type="file" class="custom-file-input" size="60" id="inputGroupFile04" disabled>
-                    <label id="uplabel" asp-for="FileUpload.FormFile" class="custom-file-label" for="inputGroupFile04">Choose file ...</label>
-                    <span asp-validation-for="FileUpload.FormFile"></span>
-                </div>
-                <div class="input-group-append">
-                    <input asp-page-handler="Upload" class="btn btn-primary form-control" type="submit" value="Upload" disabled id="buttonUpload" />
-                </div>
-            </div>
             <br />
-            @Html.AntiForgeryToken()
-        </form>
+            <hr />
+            <br />
+
+            <form enctype="multipart/form-data" method="post">
+                <div class="input-group " id="UploadInput">
+                    <div class="custom-file">
+                        <input asp-for="FileUpload.FormFile" type="file" class="custom-file-input" size="60" id="inputGroupFile04" disabled>
+                        <label id="uplabel" asp-for="FileUpload.FormFile" class="custom-file-label" for="inputGroupFile04">Choose file ...</label>
+                        <span asp-validation-for="FileUpload.FormFile"></span>
+                    </div>
+                    <div class="input-group-append">
+                        <input asp-page-handler="Upload" class="btn btn-primary form-control" type="submit" value="Upload" disabled id="buttonUpload" />
+                    </div>
+                </div>
+                <br />
+                @Html.AntiForgeryToken()
+            </form>
 
 
 
-    }
+        }
 
-    else
+        else
 
-    {
-<div class="container pt-5">
-    
-      
-            <table class="table table-striped border">
-                <tr class="table-secondary">
-                    <th>
-                        <label asp-for="FinalSensors.FirstOrDefault().SensorId"></label>
-                    </th>
-                    <th class="">
-                        <label asp-for="FinalSensors.FirstOrDefault().Rime"></label>
-                    </th>
+        {
+            <div class="container pt-5">
 
-                    <th class="">
-                        <label asp-for="FinalSensors.FirstOrDefault().Rsip"></label>
-                    </th>
 
-                    <th class="">
-                        <label asp-for="FinalSensors.FirstOrDefault().ProjectName"></label>
-                    </th>
-                    <th>
-                        <label asp-for="FinalSensors.FirstOrDefault().Filename"></label>
+                <table class="table table-striped border">
+                    <tr class="table-secondary">
+                        <th>
+                            <label asp-for="FinalSensors.FirstOrDefault().SensorId"></label>
+                        </th>
+                        <th class="">
+                            <label asp-for="FinalSensors.FirstOrDefault().Rime"></label>
+                        </th>
 
-                    </th>
+                        <th class="">
+                            <label asp-for="FinalSensors.FirstOrDefault().Rsip"></label>
+                        </th>
 
-                </tr>
+                        <th class="">
+                            <label asp-for="FinalSensors.FirstOrDefault().ProjectName"></label>
+                        </th>
+                        <th>
+                            <label asp-for="FinalSensors.FirstOrDefault().Filename"></label>
 
-                @foreach (var item in Model.FinalSensors)
-                {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(m => item.SensorId)
-
-                        </td>
-                        <td>
-                            @Html.DisplayFor(m => item.Rime)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(m => item.Rsip)
-                        </td>
-
-                        <td>
-                            @Html.DisplayFor(m => item.ProjectName)
-                        </td>
-
-                        <td>
-                            @Html.DisplayFor(m => item.Filename)
-                        </td>
+                        </th>
 
                     </tr>
-                }
-            </table>
-   
-        <br />
-        <form method="post" class="form-inline pt-3">
-            <div class="container form-group">
-                <input type="text" class="form-control mx-sm-3" id="durationInput" aria-describedby="durationInput" name="Duration">
-                <small id="durationInput" class="text-muted">Experiment Duration in seconds</small>
 
-                <input asp-page-handler="RunExperiment" class="btn btn-success ml-3 btn-lg" type="submit" name="runExperiment" value="Run" />
+                   
+                    @foreach (var item in Model.FinalSensors)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(m => item.SensorId)
+
+                            </td>
+                            <td>
+                                @Html.DisplayFor(m => item.Rime)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(m => item.Rsip)
+                            </td>
+
+                            <td>
+                                @Html.DisplayFor(m => item.ProjectName)
+                            </td>
+
+                            <td>
+                                @Html.DisplayFor(m => item.Filename)
+                            </td>
+
+                        </tr>
+                    }
+                </table>
+
+                <br />
+                <form method="post" class="form-inline pt-3">
+                    <div class="container form-group">
+                        <input type="text" class="form-control mx-sm-3" id="durationInput" aria-describedby="durationInput" name="Duration">
+                        <small id="durationInput" class="text-muted">Experiment Duration in seconds</small>
+
+                        <input asp-page-handler="RunExperiment" class="btn btn-success ml-3 btn-lg" type="submit" name="runExperiment" value="Run" />
+                    </div>
+                    <br />
+                </form>
             </div>
-            <br />
-        </form>
-</div>
-    }
+        }
 
-    <br />
+        <br />
 
-</div>
-
-@section Scripts{
-    @*  @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}*@
-    <script>
+    </div>
+    </div>
+    @section Scripts{
+        @*  @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}*@
+        <script>
 
 
         function showDisabled() {
@@ -270,7 +271,7 @@
             nextSibling.innerText = fileName.substring(fileName.lastIndexOf('\\') + 1)
             // nextSibling.innerText = fileName;
         })
-    </script>
-}
+        </script>
+    }
 
 

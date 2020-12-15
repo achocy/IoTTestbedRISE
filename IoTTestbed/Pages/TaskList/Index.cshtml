@@ -13,15 +13,17 @@
 <br />
 <br />
 <br />
-<a asp-page="Create" class="btn btn-success btn">Create new Experiment</a>
 
-<br />
-<br />
-<br />
-<h2 class="p-3 mt-1">Experiments</h2>
+<div class="container col-9 ">
+    <a asp-page="Create" class="btn btn-success btn p-2 ml-3">Create new Experiment</a>
 
+    <br />
+    <br />
 
-<div class="col-12 pt-2 mt-3">
+    <h1 class="p-3 mt-1 ">Experiments</h1>
+</div>
+
+<div class=" container col-9 pt-2 mt-3">
     <form method="post">
 
         @if (Model.Experiments.Count() > 0)
@@ -122,12 +124,12 @@
 
                     @if (item.Status == "running")
                     {
-                        <button asp-route-id="@item.ExperimentId" asp-page="Results" class="btn-secondary btn btn-sm">Benchmark</button>
+                        <button  asp-page="Results" class="btn-secondary btn btn-sm">Benchmark</button>
                     }
                     else
                     {
 
-                <button disabled asp-route-id="@item.ExperimentId" asp-page="Results" class="btn-secondary btn btn-sm ">Benchmark</button>
+                <button disabled asp-page="Results" class="btn-secondary btn btn-sm ">Benchmark</button>
 
                     }
 
