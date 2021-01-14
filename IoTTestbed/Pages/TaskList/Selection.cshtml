@@ -71,18 +71,7 @@
 
 
                         </th>
-                        @*<th>
-
-                                <label asp-for="SelectedSensors.FirstOrDefault().Risp"></label>
-
-                            </th>*@
-
-                        <th>
-
-                            <label asp-for="SelectedSensors.FirstOrDefault().ExperimentId"></label>
-
-                        </th>
-
+      
 
                         <th class="text-left">
 
@@ -109,9 +98,6 @@
                                     @Html.DisplayFor(m => item.Risp)
                                 </td>*@
 
-                            <td>
-                                @Html.DisplayFor(m => item.IsFileUpload)
-                            </td>
                             <td>
                                 <button asp-page-handler="Delete" asp-route-SensorId="@item.SensorId" onclick="return confirm('Are you sure you want to delete?')" class="btn btn-danger btn-sm  ">Delete</button>
 
@@ -179,11 +165,7 @@
                         </th>
 
                         <th class="">
-                            <label asp-for="FinalSensors.FirstOrDefault().Rsip"></label>
-                        </th>
-
-                        <th class="">
-                            <label asp-for="FinalSensors.FirstOrDefault().ProjectName"></label>
+                            <label>Scenario</label>
                         </th>
                         <th>
                             <label asp-for="FinalSensors.FirstOrDefault().Filename"></label>
@@ -203,10 +185,7 @@
                             <td>
                                 @Html.DisplayFor(m => item.Rime)
                             </td>
-                            <td>
-                                @Html.DisplayFor(m => item.Rsip)
-                            </td>
-
+      
                             <td>
                                 @Html.DisplayFor(m => item.ProjectName)
                             </td>

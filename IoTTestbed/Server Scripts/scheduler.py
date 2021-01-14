@@ -37,7 +37,9 @@ def on_message(client, userdata, msg):
 
         if cur_exp is None:
             print('No running experiments')
-            cursor.execute("SELECT * FROM Experiment WHERE Status='pending' ORDER BY ExperimentId;")
+            cursor.execute("SELECT TOP(1) * FROM Experiment "
+                           "WHERE Status='pending' "
+                           "ORDER BY Precedence DESC, ExperimentId;")
             experiment = cursor.fetchone()
             if experiment is None:
                 print('No scheduled experiments')
@@ -102,7 +104,7 @@ def on_message(client, userdata, msg):
                                cur_exp) + '.log', cur_exp)
 
             cnxn.commit()
-            # Start the scheduled experiments according to queue (oldest id and pending)
+            # Start the scheduled experiments according to queue and precedence (first )
             client.publish(topic='experiments/next', payload='next', qos=0, retain=False)
 
 

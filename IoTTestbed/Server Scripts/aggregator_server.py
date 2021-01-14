@@ -47,7 +47,6 @@ class EchoHandler(asyncore.dispatcher_with_send):
                 f.write(str(ts) + ';' + str(l) + '\n')
         f.close()
 
-
 s = Server('10.16.4.94', 5007)
 
 asyncore.loop()
